@@ -1,0 +1,279 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-4xl: 32px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-sage: var(--sage);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--brown-ink);
+
+  --font-display: "Cormorant Garamond", serif;
+  --font-sans: "Montserrat", sans-serif;
+  --font-body: "Lora", serif;
+}
+
+:root {
+  --radius: 2px;
+
+  /* Brand palette — LIGHT base (editorial cream/ivory) */
+  --brown-deep: oklch(0.22 0.012 55);
+  --brown-surface: oklch(0.27 0.014 55);
+  --brown-ink: oklch(0.18 0.008 50);          /* near-black warm */
+  --brown-soft: oklch(0.45 0.014 55);
+
+  --beige: oklch(0.955 0.008 85);
+  --beige-soft: oklch(0.976 0.004 90);         /* main paper — off white */
+  --beige-deep: oklch(0.925 0.012 80);
+
+  --ivory: oklch(0.995 0.002 90);              /* near white */
+  --ivory-soft: oklch(0.968 0.005 88);
+
+  --gold: oklch(0.62 0.09 70);                 /* deep champagne on light */
+  --gold-bright: oklch(0.72 0.09 75);
+  --gold-deep: oklch(0.55 0.1 65);
+  --gold-soft: oklch(0.62 0.09 70 / 0.22);
+  --sage: oklch(0.55 0.09 165);
+
+  --background: var(--beige-soft);
+  --surface: var(--ivory);
+  --surface-2: var(--ivory-soft);
+  --foreground: var(--brown-ink);
+  --muted-foreground: var(--brown-soft);
+
+  --card: var(--ivory);
+  --card-foreground: var(--brown-ink);
+  --popover: var(--ivory);
+  --popover-foreground: var(--brown-ink);
+  --primary: var(--brown-ink);
+  --primary-foreground: var(--ivory);
+  --secondary: var(--ivory-soft);
+  --secondary-foreground: var(--brown-ink);
+  --muted: var(--ivory-soft);
+  --accent: var(--gold);
+  --accent-foreground: var(--brown-ink);
+  --destructive: oklch(0.55 0.2 25);
+  --destructive-foreground: var(--ivory);
+  --border: oklch(0.55 0.1 65 / 0.22);
+  --input: oklch(0.55 0.1 65 / 0.3);
+  --ring: var(--gold);
+}
+
+/* Dark scope — for sections kept on the deep brown palette */
+.section-dark {
+  --background: var(--brown-deep);
+  --color-background: var(--brown-deep);
+  --surface: var(--brown-surface);
+  --color-surface: var(--brown-surface);
+  --foreground: var(--ivory);
+  --color-foreground: var(--ivory);
+  --muted-foreground: oklch(0.82 0.022 75);
+  --color-muted-foreground: oklch(0.82 0.022 75);
+  --gold: oklch(0.78 0.08 80);
+  --color-gold: oklch(0.78 0.08 80);
+  --border: oklch(0.78 0.08 80 / 0.22);
+  --color-border: oklch(0.78 0.08 80 / 0.22);
+  --card: var(--brown-surface);
+  --color-card: var(--brown-surface);
+  --primary: oklch(0.78 0.08 80);
+  --primary-foreground: var(--brown-deep);
+  background-color: var(--brown-deep);
+  color: var(--ivory);
+}
+
+/* Legacy alias kept for any leftover usage */
+.section-light {
+  background-color: var(--beige-soft);
+  color: var(--brown-ink);
+}
+
+.dark {
+  --background: var(--brown-deep);
+  --foreground: var(--ivory);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* subtle paper grain on light background */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.1;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch' seed='5'/><feColorMatrix values='0 0 0 0 0.35  0 0 0 0 0.28  0 0 0 0 0.20  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 320px 320px;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    color: var(--color-foreground);
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: var(--font-display); }
+  .font-sans { font-family: var(--font-sans); }
+  .font-body { font-family: var(--font-body); }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 0.68rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+    opacity: 0.78;
+  }
+
+  .eyebrow-gold { color: var(--color-gold); opacity: 1; }
+
+  .italic-gold { font-style: italic; color: var(--color-gold); }
+  .italic-ink { font-style: italic; color: var(--brown-ink); }
+
+  .gold-rule {
+    height: 1px; width: 100%;
+    background: linear-gradient(90deg, transparent, var(--color-gold) 50%, transparent);
+    opacity: 0.55;
+  }
+  .ink-rule {
+    height: 1px; width: 100%;
+    background: var(--brown-ink);
+    opacity: 0.25;
+  }
+  .ivory-rule {
+    height: 1px; width: 100%;
+    background: linear-gradient(90deg, transparent, var(--ivory) 50%, transparent);
+    opacity: 0.35;
+  }
+
+  /* Editorial CTA — solid ink button with gold arrow */
+  .btn-dark {
+    display: inline-flex; align-items: center; gap: 0.9rem;
+    padding: 0.95rem 1.7rem;
+    background: var(--brown-ink);
+    color: var(--ivory);
+    border: 1px solid var(--brown-ink);
+    border-radius: 0;
+    font-family: var(--font-sans);
+    font-size: 0.7rem; font-weight: 500;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    transition: all 280ms ease; cursor: pointer;
+  }
+  .btn-dark:hover { background: transparent; color: var(--brown-ink); }
+  .btn-dark .arrow { color: inherit; transition: transform 280ms ease; }
+  .btn-dark:hover .arrow { transform: translateX(4px); }
+
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 0.7rem;
+    padding: 0.7rem 0;
+    background: transparent;
+    color: var(--brown-ink);
+    border: 0;
+    font-family: var(--font-sans);
+    font-size: 0.7rem; font-weight: 500;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    border-bottom: 1px solid var(--color-gold);
+    transition: all 280ms ease;
+  }
+  .btn-ghost:hover { color: var(--color-gold); }
+
+  /* Existing gold buttons retained */
+  .btn-gold {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    padding: 1rem 2rem;
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+    background: transparent;
+    border-radius: 0;
+    font-family: var(--font-sans);
+    font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    transition: all 300ms ease; cursor: pointer;
+  }
+  .btn-gold:hover { background: var(--color-gold); color: var(--ivory); }
+  .btn-gold-filled { background: var(--color-gold); color: var(--ivory); }
+  .btn-gold-filled:hover { background: transparent; color: var(--color-gold); }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+
+  /* Editorial card on cream */
+  .card-light {
+    background: var(--ivory);
+    border: 1px solid color-mix(in oklab, var(--color-gold) 30%, transparent);
+    transition: border-color 300ms ease, transform 300ms ease, box-shadow 300ms ease;
+  }
+  .card-light:hover {
+    border-color: var(--color-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 24px 60px -32px color-mix(in oklab, var(--brown-ink) 35%, transparent);
+  }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 1s ease, transform 1s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  .bg-paper-cream { background-color: var(--beige-soft); }
+  .bg-paper-beige { background-color: var(--beige); }
+  .bg-paper-ivory { background-color: var(--ivory); }
+  .bg-paper-dark { background-color: var(--brown-deep); color: var(--ivory); }
+}
+
+/* (Decorative floating logo symbols removed) */
+
