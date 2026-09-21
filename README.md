@@ -1,36 +1,41 @@
-# I Simpósio CITA de Doenças Imunomediadas
+# Sites do Jhonny
 
-Site do evento — 17 de outubro de 2026, Espaço Milenium, São Paulo.
+Monorepo dos sites. Cada pasta em `sites/` é um projeto **independente**, com o
+próprio `package.json`, o próprio lockfile e a própria stack — nada é
+compartilhado entre eles. Não há npm workspaces: os sites vêm de origens
+diferentes (Lovable, Astro, Vite) e cada um trava as próprias versões.
 
-**Produção:** https://simposiocita.com.br
+Na prática: você roda `npm install` dentro da pasta do site em que vai mexer,
+não na raiz.
 
-## Stack
+## Sites
 
-- [TanStack Start](https://tanstack.com/start) (React 19 + SSR) sobre Vite 7
-- Tailwind CSS v4 + shadcn/ui (Radix)
-- Nitro v3 como camada de servidor — detecta a Vercel pela env `VERCEL` no build
-  e emite o Build Output API v3 em `.vercel/output`
+| Pasta | Site | Stack | Produção |
+|---|---|---|---|
+| [`sites/simposiocita`](sites/simposiocita) | I Simpósio CITA de Doenças Imunomediadas | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://simposiocita.com.br |
 
-## Desenvolvimento
+## Trabalhando num site
 
 ```sh
+cd sites/simposiocita
 npm install
-npm run dev      # http://localhost:3000
+npm run dev
 ```
 
-Outros comandos:
+## Deploy na Vercel
 
-```sh
-npm run build    # build de produção
-npm run preview  # serve o build localmente
-npm run lint
-npm run format
-```
+Cada site é um **projeto separado** na Vercel, todos apontando para este mesmo
+repositório. O que os distingue é o **Root Directory**:
 
-## Deploy
+1. Vercel → Add New → Project → importa `jhonnymenin/sitesdojhonny`
+2. Em **Root Directory**, escolhe a pasta do site (ex.: `sites/simposiocita`)
+3. **Framework Preset: Other** — o `vercel.json` de cada site define o resto
 
-Conectado à Vercel via GitHub — todo push na `main` publica automaticamente.
-Nenhuma variável de ambiente é necessária.
+A Vercel só dispara o build de um projeto quando há mudança dentro do Root
+Directory dele, então mexer num site não redeploya os outros.
 
-O projeto não usa o Framework Preset da Vercel: o Nitro já gera o output pronto.
-Ajustes de rota ou headers ficam em `vite.config.ts`, não em `vercel.json`.
+## Adicionando um site novo
+
+Cada site entra como uma pasta nova em `sites/`, autocontido, e ganha o próprio
+projeto na Vercel com o Root Directory apontando pra ele. Nada na raiz precisa
+mudar além da tabela acima.
