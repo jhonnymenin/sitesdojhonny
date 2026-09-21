@@ -1,0 +1,229 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system: "OncoTech Precision" (dark only).
+ * All colors are tokens — never hardcode hex in components.
+ */
+
+@theme inline {
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+  --color-surface-container: var(--surface-container);
+  --color-surface-high: var(--surface-high);
+  --color-cyan: var(--cyan);
+  --color-cyan-foreground: var(--cyan-foreground);
+  --color-electric: var(--electric);
+  --color-soft: var(--soft);
+  --color-orange: var(--orange);
+  --color-orange-foreground: var(--orange-foreground);
+  --color-heading: var(--heading);
+  /* Títulos/subtítulos: Montserrat · textos e botões: Lato */
+  --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Lato", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  /* Nome do curso: Barmeno (asset não fornecido) — fallback atual Signika */
+  --font-course: "Signika", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 12px;
+  /* Identidade MOC: azul #216DE1 / #144590, menta #00E4B7, tinta #101828 */
+  --background: #faf7f5;
+  --foreground: #101828;
+  --heading: #144590;
+  --orange: #e8590c;
+  --orange-foreground: #ffffff;
+  --surface: #ffffff;
+  --surface-container: #ffffff;
+  --surface-high: #eff6ff;
+  --card: #ffffff;
+  --card-foreground: #101828;
+  --popover: #ffffff;
+  --popover-foreground: #101828;
+  --primary: #144590;
+  --primary-foreground: #ffffff;
+  --cyan: #216de1; /* cor de ação MOC */
+  --cyan-foreground: #ffffff;
+  --electric: #144590;
+  --soft: #00e4b7;
+  --secondary: #eff6ff;
+  --secondary-foreground: #144590;
+  --muted: #f1f5f9;
+  --muted-foreground: #4b5565;
+  --accent: #e7f0fd;
+  --accent-foreground: #144590;
+  --destructive: #b42318;
+  --destructive-foreground: #ffffff;
+  --border: rgb(16 24 40 / 10%);
+  --input: #e5e7eb;
+  --ring: #216de1;
+  --glass-bg: #ffffff;
+  --glass-border: rgb(33 109 225 / 14%);
+  --glass-shadow: 0 20px 44px -28px rgb(20 69 144 / 42%);
+}
+
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/*
+ * Section themes — scoped token overrides (identidade MOC).
+ * Padrão claro; faixas em azul MOC (#144590) e tinta escura (#101828).
+ */
+.theme-light {
+  --background: #faf7f5;
+  --foreground: #101828;
+  --heading: #144590;
+  --surface: #ffffff;
+  --surface-container: #ffffff;
+  --surface-high: #eff6ff;
+  --card: #ffffff;
+  --card-foreground: #101828;
+  --muted-foreground: #4b5565;
+  --border: rgb(16 24 40 / 10%);
+  --cyan: #216de1;
+  --cyan-foreground: #ffffff;
+  --electric: #144590;
+  --primary: #144590;
+  --glass-bg: #ffffff;
+  --glass-border: rgb(33 109 225 / 14%);
+  --glass-shadow: 0 20px 44px -28px rgb(20 69 144 / 42%);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.theme-blue {
+  --background: #144590;
+  --foreground: #ffffff;
+  --heading: #ffffff;
+  --surface: #103a7a;
+  --surface-container: #1b529f;
+  --surface-high: #2a63b3;
+  --card: #1b529f;
+  --card-foreground: #ffffff;
+  --muted-foreground: #cee1ff;
+  --border: rgb(255 255 255 / 20%);
+  --cyan: #ffffff;
+  --cyan-foreground: #144590;
+  --electric: #ffffff;
+  --primary: #ffffff;
+  --primary-foreground: #144590;
+  --glass-bg: rgb(255 255 255 / 10%);
+  --glass-border: rgb(255 255 255 / 20%);
+  --glass-shadow: 0 18px 40px -26px rgb(6 24 56 / 70%);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.theme-dark {
+  --background: #071a34;
+  --foreground: #ffffff;
+  --heading: #ffffff;
+  --surface: #0b2545;
+  --surface-container: #0e2c53;
+  --surface-high: #143a69;
+  --card: #0e2c53;
+  --card-foreground: #ffffff;
+  --muted-foreground: #9aa8c0;
+  --border: rgb(255 255 255 / 14%);
+  --cyan: #4d94ff;
+  --cyan-foreground: #06152c;
+  --electric: #9dc4ff;
+  --primary: #ffffff;
+  --primary-foreground: #101828;
+  --glass-bg: rgb(255 255 255 / 6%);
+  --glass-border: rgb(255 255 255 / 14%);
+  --glass-shadow: 0 18px 40px -26px rgb(0 0 0 / 70%);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+
+@utility glass {
+  background-color: var(--glass-bg, rgb(255 255 255 / 0.05));
+  border: 1px solid var(--glass-border, rgb(255 255 255 / 0.0625));
+  box-shadow: var(--glass-shadow, none);
+  backdrop-filter: blur(12px);
+}
+
+@utility glow-cyan {
+  box-shadow: 0 0 40px -8px color-mix(in oklab, var(--cyan) 45%, transparent);
+}
+
+
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 400ms ease-out,
+    transform 400ms ease-out;
+
+  &[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--cyan) 60%, transparent);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 0 6px transparent;
+  }
+}
+
+@utility pulse-live {
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}

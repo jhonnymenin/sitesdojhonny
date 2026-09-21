@@ -16,6 +16,8 @@ não na raiz.
 | [`sites/felipe-lopez`](sites/felipe-lopez) | Dr. Luís Felipe Lopez — Método Elevation® | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://felipe.on-dig.online |
 | [`sites/bruna-espada`](sites/bruna-espada) | Ateliê Bruna Espada | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://bruna.on-dig.online |
 | [`sites/projeto-rumo`](sites/projeto-rumo) | Projeto Rumo | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://projetorumo.org |
+| [`sites/oncology-sprint`](sites/oncology-sprint) | MOC — X Curso Intensivo de Oncologia | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://onco.on-dig.online |
+| [`sites/dona-paulina`](sites/dona-paulina) | Fundação Dona Paulina de Souza Queiroz (com blog) | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://paulina.on-dig.online |
 
 ## Trabalhando num site
 
@@ -57,14 +59,23 @@ infra deles. O que precisa ser desfeito, em ordem:
    Cloudflare fixo no código e não dá para configurar. Substitua por um
    `vite.config.ts` vanilla com `tanstackStart()` + `nitro()` — veja qualquer
    site já migrado. O Nitro detecta a Vercel sozinho pela env `VERCEL`.
+   **Confira se existe `src/server.ts`**: se existir, passe
+   `tanstackStart({ server: { entry: "server" } })`; se não (como em
+   `sites/dona-paulina`), chame `tanstackStart()` puro, senão o build quebra
+   procurando um entry que não existe.
 3. **Remover o resto do Cloudflare:** `wrangler.jsonc` e `@cloudflare/vite-plugin`.
    Nos templates mais novos (`tanstack_start_ts_current`) esses dois não existem
    — o Lovable chama o nitro direto, ainda com `cloudflare` como alvo padrão.
    Não conclua que o projeto já está pronto para a Vercel só porque não há
    `wrangler.jsonc`: o passo 2 continua valendo.
 4. **Conferir recursos externos no `__root.tsx`**: o `og:image` costuma apontar
-   para o storage do Lovable (`storage.googleapis.com/gpt-engineer-file-uploads`).
-   Baixe para `public/` e aponte para o domínio do próprio site.
+   para fora — já apareceu em `storage.googleapis.com/gpt-engineer-file-uploads`
+   e em `*.r2.dev` (aí sendo um *screenshot de preview* do editor do Lovable,
+   não uma arte). Baixe para `public/og-image.png` e aponte para o domínio do
+   próprio site. Aproveite e troque os metadados de fábrica: `title: "Lovable
+   App"`, `description: "Lovable Generated Project"`, `author: "Lovable"` e
+   `twitter:site: "@Lovable"` aparecem em qualquer rota que não defina os seus
+   (a 404, tipicamente).
 5. **Procurar integrações via gateway do Lovable** (`connector-gateway.lovable.dev`,
    Supabase, Google Sheets). Elas quebram fora do Lovable — confirme se estão
    mesmo em uso antes de manter.
