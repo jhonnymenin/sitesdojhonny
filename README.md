@@ -15,6 +15,7 @@ não na raiz.
 | [`sites/simposiocita`](sites/simposiocita) | I Simpósio CITA de Doenças Imunomediadas | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://simposiocita.com.br |
 | [`sites/felipe-lopez`](sites/felipe-lopez) | Dr. Luís Felipe Lopez — Método Elevation® | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://felipe.on-dig.online |
 | [`sites/bruna-espada`](sites/bruna-espada) | Ateliê Bruna Espada | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://bruna.on-dig.online |
+| [`sites/projeto-rumo`](sites/projeto-rumo) | Projeto Rumo | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://projetorumo.org |
 
 ## Trabalhando num site
 
