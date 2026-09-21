@@ -14,6 +14,7 @@ não na raiz.
 |---|---|---|---|
 | [`sites/simposiocita`](sites/simposiocita) | I Simpósio CITA de Doenças Imunomediadas | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://simposiocita.com.br |
 | [`sites/felipe-lopez`](sites/felipe-lopez) | Dr. Luís Felipe Lopez — Método Elevation® | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://felipe.on-dig.online |
+| [`sites/bruna-espada`](sites/bruna-espada) | Ateliê Bruna Espada | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://bruna.on-dig.online |
 
 ## Trabalhando num site
 
@@ -56,18 +57,29 @@ infra deles. O que precisa ser desfeito, em ordem:
    `vite.config.ts` vanilla com `tanstackStart()` + `nitro()` — veja qualquer
    site já migrado. O Nitro detecta a Vercel sozinho pela env `VERCEL`.
 3. **Remover o resto do Cloudflare:** `wrangler.jsonc` e `@cloudflare/vite-plugin`.
+   Nos templates mais novos (`tanstack_start_ts_current`) esses dois não existem
+   — o Lovable chama o nitro direto, ainda com `cloudflare` como alvo padrão.
+   Não conclua que o projeto já está pronto para a Vercel só porque não há
+   `wrangler.jsonc`: o passo 2 continua valendo.
 4. **Conferir recursos externos no `__root.tsx`**: o `og:image` costuma apontar
    para o storage do Lovable (`storage.googleapis.com/gpt-engineer-file-uploads`).
    Baixe para `public/` e aponte para o domínio do próprio site.
 5. **Procurar integrações via gateway do Lovable** (`connector-gateway.lovable.dev`,
    Supabase, Google Sheets). Elas quebram fora do Lovable — confirme se estão
    mesmo em uso antes de manter.
-6. **Checar se há `.env` versionado.** O Lovable commita um. Tire do versionamento
+6. **Remover a telemetria**, se houver: `src/lib/lovable-error-reporting.ts`
+   manda erros de runtime para o editor do Lovable via `window.__lovableEvents`.
+   Fora de lá vira no-op, mas é amarra morta — apague o arquivo e a chamada no
+   `__root.tsx` (confira se o `useEffect` do import continua sendo usado).
+7. **Checar se há `.env` versionado.** O Lovable commita um. Tire do versionamento
    e configure as variáveis no painel da Vercel.
-7. **Descartar o que é do Lovable/bun:** `.lovable/`, `bun.lock`, `bunfig.toml`.
-8. **Validar antes de publicar:** `npx tsc --noEmit`, `VERCEL=1 npm run build` e
-   um smoke test (`node .output/server/index.mjs`) comparando a contagem de
-   `<img>` e os textos-chave com o site ainda no ar.
+8. **Descartar o que é do Lovable/bun:** `.lovable/`, `AGENTS.md`, `bun.lock`,
+   `bunfig.toml`.
+9. **Conferir `og:url` e `canonical`.** O Lovable às vezes os emite como `"/"`,
+   que crawler nenhum resolve. Troque por URL absoluta do domínio de produção.
+10. **Validar antes de publicar:** `npx tsc --noEmit`, `VERCEL=1 npm run build` e
+    um smoke test (`node .output/server/index.mjs`) comparando a contagem de
+    `<img>`, os blocos de JSON-LD e os textos-chave com o site ainda no ar.
 
 O `npm run lint` costuma acusar centenas de erros de formatação herdados —
 são só do Prettier e não quebram o build.
