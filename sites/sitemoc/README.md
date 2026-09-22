@@ -67,7 +67,7 @@ oficiais, não código — o encaixe de cada um já está pronto:
 | 1 | Fonte **Barmeno** nos nomes de marca | **Feito.** Convertida de OTF para woff2 e embarcada; o Signika saiu do Google Fonts. Ver `src/assets/fonts/README.md` — inclusive a ressalva de licença de webfont. |
 | 2 | Logos dos patrocinadores | **Feito** com as marcas oficiais. Exibidas na versão reversa (branco) via CSS — sobre o azul-marinho do hero, o roxo da AstraZeneca fica ilegível. Os arquivos originais, em cores de marca, seguem intactos em `src/assets/sponsors/`. |
 | 3 | Revisar a URL | **Centralizado** em `src/lib/site.ts`. Hoje aponta para o domínio de homologação; trocar lá e em mais nenhum lugar. |
-| 4 | Revisar links dos botões + cupons | **Feito** para o combo. Ver abaixo. |
+| 4 | Revisar links dos botões + cupons | **Feito.** Combo ligado ao checkout da EAD, com `utm_content` por posição. Cupom não entra na URL — ver abaixo. |
 | 5 | Texto de formas de pagamento | **Feito.** O FAQ agora diz "À vista no Cartão de Crédito, Boleto ou Pix ou parcelado em 2x no Cartão de Crédito" — a menção à WorldMed saiu, conforme alinhado. |
 
 ### Sobre os botões (item 4)
@@ -78,25 +78,26 @@ e a posição de onde partiu, e a URL é montada em `src/lib/checkout.ts`, saind
 com um `utm_content` próprio (`hero`, `precos`, `header`, `final`…) — é o que
 permite medir de onde veio a conversão.
 
-### O cupom não entra pela URL
+### Cupons
 
 A EAD Plataforma **não aceita cupom por parâmetro de URL**: o código é digitado
-num campo do próprio checkout (`<input name="product-coupom">`). Mandar
-`?cupom=30PUBLI` não aplicaria desconto nenhum.
+num campo do próprio checkout (`<input name="product-coupom">`). Injetar
+`?cupom=XXXX` na URL seria simplesmente ignorado.
 
-Por isso o cupom é exibido na página, com botão de copiar
-(`src/components/landing/CouponBadge.tsx`), dentro da caixa de condição especial
-do hero. Sem isso a pessoa chega ao checkout sem saber o que digitar e paga o
-preço cheio.
+Os cupons da campanha são divulgados por fora — e-mail, WhatsApp, peças de
+publicidade — e por decisão do cliente **não aparecem na landing**.
 
-O código fica em `COUPON_CODE`, em `src/lib/checkout.ts`.
+### Produtos e botões
+
+Só o combo tem checkout. O curso avulso e o Banco de Questões não são vendidos
+separadamente nesta página, e os botões dessas seções refletem isso: levam ao
+combo ou à seção de preços, sem prometer uma compra avulsa que não existe.
+
+Se um dia houver venda avulsa, é dar uma URL a `course` ou `questionBank` em
+`src/lib/checkout.ts` e ajustar o rótulo do botão.
 
 ### Ainda pendente
 
-- **Checkout do curso avulso e do Banco de Questões.** Só o combo tem URL. Os
-  botões desses dois produtos — incluindo o "Quero o Banco de Questões" — rolam
-  para a seção de preços. Ou eles ganham URL própria, ou o rótulo do botão muda
-  para não prometer uma compra avulsa que não existe.
 - **Domínio final**, em `src/lib/site.ts`.
 - **`og:image`**: o site não tem, então links compartilhados no WhatsApp saem
   sem imagem.

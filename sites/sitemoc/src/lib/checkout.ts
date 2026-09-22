@@ -36,15 +36,13 @@ const CHECKOUT_BASE: Record<Product, string> = {
     "https://cursosmocbrasil.eadplataforma.app/combo/x-curso-intensivo-de-oncologia-banco-de-questoes-2026-onco-ia",
 };
 
-/**
- * Cupom de desconto da campanha.
- *
- * ATENÇÃO: a EAD Plataforma **não aceita cupom por parâmetro de URL** — o código
- * é digitado num campo do próprio checkout (`<input name="product-coupom">`).
- * Por isso o cupom não vai na URL: ele é exibido na página, para a pessoa copiar
- * antes de ir para o checkout. Ver o componente CouponBadge.
+/*
+ * Sobre cupons: a EAD Plataforma não aceita cupom por parâmetro de URL — o
+ * código é digitado num campo do próprio checkout (`<input name="product-coupom">`).
+ * Os cupons da campanha (ex.: 30PUBLI) são divulgados por fora, nas peças de
+ * e-mail e WhatsApp, e por decisão do cliente não aparecem na landing.
+ * Não adianta tentar injetá-los na URL: seria ignorado.
  */
-export const COUPON_CODE = "30PUBLI";
 
 /** Destino usado enquanto o checkout real não é fornecido: a seção de preços. */
 const FALLBACK = "#inscricao";
