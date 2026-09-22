@@ -16,7 +16,7 @@ não na raiz.
 | [`sites/felipe-lopez`](sites/felipe-lopez) | Dr. Luís Felipe Lopez — Método Elevation® | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://felipe.on-dig.online |
 | [`sites/bruna-espada`](sites/bruna-espada) | Ateliê Bruna Espada | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://bruna.on-dig.online |
 | [`sites/projeto-rumo`](sites/projeto-rumo) | Projeto Rumo | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://projetorumo.org |
-| [`sites/oncology-sprint`](sites/oncology-sprint) | MOC — X Curso Intensivo de Oncologia | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://onco.on-dig.online |
+| [`sites/sitemoc`](sites/sitemoc) | MOC — X Curso Intensivo de Oncologia | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://onco.on-dig.online |
 | [`sites/dona-paulina`](sites/dona-paulina) | Fundação Dona Paulina de Souza Queiroz (com blog) | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://paulina.on-dig.online |
 
 ## Trabalhando num site

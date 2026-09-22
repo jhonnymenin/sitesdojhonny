@@ -31,7 +31,7 @@ npm run format
 ## Deploy
 
 Projeto próprio na Vercel, com **Root Directory** apontando para
-`sites/oncology-sprint` e Framework Preset = Other. Nenhuma variável de
+`sites/sitemoc` e Framework Preset = Other. Nenhuma variável de
 ambiente é necessária.
 
 ## SEO
