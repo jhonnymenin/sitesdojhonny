@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CtaButton, Reveal, Section, SectionTitle } from "./primitives";
-import { supportUrl } from "@/lib/checkout";
+import { whatsappUrl } from "@/lib/checkout";
 
 const FAQS = [
   {
@@ -68,8 +68,7 @@ export function FAQ() {
         <p className="mt-3 text-base leading-[1.6] text-muted-foreground">
           Fale com a equipe e escolha a melhor opção para sua formação.
         </p>
-        {/* TODO(contato): substituir por WhatsApp/formulário oficial quando fornecido. */}
-        <CtaButton href={supportUrl()} variant="outline" className="mt-5">
+        <CtaButton href={whatsappUrl("Olá! Tenho dúvidas sobre o X Curso Intensivo de Oncologia.")} variant="outline" className="mt-5">
           Fale com nossa equipe
         </CtaButton>
       </Reveal>

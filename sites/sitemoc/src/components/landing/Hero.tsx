@@ -2,6 +2,7 @@ import { Radio, RefreshCw, Layers } from "lucide-react";
 import dnaBanner from "@/assets/dna-oficial.jpg";
 import { Chip, CourseName, CtaButton } from "./primitives";
 import { Sponsors } from "./Sponsors";
+import { CouponBadge } from "./CouponBadge";
 import { checkoutUrl } from "@/lib/checkout";
 
 const SPECS = [
@@ -58,6 +59,7 @@ export function Hero() {
             <p className="mt-2 text-base leading-[1.6] text-foreground">
               DESCONTO de 30% até 30 de setembro.
             </p>
+            <CouponBadge className="mt-4" />
           </div>
 
           <div className="mt-8">

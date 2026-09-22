@@ -1,24 +1,21 @@
 import { cn } from "@/lib/utils";
-import logoJohnsonJohnson from "@/assets/sponsors/johnson-johnson.svg";
-import logoAstraZeneca from "@/assets/sponsors/astrazeneca.svg";
+import logoJohnsonJohnson from "@/assets/sponsors/johnson-johnson.png";
+import logoAstraZeneca from "@/assets/sponsors/astrazeneca.png";
 
 /*
  * Patrocinadores (item 2 da revisão).
  *
- * A referência (print 02) empilha as marcas à direita, cada uma precedida do
- * tipo de patrocínio, com a Diamante maior que a Ouro. É o que `height`
- * controla — a largura sai da proporção de cada arte.
+ * Referência (print 02): marcas empilhadas à direita, cada uma precedida do tipo
+ * de patrocínio, com a Diamante maior que a Ouro. É o que `height` controla — a
+ * largura sai da proporção de cada arte, e elas são bem diferentes
+ * (J&J ≈ 10,7:1, AstraZeneca ≈ 4:1).
  *
- * As duas marcas têm proporções bem diferentes (J&J ≈ 10,7:1, AstraZeneca ≈ 7:1),
- * então alturas iguais dariam larguras muito distintas. As alturas abaixo já
- * levam isso em conta: a J&J fica visivelmente maior sem esticar demais o bloco.
- *
- * Para incluir um patrocinador novo, basta acrescentar uma entrada aqui.
- *
- * ATENÇÃO: os SVGs em src/assets/sponsors/ vieram do Wikimedia (domínio público
- * como logotipo tipográfico) e foram passados para branco, que é a versão reversa
- * usada sobre fundo escuro. Servem para validar o layout — substitua pelos
- * arquivos oficiais da pasta compartilhada antes de publicar.
+ * TRATAMENTO DE COR: os arquivos são os oficiais, em cores de marca. Sobre o
+ * azul-marinho do hero, o roxo da AstraZeneca fica ilegível, então as marcas são
+ * exibidas na versão reversa (branco) — que é o tratamento da referência e o
+ * padrão de manual de marca sobre fundo escuro. A reversão é feita no CSS, com
+ * `brightness(0) invert(1)`, de propósito: os arquivos originais ficam intactos,
+ * e trocar de tratamento é remover uma classe.
  */
 const SPONSORS = [
   {
@@ -31,7 +28,7 @@ const SPONSORS = [
     tier: "Patrocínio Ouro",
     name: "AstraZeneca",
     logo: logoAstraZeneca,
-    height: "h-4 md:h-[18px]",
+    height: "h-7 md:h-8",
   },
 ];
 
@@ -42,8 +39,8 @@ export function Sponsors({ className }: { className?: string }) {
       className={cn("flex flex-col items-start gap-3 lg:items-end", className)}
     >
       {SPONSORS.map(({ tier, name, logo, height }) => (
-        // No mobile o rótulo vai acima da marca: lado a lado, a J&J (wordmark de
-        // ~10,7:1) mais o rótulo passam da largura da tela e a marca seria cortada.
+        // No mobile o rótulo vai acima da marca: lado a lado, o wordmark da J&J
+        // passa da largura da tela e a marca seria cortada.
         <div
           key={name}
           className="flex max-w-full flex-col items-start gap-1 lg:flex-row lg:items-center lg:gap-3"
@@ -52,7 +49,7 @@ export function Sponsors({ className }: { className?: string }) {
           <img
             src={logo}
             alt={name}
-            className={cn("max-w-full w-auto", height)}
+            className={cn("w-auto max-w-full brightness-0 invert", height)}
             loading="lazy"
             decoding="async"
           />

@@ -13,6 +13,7 @@ import { WhyJourney } from "@/components/landing/WhyJourney";
 import { Pricing } from "@/components/landing/Pricing";
 import { FAQ } from "@/components/landing/FAQ";
 import { FinalCTA, Footer, MobileCtaBar } from "@/components/landing/FinalCTA";
+import { WhatsAppFloat } from "@/components/landing/WhatsAppFloat";
 import { SITE_URL } from "@/lib/site";
 
 const TITLE = "MOC | X Curso Intensivo de Oncologia";
@@ -89,6 +90,7 @@ function Index() {
 
       <Footer />
       <MobileCtaBar />
+      <WhatsAppFloat />
     </div>
   );
 }
