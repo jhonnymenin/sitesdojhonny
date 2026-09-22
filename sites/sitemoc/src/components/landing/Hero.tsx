@@ -1,6 +1,8 @@
 import { Radio, RefreshCw, Layers } from "lucide-react";
 import dnaBanner from "@/assets/dna-oficial.jpg";
 import { Chip, CourseName, CtaButton } from "./primitives";
+import { Sponsors } from "./Sponsors";
+import { checkoutUrl } from "@/lib/checkout";
 
 const SPECS = [
   { icon: Radio, label: "Ao vivo", value: "5 encontros on-line ao vivo" },
@@ -59,9 +61,19 @@ export function Hero() {
           </div>
 
           <div className="mt-8">
-            <CtaButton className="w-full sm:w-auto">Participar da 10ª edição</CtaButton>
+            <CtaButton href={checkoutUrl("combo", "hero")} className="w-full sm:w-auto">
+              Participar da 10ª edição
+            </CtaButton>
           </div>
         </div>
+
+        {/*
+          Patrocinadores no canto inferior direito do hero, sobre o grafismo de
+          DNA (print 01 da revisão). Só a partir de lg: abaixo disso a coluna de
+          texto ocupa quase toda a largura e o bloco colidiria com ela, então
+          ele desce para depois do CTA.
+        */}
+        <Sponsors className="mt-12 lg:absolute lg:right-0 lg:bottom-0 lg:mt-0" />
       </div>
     </section>
   );

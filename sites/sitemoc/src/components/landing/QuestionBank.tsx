@@ -1,6 +1,7 @@
 import { ClipboardList, CheckCircle2 } from "lucide-react";
 import banner from "@/assets/banner-banco-questoes.png";
-import { Chip, CourseName, CtaButton, Reveal, purchaseLinks } from "./primitives";
+import { Chip, CourseName, CtaButton, Reveal } from "./primitives";
+import { checkoutUrl } from "@/lib/checkout";
 
 const STEPS = [
   "Responda à questão",
@@ -100,8 +101,7 @@ export function QuestionBank() {
         </div>
 
         <Reveal className="mt-8 flex flex-col gap-3 sm:flex-row">
-          {/* TODO(checkout): destinos reais ainda pendentes — ver purchaseLinks. */}
-          <CtaButton href={purchaseLinks.questionBank} className="w-full sm:w-auto">
+          <CtaButton href={checkoutUrl("questionBank", "banco-questoes")} className="w-full sm:w-auto">
             Quero o Banco de Questões
           </CtaButton>
           <CtaButton href="#inscricao" variant="outline" className="w-full sm:w-auto">

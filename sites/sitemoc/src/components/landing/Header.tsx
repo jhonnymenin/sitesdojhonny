@@ -6,6 +6,7 @@ import logoAzul from "@/assets/logo-curso-azul.png";
 import logoBranco from "@/assets/logo-curso-branco.png";
 import mocAzul from "@/assets/moc-azul.png";
 import mocBranco from "@/assets/moc-branco.png";
+import { checkoutUrl } from "@/lib/checkout";
 
 const NAV = [
   { href: "#coordenadores", label: "Coordenação" },
@@ -92,7 +93,10 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <CtaButton className="hidden whitespace-nowrap px-4 py-2.5 text-sm sm:inline-flex">
+          <CtaButton
+            href={checkoutUrl("combo", "header")}
+            className="hidden whitespace-nowrap px-4 py-2.5 text-sm sm:inline-flex"
+          >
             Realizar inscrição
           </CtaButton>
           <button
@@ -122,7 +126,9 @@ export function Header() {
               </li>
             ))}
           </ul>
-          <CtaButton className="mt-5 w-full">Realizar inscrição</CtaButton>
+          <CtaButton href={checkoutUrl("combo", "header-mobile")} className="mt-5 w-full">
+            Realizar inscrição
+          </CtaButton>
         </div>
       ) : null}
     </header>

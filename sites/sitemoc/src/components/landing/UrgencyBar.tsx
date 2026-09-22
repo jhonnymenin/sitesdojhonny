@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { CtaButton } from "./primitives";
+import { checkoutUrl } from "@/lib/checkout";
 
 // Encerramento da oferta de lançamento (30% de desconto): 30/09/2026.
 const OFFER_END = new Date("2026-09-30T23:59:59-03:00").getTime();
@@ -37,7 +38,10 @@ export function UrgencyBar() {
             </span>
           ) : null}
         </p>
-        <CtaButton className="hidden px-4 py-1.5 text-sm md:inline-flex">
+        <CtaButton
+          href={checkoutUrl("combo", "urgencia")}
+          className="hidden px-4 py-1.5 text-sm md:inline-flex"
+        >
           Garantir vaga
         </CtaButton>
       </div>

@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { CtaButton, Reveal, Section, SectionTitle, purchaseLinks } from "./primitives";
+import { CtaButton, Reveal, Section, SectionTitle } from "./primitives";
+import { supportUrl } from "@/lib/checkout";
 
 const FAQS = [
   {
     q: "Quais são as formas de pagamento?",
-    a: "Em até 2 parcelas pelo MOC ou 6 parcelas pela WorldMed Academy, conforme o checkout.",
+    a: "À vista no Cartão de Crédito, Boleto ou Pix ou parcelado em 2x no Cartão de Crédito.",
   },
   {
     q: "Quando serão realizados os encontros ao vivo?",
@@ -68,7 +69,7 @@ export function FAQ() {
           Fale com a equipe e escolha a melhor opção para sua formação.
         </p>
         {/* TODO(contato): substituir por WhatsApp/formulário oficial quando fornecido. */}
-        <CtaButton href={purchaseLinks.support} variant="outline" className="mt-5">
+        <CtaButton href={supportUrl()} variant="outline" className="mt-5">
           Fale com nossa equipe
         </CtaButton>
       </Reveal>

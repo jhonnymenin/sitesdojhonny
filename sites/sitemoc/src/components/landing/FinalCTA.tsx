@@ -1,6 +1,7 @@
 import { ArrowRight, ShieldCheck, MonitorSmartphone, Headphones, Award } from "lucide-react";
-import { CtaButton, Reveal, Section, purchaseLinks } from "./primitives";
+import { CtaButton, Reveal, Section } from "./primitives";
 import { MocMark } from "./Header";
+import { checkoutUrl } from "@/lib/checkout";
 
 const TRUST = [
   { icon: ShieldCheck, label: "Compra em ambiente seguro" },
@@ -20,7 +21,7 @@ export function FinalCTA() {
           Compra em ambiente seguro. Após a confirmação, enviamos as instruções de acesso por
           e-mail. Permanecemos à disposição — Equipe MOC.
         </p>
-        <CtaButton href={purchaseLinks.combo} className="mt-7 w-full sm:w-auto">
+        <CtaButton href={checkoutUrl("combo", "final")} className="mt-7 w-full sm:w-auto">
           Garantir a condição do lote atual <ArrowRight size={18} />
         </CtaButton>
       </Reveal>
@@ -66,7 +67,7 @@ export function MobileCtaBar() {
             R$ 2.030,00
           </p>
         </div>
-        <CtaButton href={purchaseLinks.course} className="px-4 py-2.5 text-sm">
+        <CtaButton href={checkoutUrl("combo", "barra-mobile")} className="px-4 py-2.5 text-sm">
           Inscrever-se
         </CtaButton>
       </div>

@@ -1,6 +1,7 @@
 import { ArrowRight, Lock, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Chip, CtaButton, Reveal, Section, SectionTitle, purchaseLinks } from "./primitives";
+import { Chip, CtaButton, Reveal, Section, SectionTitle } from "./primitives";
+import { checkoutUrl } from "@/lib/checkout";
 
 const INCLUDED = [
   {
@@ -110,7 +111,7 @@ export function Pricing() {
               <p className="mt-3 text-sm text-muted-foreground">Até 30 de setembro.</p>
             </div>
             <div className="md:w-72">
-              <CtaButton href={purchaseLinks.combo} className="w-full">
+              <CtaButton href={checkoutUrl("combo", "precos")} className="w-full">
                 Garantir a condição do lote atual <ArrowRight size={18} />
               </CtaButton>
               <p className="label-mono mt-4 flex items-center gap-2 text-muted-foreground">

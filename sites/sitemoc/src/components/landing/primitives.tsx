@@ -1,20 +1,8 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-/*
- * Configuração centralizada dos destinos de compra.
- * TODO(checkout): substituir pelos URLs reais da WorldMed/EAD quando definidos.
- * Enquanto pendentes, todos apontam para o destino placeholder já existente.
- */
-export const CHECKOUT_URL = "#CHECKOUT_URL_EAD";
-
-export const purchaseLinks = {
-  course: CHECKOUT_URL,
-  questionBank: CHECKOUT_URL,
-  combo: CHECKOUT_URL,
-  /** TODO(contato): destino real de atendimento ainda não fornecido. */
-  support: CHECKOUT_URL,
-} as const;
+// Os destinos de compra vivem em src/lib/checkout.ts. Cada CTA monta o seu com
+// checkoutUrl(produto, posição), para que o cupom e o utm_content saiam certos.
 
 export function Section({
   id,
@@ -115,12 +103,13 @@ export function SectionTitle({
 
 export function CtaButton({
   children,
-  href = purchaseLinks.course,
+  href,
   variant = "primary",
   className,
 }: {
   children: ReactNode;
-  href?: string;
+  /** Obrigatório: use checkoutUrl(produto, posição) ou uma âncora interna. */
+  href: string;
   variant?: "primary" | "outline";
   className?: string;
 }) {

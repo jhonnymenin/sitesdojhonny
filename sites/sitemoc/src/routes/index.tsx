@@ -13,9 +13,8 @@ import { WhyJourney } from "@/components/landing/WhyJourney";
 import { Pricing } from "@/components/landing/Pricing";
 import { FAQ } from "@/components/landing/FAQ";
 import { FinalCTA, Footer, MobileCtaBar } from "@/components/landing/FinalCTA";
+import { SITE_URL } from "@/lib/site";
 
-// og:url e canonical precisam ser absolutos — crawlers não resolvem caminhos relativos.
-const SITE_URL = "https://onco.on-dig.online";
 const TITLE = "MOC | X Curso Intensivo de Oncologia";
 const DESCRIPTION =
   "X Curso Intensivo de Oncologia: cerca de 140 aulas, 5 encontros on-line ao vivo, 1 ano de acesso e certificado MOC. Lançamento com 30% OFF até 30/09.";
