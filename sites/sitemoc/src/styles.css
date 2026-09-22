@@ -5,17 +5,10 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * FONTE BARMENO — pendente de arquivos (item 1 da revisão).
- *
- * Barmeno é uma fonte comercial (URW); não está no Google Fonts e não pode ser
- * baixada aqui. Para ativá-la:
- *   1. Coloque os arquivos em src/assets/fonts/ com estes nomes:
- *        barmeno-regular.woff2  e  barmeno-bold.woff2
- *      (ver src/assets/fonts/README.md)
- *   2. Descomente o bloco abaixo.
- * Nada mais precisa mudar: --font-course já lista "Barmeno" na frente de
- * Signika, então os títulos trocam sozinhos.
- *
+ * Barmeno — fonte de marca dos nomes do curso ("X Curso Intensivo de Oncologia",
+ * "Banco de Questões"). Convertida de OTF para woff2 a partir dos arquivos
+ * licenciados; ver src/assets/fonts/README.md.
+ */
 @font-face {
   font-family: "Barmeno";
   src: url("./assets/fonts/barmeno-regular.woff2") format("woff2");
@@ -31,7 +24,6 @@
   font-style: normal;
   font-display: swap;
 }
-*/
 
 /*
  * Design system: "OncoTech Precision" (dark only).
@@ -76,14 +68,8 @@
   --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Lato", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  /*
-   * Nome do curso ("X Curso Intensivo de Oncologia", "Banco de Questões").
-   * A marca pede Barmeno. Os arquivos da fonte ainda não foram fornecidos, então
-   * Signika segue como fallback — ver o @font-face logo abaixo e
-   * src/assets/fonts/README.md. Assim que a fonte entrar, Barmeno assume
-   * sozinha, sem tocar em nenhum componente.
-   */
-  --font-course: "Barmeno", "Signika", ui-sans-serif, system-ui, sans-serif;
+  /* Nome do curso ("X Curso Intensivo de Oncologia", "Banco de Questões"). */
+  --font-course: "Barmeno", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
