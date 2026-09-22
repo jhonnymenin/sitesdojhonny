@@ -59,12 +59,12 @@ WhatsApp aparecem sem imagem.
 
 ## Pendências da revisão V2 (TOLIVEIRA)
 
-Os 5 itens da revisão foram tratados. Três dependem de material ou definição
-que ainda não chegou — todos já estão com o encaixe pronto, faltando só o dado:
+Os 5 itens da revisão foram tratados. O que ainda falta são dados e arquivos
+oficiais, não código — o encaixe de cada um já está pronto:
 
 | # | Item | Situação |
 | --- | --- | --- |
-| 1 | Fonte **Barmeno** nos nomes de marca | **Falta o arquivo.** Barmeno é comercial (URW) e não pode ser baixada. Ver `src/assets/fonts/README.md`: basta colocar os `.woff2` e descomentar o `@font-face` em `src/styles.css`. Até lá, Signika segue como fallback. |
+| 1 | Fonte **Barmeno** nos nomes de marca | **Feito.** Convertida de OTF para woff2 e embarcada; o Signika saiu do Google Fonts. Ver `src/assets/fonts/README.md` — inclusive a ressalva de licença de webfont. |
 | 2 | Logos dos patrocinadores | **Feito**, com marcas provisórias. Posição, rótulos Diamante/Ouro e proporção conforme prints 01 e 02. Os SVGs em `src/assets/sponsors/` vieram do Wikimedia e foram passados para branco (versão reversa, fundo escuro) — **substituir pelos oficiais da pasta compartilhada antes de publicar**. |
 | 3 | Revisar a URL | **Centralizado** em `src/lib/site.ts`. Hoje aponta para o domínio de homologação; trocar lá e em mais nenhum lugar. |
 | 4 | Revisar links dos botões + cupons | **Feito.** Ver abaixo. |
