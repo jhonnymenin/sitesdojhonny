@@ -126,26 +126,30 @@ tabela 3.264, checkout 3.229,15.
 Está a favor do cliente e **foi mantido assim por decisão dele**. Fica registrado
 porque, se um dia os números forem revistos, é aqui que a conta diverge.
 
-### Os dois combos
+### As três opções de compra
 
-A seção de investimento oferece os dois, cada um com o preço que a plataforma
-cobra e o link do próprio checkout — ambos verificados abrindo o carrinho. **Não
-há venda avulsa**: nem do curso, nem do Banco de Questões.
+A seção de investimento oferece as três, cada uma com o preço que a plataforma
+cobra e o link do próprio checkout — todos verificados abrindo o destino:
 
-| Combo | Conteúdo | Preço | Destino |
+| Opção | Conteúdo | Preço | Destino |
 | --- | --- | --- | --- |
-| Completo | Intensivo + Banco + Onco IA | R$ 2.659,30 *(30% off)* | `checkout/combo/16/30PUBLI` |
-| MOC | Intensivo + Banco, sem Onco IA | R$ 2.030,00 *(30% off)* | `checkout/combo/20/30MOC` |
+| Combo completo | Intensivo + Banco + Onco IA | R$ 2.659,30 *(30% off)* | `checkout/combo/16/30PUBLI` |
+| Combo MOC | Intensivo + Banco, sem Onco IA | R$ 2.030,00 *(30% off)* | `checkout/combo/20/30MOC` |
+| Banco de Questões | avulso | R$ 510,00 *(sem desconto, ou 2x R$ 255)* | `curso/banco-de-questoes-2026` |
 
 Os valores ficam em `OFFERS` e na tabela `LOTS`, em `Pricing.tsx`; os destinos em
 `DESTINOS`, em `checkout.ts`. **Ao trocar de lote, os três precisam mudar
 juntos** — foi o descompasso entre eles que fez a página anunciar um valor e
 cobrar outro.
 
-A tabela de lotes mostra a mesma coisa ao longo do tempo. A coluna "Acréscimo do
-Onco IA" é a diferença entre os dois combos, não um produto à parte. A linha de
-outubro do combo MOC (R$ 2.465,00) é projeção de 15% sobre R$ 2.900: o MOC ainda
-não criou o cupom desse lote, então vale conferir quando criar.
+O Banco avulso é o único sem cupom: vai direto para a página do curso, onde a
+pessoa escolhe à vista ou parcelado. Por não passar pela cadeia de redirect dos
+combos, é também o único destino em que os `utm_*` chegam ao fim.
+
+A tabela de lotes mostra a evolução dos dois combos ao longo do tempo. A coluna
+"Acréscimo do Onco IA" é a diferença entre eles, não um produto à parte. A linha
+de outubro do combo MOC (R$ 2.465,00) é projeção de 15% sobre R$ 2.900: o MOC
+ainda não criou o cupom desse lote, então vale conferir quando criar.
 
 ### Para onde vai cada botão
 
