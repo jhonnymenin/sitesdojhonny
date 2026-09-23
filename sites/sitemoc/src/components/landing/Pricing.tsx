@@ -88,6 +88,20 @@ const OFFERS = [
     cta: "Garantir esta condição",
     featured: false,
   },
+  {
+    product: "bancoQuestoes" as const,
+    placement: "precos-banco" as const,
+    name: "Banco de Questões",
+    includes: "Só o Banco de Questões 2026, sem o curso.",
+    // Único item sem desconto: não há "de/por", então o lugar do valor riscado
+    // fica com o aviso, para o card não parecer que perdeu informação.
+    from: null,
+    price: "R$ 510",
+    cents: ",00",
+    installments: "à vista, ou 2x de R$ 255,00",
+    cta: "Quero o Banco de Questões",
+    featured: false,
+  },
 ];
 
 export function Pricing() {
@@ -132,13 +146,13 @@ export function Pricing() {
           </SectionTitle>
 
           {/*
-            Os dois combos lado a lado, cada um com o preço que a plataforma
+            As três opções de compra, cada uma com o preço que a plataforma
             realmente cobra e o link do seu próprio checkout. Antes havia um bloco
             só: anunciava R$ 2.030 (que é o combo sem Onco IA) e o botão levava ao
             combo de três produtos, a R$ 2.659,30 — a pessoa via um valor e pagava
             outro, R$ 629,30 maior.
           */}
-          <div className="mt-8 grid gap-5 lg:grid-cols-2">
+          <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {OFFERS.map((offer) => (
               <div
                 key={offer.product}
@@ -166,7 +180,11 @@ export function Pricing() {
                   {offer.includes}
                 </p>
 
-                <p className="mt-6 text-sm text-muted-foreground line-through">{offer.from}</p>
+                {offer.from ? (
+                  <p className="mt-6 text-sm text-muted-foreground line-through">{offer.from}</p>
+                ) : (
+                  <p className="mt-6 text-sm text-muted-foreground">Sem desconto</p>
+                )}
                 <p className="mt-1 font-display text-[38px] leading-none font-bold text-cyan md:text-[46px]">
                   {offer.price}
                   <span className="text-2xl">{offer.cents}</span>

@@ -126,12 +126,32 @@ tabela 3.264, checkout 3.229,15.
 Está a favor do cliente e **foi mantido assim por decisão dele**. Fica registrado
 porque, se um dia os números forem revistos, é aqui que a conta diverge.
 
-### Produtos fora da página
+### As três opções de compra
 
-O Banco de Questões existe avulso na plataforma
-(`/curso/banco-de-questoes-2026`, R$ 510, sem desconto), mas ficou **de fora de
-propósito**: abriria uma saída mais barata no meio do funil. O botão da seção do
-Banco leva ao combo.
+A seção de investimento oferece as três, cada uma com o preço que a plataforma
+realmente cobra e o link do próprio checkout — todos verificados abrindo o
+carrinho:
+
+| Opção | Conteúdo | Preço | Destino |
+| --- | --- | --- | --- |
+| Combo completo | Intensivo + Banco + Onco IA | R$ 2.659,30 *(30% off)* | `checkout/combo/16/30PUBLI` |
+| Intensivo + Banco | sem Onco IA | R$ 2.030,00 *(30% off)* | `checkout/combo/20/30MOC` |
+| Banco de Questões | avulso | R$ 510,00 *(sem desconto, ou 2x R$ 255)* | `curso/banco-de-questoes-2026` |
+
+Os valores ficam em `OFFERS`, em `Pricing.tsx`, e os destinos em `DESTINOS`, em
+`checkout.ts`. **Ao trocar de lote, os dois precisam mudar juntos** — foi o
+descompasso entre eles que fez a página anunciar um valor e cobrar outro.
+
+### Para onde vai cada botão
+
+Os CTAs **genéricos** (topo, hero, barra de urgência, sobre, bônus, encontros,
+final e barra fixa do mobile) rolam para a seção de investimento, onde a escolha
+existe. Não dá para um botão genérico escolher por três produtos — foi
+justamente isso que criou o descompasso de R$ 629,30.
+
+Vão **direto ao checkout** só os que nomeiam o produto: o do Onco IA e o do
+Banco de Questões na seção dele, ambos para o combo completo, e os três da seção
+de preços.
 
 ### Ainda pendente
 

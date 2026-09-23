@@ -11,8 +11,8 @@
  * se não souber o código.
  */
 
-/** Os dois combos vendidos na página. Não há venda avulsa aqui. */
-export type Product = "comboCompleto" | "comboIntensivo";
+/** As três opções de compra da página. */
+export type Product = "comboCompleto" | "comboIntensivo" | "bancoQuestoes";
 
 /** Onde na página o clique aconteceu. Vai em utm_content. */
 export type Placement =
@@ -27,13 +27,18 @@ export type Placement =
   | "banco-questoes"
   | "precos"
   | "precos-intensivo"
+  | "precos-banco"
   | "final"
   | "barra-mobile";
 
 const CHECKOUT_HOST = "https://cursosmocbrasil.eadplataforma.app";
 
 /**
- * Combo, id na plataforma e cupom do lote vigente.
+ * Destino de cada opção de compra.
+ *
+ * Os combos usam a URL de checkout com cupom no caminho, que já monta o carrinho
+ * com o desconto. O Banco de Questões avulso não tem cupom — vai para a própria
+ * página do curso, onde a pessoa escolhe à vista ou parcelado.
  *
  * **O MOC troca os cupons de tempos em tempos.** Antes de cada campanha, abrir a
  * URL e conferir se o desconto ainda aplica — o carrinho mostra o percentual.
@@ -43,11 +48,13 @@ const CHECKOUT_HOST = "https://cursosmocbrasil.eadplataforma.app";
  *   15PUBLI — 15% no combo 16 → R$ 3.229,15  (lote de outubro)
  *   30MOC   — 30% no combo 20 → R$ 2.030,00  (lote de lançamento, em uso)
  */
-const COMBOS: Record<Product, { id: string; cupom: string }> = {
-  /** X Curso Intensivo + Banco de Questões + ONCO IA — de R$ 3.799. */
-  comboCompleto: { id: "16", cupom: "30PUBLI" },
-  /** X Curso Intensivo + Banco de Questões, sem ONCO IA — de R$ 2.900. */
-  comboIntensivo: { id: "20", cupom: "30MOC" },
+const DESTINOS: Record<Product, string> = {
+  /** Combo 16: X Curso Intensivo + Banco de Questões + ONCO IA — de R$ 3.799. */
+  comboCompleto: `${CHECKOUT_HOST}/checkout/combo/16/30PUBLI`,
+  /** Combo 20: X Curso Intensivo + Banco de Questões, sem ONCO IA — de R$ 2.900. */
+  comboIntensivo: `${CHECKOUT_HOST}/checkout/combo/20/30MOC`,
+  /** Banco de Questões avulso — R$ 510, sem desconto, 2x de R$ 255. */
+  bancoQuestoes: `${CHECKOUT_HOST}/curso/banco-de-questoes-2026`,
 };
 
 /**
@@ -70,20 +77,13 @@ export const PRICING_ANCHOR = "#inscricao";
  * do MOC. Criar esses cupons depende deles.
  */
 export function checkoutUrl(product: Product, placement: Placement): string {
-  const { id, cupom } = COMBOS[product];
-  const url = new URL(`${CHECKOUT_HOST}/checkout/combo/${id}/${cupom}`);
+  const url = new URL(DESTINOS[product]);
   url.searchParams.set("utm_source", "landing");
   url.searchParams.set("utm_medium", "site");
   url.searchParams.set("utm_campaign", "x-intensivo-oncologia");
   url.searchParams.set("utm_content", placement);
   return url.toString();
 }
-
-/**
- * O Banco de Questões existe avulso na plataforma
- * (/curso/banco-de-questoes-2026, R$ 510, sem desconto), mas ficou fora da
- * página de propósito: abriria uma saída mais barata no meio do funil.
- */
 
 /** WhatsApp oficial de atendimento. */
 const WHATSAPP_NUMBER = "5511978581148";
