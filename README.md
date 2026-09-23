@@ -19,6 +19,7 @@ não na raiz.
 | [`sites/sitemoc`](sites/sitemoc) | MOC — X Curso Intensivo de Oncologia | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://onco.on-dig.online |
 | [`sites/dona-paulina`](sites/dona-paulina) | Fundação Dona Paulina de Souza Queiroz (com blog) | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://paulina.on-dig.online |
 | [`sites/simposio-neuro`](sites/simposio-neuro) | 1º Simpósio de Neurociência da Memória — **espelho, não publicado** (o site no ar é o do Lovable) | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://simposioneuro.on-dig.online |
+| [`sites/so-talentos`](sites/so-talentos) | Agência Só Talentos | **Vite SPA** (React 19) + Tailwind v3 — sem SSR | https://lp.sotalentos.com.br |
 
 ## Trabalhando num site
 
@@ -39,6 +40,10 @@ repositório. O que os distingue é o **Root Directory**:
 
 A Vercel só dispara o build de um projeto quando há mudança dentro do Root
 Directory dele, então mexer num site não redeploya os outros.
+
+> Nem todos seguem a mesma stack: `sites/so-talentos` veio do template antigo do
+> Lovable e é um **Vite SPA** (sem SSR, Tailwind v3), com um `vercel.json`
+> diferente — ele precisa de um rewrite para o roteamento no cliente funcionar.
 
 ## Adicionando um site novo
 
