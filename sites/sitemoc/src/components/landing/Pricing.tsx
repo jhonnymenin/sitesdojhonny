@@ -29,37 +29,50 @@ const INCLUDED = [
   },
 ];
 
+/*
+ * Evolução dos lotes. Os valores são os que o checkout cobra, não uma conta
+ * feita aqui: a plataforma aplica o desconto linear sobre o combo inteiro.
+ *
+ * Conferidos abrindo o carrinho: 30PUBLI → R$ 2.659,30, 15PUBLI → R$ 3.229,15,
+ * 30MOC → R$ 2.030,00, e o valor cheio do combo completo R$ 3.799,00.
+ *
+ * A linha de outubro do Combo MOC (R$ 2.465,00) é projeção: é 15% sobre
+ * R$ 2.900, mas o MOC ainda não criou o cupom desse lote. Conferir quando criar.
+ *
+ * `oncoIa` é a diferença entre os dois combos — quanto custa acrescentar o
+ * Onco IA —, não um produto vendido à parte.
+ */
 const LOTS = [
   {
     period: "Lançamento — 30% de desconto",
     detail: "De 1º a 30 de setembro.",
-    intensivo: "R$ 2.030",
-    oncoia: "R$ 699",
-    total: "R$ 2.729",
+    intensivo: "R$ 2.030,00",
+    oncoia: "R$ 629,30",
+    total: "R$ 2.659,30",
     current: true,
   },
   {
     period: "Condição especial — 15% de desconto",
     detail: "De 1º a 31 de outubro.",
-    intensivo: "R$ 2.465",
-    oncoia: "R$ 799",
-    total: "R$ 3.264",
+    intensivo: "R$ 2.465,00",
+    oncoia: "R$ 764,15",
+    total: "R$ 3.229,15",
     current: false,
   },
   {
     period: "Valor regular",
     detail: "A partir de 1º novembro.",
-    intensivo: "R$ 2.900",
-    oncoia: "R$ 899",
-    total: "R$ 3.799",
+    intensivo: "R$ 2.900,00",
+    oncoia: "R$ 899,00",
+    total: "R$ 3.799,00",
     current: false,
   },
 ];
 
-const COLUMN = "X Curso Intensivo de Oncologia + Banco de Questões";
+const COLUNAS = ["Lote", "Intensivo + Banco", "Acréscimo do Onco IA", "Combo completo"];
 
 /*
- * As duas ofertas da seção. Os valores são os que o carrinho da EAD Plataforma
+ * Os dois combos da seção. Os valores são os que o carrinho da EAD Plataforma
  * cobra com o cupom do lote vigente — conferidos abrindo cada checkout. Ao trocar
  * de lote, atualizar aqui e o cupom em src/lib/checkout.ts.
  */
@@ -88,33 +101,19 @@ const OFFERS = [
     cta: "Garantir esta condição",
     featured: false,
   },
-  {
-    product: "bancoQuestoes" as const,
-    placement: "precos-banco" as const,
-    name: "Banco de Questões",
-    includes: "Só o Banco de Questões 2026, sem o curso.",
-    // Único item sem desconto: não há "de/por", então o lugar do valor riscado
-    // fica com o aviso, para o card não parecer que perdeu informação.
-    from: null,
-    price: "R$ 510",
-    cents: ",00",
-    installments: "à vista, ou 2x de R$ 255,00",
-    cta: "Quero o Banco de Questões",
-    featured: false,
-  },
 ];
 
 export function Pricing() {
   return (
     <Section id="inscricao">
       <Reveal className="max-w-3xl">
-        <SectionTitle>Escolha entre um curso ou o pacote completo</SectionTitle>
+        <SectionTitle>Escolha o seu combo</SectionTitle>
         <p className="mt-4 font-display text-lg font-semibold text-foreground">
           X Curso Intensivo de Oncologia + Banco de Questões + Onco IA
         </p>
         <p className="mt-3 max-w-2xl text-base leading-[1.6] text-muted-foreground md:text-lg">
-          Matricule-se no curso do seu interesse ou adquira o pacote completo, com acesso aos três
-          cursos X Curso Intensivo de Oncologia, Banco de Questões e Onco IA.
+          O combo completo reúne o X Curso Intensivo de Oncologia, o Banco de Questões e o Onco IA.
+          Se preferir, leve o curso com o Banco de Questões, sem o Onco IA.
         </p>
       </Reveal>
 
@@ -146,13 +145,13 @@ export function Pricing() {
           </SectionTitle>
 
           {/*
-            As três opções de compra, cada uma com o preço que a plataforma
+            Os dois combos, cada um com o preço que a plataforma
             realmente cobra e o link do seu próprio checkout. Antes havia um bloco
             só: anunciava R$ 2.030 (que é o combo sem Onco IA) e o botão levava ao
             combo de três produtos, a R$ 2.659,30 — a pessoa via um valor e pagava
             outro, R$ 629,30 maior.
           */}
-          <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-5 lg:grid-cols-2">
             {OFFERS.map((offer) => (
               <div
                 key={offer.product}
@@ -180,11 +179,7 @@ export function Pricing() {
                   {offer.includes}
                 </p>
 
-                {offer.from ? (
-                  <p className="mt-6 text-sm text-muted-foreground line-through">{offer.from}</p>
-                ) : (
-                  <p className="mt-6 text-sm text-muted-foreground">Sem desconto</p>
-                )}
+                <p className="mt-6 text-sm text-muted-foreground line-through">{offer.from}</p>
                 <p className="mt-1 font-display text-[38px] leading-none font-bold text-cyan md:text-[46px]">
                   {offer.price}
                   <span className="text-2xl">{offer.cents}</span>
@@ -221,9 +216,9 @@ export function Pricing() {
                 <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{lot.detail}</p>
                 <dl className="mt-4 grid grid-cols-3 gap-3 text-sm">
                   {[
-                    [COLUMN, lot.intensivo],
-                    ["Onco IA", lot.oncoia],
-                    ["Total", lot.total],
+                    [COLUNAS[1], lot.intensivo],
+                    [COLUNAS[2], lot.oncoia],
+                    [COLUNAS[3], lot.total],
                   ].map(([k, v]) => (
                     <div key={k} className="min-w-0">
                       <dt className="label-mono text-[10px] leading-tight text-muted-foreground">
@@ -241,7 +236,7 @@ export function Pricing() {
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr className="border-b border-border">
-                  {["Lote", COLUMN, "Onco IA", "Total"].map((h) => (
+                  {COLUNAS.map((h) => (
                     <th key={h} className="label-mono py-3 pr-4 text-muted-foreground">
                       {h}
                     </th>

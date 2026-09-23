@@ -126,21 +126,26 @@ tabela 3.264, checkout 3.229,15.
 Está a favor do cliente e **foi mantido assim por decisão dele**. Fica registrado
 porque, se um dia os números forem revistos, é aqui que a conta diverge.
 
-### As três opções de compra
+### Os dois combos
 
-A seção de investimento oferece as três, cada uma com o preço que a plataforma
-realmente cobra e o link do próprio checkout — todos verificados abrindo o
-carrinho:
+A seção de investimento oferece os dois, cada um com o preço que a plataforma
+cobra e o link do próprio checkout — ambos verificados abrindo o carrinho. **Não
+há venda avulsa**: nem do curso, nem do Banco de Questões.
 
-| Opção | Conteúdo | Preço | Destino |
+| Combo | Conteúdo | Preço | Destino |
 | --- | --- | --- | --- |
-| Combo completo | Intensivo + Banco + Onco IA | R$ 2.659,30 *(30% off)* | `checkout/combo/16/30PUBLI` |
-| Intensivo + Banco | sem Onco IA | R$ 2.030,00 *(30% off)* | `checkout/combo/20/30MOC` |
-| Banco de Questões | avulso | R$ 510,00 *(sem desconto, ou 2x R$ 255)* | `curso/banco-de-questoes-2026` |
+| Completo | Intensivo + Banco + Onco IA | R$ 2.659,30 *(30% off)* | `checkout/combo/16/30PUBLI` |
+| MOC | Intensivo + Banco, sem Onco IA | R$ 2.030,00 *(30% off)* | `checkout/combo/20/30MOC` |
 
-Os valores ficam em `OFFERS`, em `Pricing.tsx`, e os destinos em `DESTINOS`, em
-`checkout.ts`. **Ao trocar de lote, os dois precisam mudar juntos** — foi o
-descompasso entre eles que fez a página anunciar um valor e cobrar outro.
+Os valores ficam em `OFFERS` e na tabela `LOTS`, em `Pricing.tsx`; os destinos em
+`DESTINOS`, em `checkout.ts`. **Ao trocar de lote, os três precisam mudar
+juntos** — foi o descompasso entre eles que fez a página anunciar um valor e
+cobrar outro.
+
+A tabela de lotes mostra a mesma coisa ao longo do tempo. A coluna "Acréscimo do
+Onco IA" é a diferença entre os dois combos, não um produto à parte. A linha de
+outubro do combo MOC (R$ 2.465,00) é projeção de 15% sobre R$ 2.900: o MOC ainda
+não criou o cupom desse lote, então vale conferir quando criar.
 
 ### Para onde vai cada botão
 

@@ -11,8 +11,8 @@
  * se não souber o código.
  */
 
-/** As três opções de compra da página. */
-export type Product = "comboCompleto" | "comboIntensivo" | "bancoQuestoes";
+/** Os dois combos vendidos na página. Não há venda avulsa. */
+export type Product = "comboCompleto" | "comboIntensivo";
 
 /** Onde na página o clique aconteceu. Vai em utm_content. */
 export type Placement =
@@ -27,7 +27,6 @@ export type Placement =
   | "banco-questoes"
   | "precos"
   | "precos-intensivo"
-  | "precos-banco"
   | "final"
   | "barra-mobile";
 
@@ -36,9 +35,8 @@ const CHECKOUT_HOST = "https://cursosmocbrasil.eadplataforma.app";
 /**
  * Destino de cada opção de compra.
  *
- * Os combos usam a URL de checkout com cupom no caminho, que já monta o carrinho
- * com o desconto. O Banco de Questões avulso não tem cupom — vai para a própria
- * página do curso, onde a pessoa escolhe à vista ou parcelado.
+ * Os dois usam a URL de checkout com cupom no caminho, que já monta o carrinho
+ * com o desconto aplicado.
  *
  * **O MOC troca os cupons de tempos em tempos.** Antes de cada campanha, abrir a
  * URL e conferir se o desconto ainda aplica — o carrinho mostra o percentual.
@@ -53,8 +51,6 @@ const DESTINOS: Record<Product, string> = {
   comboCompleto: `${CHECKOUT_HOST}/checkout/combo/16/30PUBLI`,
   /** Combo 20: X Curso Intensivo + Banco de Questões, sem ONCO IA — de R$ 2.900. */
   comboIntensivo: `${CHECKOUT_HOST}/checkout/combo/20/30MOC`,
-  /** Banco de Questões avulso — R$ 510, sem desconto, 2x de R$ 255. */
-  bancoQuestoes: `${CHECKOUT_HOST}/curso/banco-de-questoes-2026`,
 };
 
 /**
