@@ -67,7 +67,7 @@ oficiais, não código — o encaixe de cada um já está pronto:
 | 1 | Fonte **Barmeno** nos nomes de marca | **Feito.** Convertida de OTF para woff2 e embarcada; o Signika saiu do Google Fonts. Ver `src/assets/fonts/README.md` — inclusive a ressalva de licença de webfont. |
 | 2 | Logos dos patrocinadores | **Feito** com as marcas oficiais. Exibidas na versão reversa (branco) via CSS — sobre o azul-marinho do hero, o roxo da AstraZeneca fica ilegível. Os arquivos originais, em cores de marca, seguem intactos em `src/assets/sponsors/`. |
 | 3 | Revisar a URL | **Centralizado** em `src/lib/site.ts`. Hoje aponta para o domínio de homologação; trocar lá e em mais nenhum lugar. |
-| 4 | Revisar links dos botões + cupons | **Feito.** Combo ligado ao checkout da EAD, com `utm_content` por posição. Cupom não entra na URL — ver abaixo. |
+| 4 | Revisar links dos botões + cupons | **Feito.** Os 10 botões levam ao checkout do combo 16 com o cupom `30PUBLI` já aplicado (R$ 2.659,30), verificado ponta a ponta. Ver abaixo. |
 | 5 | Texto de formas de pagamento | **Feito.** O FAQ agora diz "À vista no Cartão de Crédito, Boleto ou Pix ou parcelado em 2x no Cartão de Crédito" — a menção à WorldMed saiu, conforme alinhado. |
 
 ### Sobre os botões (item 4)
@@ -78,23 +78,60 @@ e a posição de onde partiu, e a URL é montada em `src/lib/checkout.ts`, saind
 com um `utm_content` próprio (`hero`, `precos`, `header`, `final`…) — é o que
 permite medir de onde veio a conversão.
 
-### Cupons
+### Cupons — o caminho da URL, não um parâmetro
 
-A EAD Plataforma **não aceita cupom por parâmetro de URL**: o código é digitado
-num campo do próprio checkout (`<input name="product-coupom">`). Injetar
-`?cupom=XXXX` na URL seria simplesmente ignorado.
+A EAD Plataforma aceita o cupom **no caminho**:
 
-Os cupons da campanha são divulgados por fora — e-mail, WhatsApp, peças de
-publicidade — e por decisão do cliente **não aparecem na landing**.
+```
+/checkout/combo/{id-do-combo}/{CUPOM}
+```
 
-### Produtos e botões
+Essa URL monta o carrinho com o combo e o cupom já aplicado e redireciona para
+`/cart?coupon=CUPOM`. É por isso que os botões apontam para lá, e não para a
+página do produto (`/combo/{slug}`), que exigiria a pessoa digitar o código à mão.
 
-Só o combo tem checkout. O curso avulso e o Banco de Questões não são vendidos
-separadamente nesta página, e os botões dessas seções refletem isso: levam ao
-combo ou à seção de preços, sem prometer uma compra avulsa que não existe.
+> Uma versão anterior deste README dizia que o cupom só entrava por um campo do
+> checkout. Estava errado: aquilo vale para a página de produto, não para esta URL.
 
-Se um dia houver venda avulsa, é dar uma URL a `course` ou `questionBank` em
-`src/lib/checkout.ts` e ajustar o rótulo do botão.
+**O MOC troca os cupons de tempos em tempos.** Antes de cada campanha, vale abrir
+a URL e conferir se o desconto ainda aplica. Tudo fica em `src/lib/checkout.ts`,
+em `COMBO_ID` e `COUPON`.
+
+Conhecidos em 23/09/2026:
+
+| Cupom | Combo | Conteúdo | Preço |
+| --- | --- | --- | --- |
+| `30PUBLI` | 16 | Intensivo + Banco + ONCO IA | R$ 2.659,30 *(em uso)* |
+| `15PUBLI` | 16 | Intensivo + Banco + ONCO IA | R$ 3.229,15 *(lote de outubro)* |
+| `30MOC` | 20 | Intensivo + Banco, sem ONCO IA | R$ 2.030,00 |
+
+### Medição por botão
+
+Cada CTA sai com um `utm_content` próprio, mas **esses parâmetros não chegam ao
+carrinho**: sobrevivem ao primeiro redirect (`/cart/add/...`) e são descartados no
+segundo. Ficaram porque não custam nada, mas não dá para medir por eles.
+
+A medição que o cliente pediu funciona **pelo próprio cupom** — cupons distintos
+por origem aparecem separados no relatório de vendas do MOC. Criar esses cupons
+depende deles.
+
+### Divergência conhecida na tabela de preços
+
+A seção de investimento anuncia **R$ 2.729** no lote de lançamento, mas o checkout
+cobra **R$ 2.659,30** — R$ 69,70 a menos. A tabela aplicou 30% ao curso
+(2.900 → 2.030) e só ~22% ao Onco IA (899 → 699), enquanto a plataforma dá 30%
+linear sobre o combo inteiro (3.799 → 2.659,30). O mesmo no lote de outubro:
+tabela 3.264, checkout 3.229,15.
+
+Está a favor do cliente e **foi mantido assim por decisão dele**. Fica registrado
+porque, se um dia os números forem revistos, é aqui que a conta diverge.
+
+### Produtos fora da página
+
+O Banco de Questões existe avulso na plataforma
+(`/curso/banco-de-questoes-2026`, R$ 510, sem desconto), mas ficou **de fora de
+propósito**: abriria uma saída mais barata no meio do funil. O botão da seção do
+Banco leva ao combo.
 
 ### Ainda pendente
 

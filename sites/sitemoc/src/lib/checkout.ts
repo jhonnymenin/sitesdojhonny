@@ -23,25 +23,55 @@ export type Placement =
   | "final"
   | "barra-mobile";
 
-/**
- * URL de checkout de cada produto. Vazio = ainda não fornecido.
+/*
+ * O checkout da EAD Plataforma aceita o cupom **no caminho da URL**:
  *
- * Só o combo tem destino próprio até agora. O curso avulso e o Banco de Questões
- * seguem sem URL, então seus botões rolam para a seção de preços.
+ *   /checkout/combo/{id-do-combo}/{CUPOM}
+ *
+ * Essa URL monta o carrinho com o combo e o cupom já aplicado, e redireciona
+ * para /cart?coupon=CUPOM. É o formato a usar — a página de produto sozinha
+ * (/combo/{slug}) exige que a pessoa digite o cupom à mão e pague o preço cheio
+ * se não souber o código.
+ */
+const CHECKOUT_HOST = "https://cursosmocbrasil.eadplataforma.app";
+
+/** Combo 16 = X Curso Intensivo + Banco de Questões + ONCO IA (de R$ 3.799). */
+const COMBO_ID = "16";
+
+/**
+ * Cupom do lote vigente. **O MOC troca os cupons de tempos em tempos**, então
+ * conferir antes de cada campanha: basta abrir a URL e ver se o desconto aplica.
+ *
+ * Conhecidos até 23/09/2026:
+ *   30PUBLI — 30% off no combo 16  → R$ 2.659,30   (lote de lançamento)
+ *   15PUBLI — 15% off no combo 16  → R$ 3.229,15   (lote de outubro)
+ *   30MOC   — 30% off no combo 20 (Intensivo + Banco, sem ONCO IA) → R$ 2.030,00
+ */
+const COUPON = "30PUBLI";
+
+/**
+ * URL de checkout de cada produto. Vazio = não vendido avulso nesta página.
+ *
+ * O curso e o Banco de Questões não têm venda avulsa aqui: o Banco existe
+ * solto na plataforma (R$ 510, sem desconto), mas ficou de fora de propósito
+ * para não abrir uma saída mais barata no meio do funil.
  */
 const CHECKOUT_BASE: Record<Product, string> = {
   course: "",
   questionBank: "",
-  combo:
-    "https://cursosmocbrasil.eadplataforma.app/combo/x-curso-intensivo-de-oncologia-banco-de-questoes-2026-onco-ia",
+  combo: `${CHECKOUT_HOST}/checkout/combo/${COMBO_ID}/${COUPON}`,
 };
 
 /*
- * Sobre cupons: a EAD Plataforma não aceita cupom por parâmetro de URL — o
- * código é digitado num campo do próprio checkout (`<input name="product-coupom">`).
- * Os cupons da campanha (ex.: 30PUBLI) são divulgados por fora, nas peças de
- * e-mail e WhatsApp, e por decisão do cliente não aparecem na landing.
- * Não adianta tentar injetá-los na URL: seria ignorado.
+ * Sobre a medição por utm_content: os parâmetros abaixo sobrevivem ao primeiro
+ * redirect (/cart/add/...) mas **são descartados no segundo**, e a página do
+ * carrinho chega limpa, só com ?coupon=. Ou seja, eles não alimentam a analytics
+ * da plataforma. Ficam porque não custam nada e o primeiro salto ainda os
+ * carrega, mas não dá para medir por eles.
+ *
+ * A medição de "qual botão converteu" que o cliente pediu funciona pelo próprio
+ * cupom: cupons distintos por origem aparecem separados no relatório de vendas
+ * do MOC. Criar esses cupons depende deles.
  */
 
 /** Destino usado enquanto o checkout real não é fornecido: a seção de preços. */
