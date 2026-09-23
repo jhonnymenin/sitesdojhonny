@@ -10,8 +10,21 @@
  * correspondência mesmo quando o navegador bloqueia o pixel.
  */
 
-/** ID público do Pixel — pode ficar no bundle do cliente com segurança. */
-export const META_PIXEL_ID = "553465707797085";
+/**
+ * ID do Pixel. IDs de pixel são públicos por natureza e podem ficar no bundle.
+ *
+ * Vem de env **de propósito, sem valor padrão**: esta cópia do projeto é um
+ * espelho do site que ainda roda no Lovable. Com o ID embutido no código, bastava
+ * abrir a página em qualquer lugar — um `npm run dev`, um preview, um deploy de
+ * teste — para disparar eventos no pixel de produção e sujar os dados da campanha.
+ *
+ * Vazio = todo o rastreamento fica inerte (Pixel e CAPI). Para ligar, defina
+ * `VITE_META_PIXEL_ID`; o valor está em `.env.example`.
+ */
+export const META_PIXEL_ID = import.meta.env["VITE_META_PIXEL_ID"] ?? "";
+
+/** True quando o rastreamento está habilitado nesta build. */
+export const trackingEnabled = META_PIXEL_ID !== "";
 
 /** Eventos padrão da Meta usados nesta landing page. */
 export type MetaStandardEvent =
@@ -82,7 +95,7 @@ function readCookie(name: string): string | undefined {
  * Seguro para ser chamado múltiplas vezes (idempotente).
  */
 export function initMetaPixel(): void {
-  if (!isBrowser() || window.fbq) return;
+  if (!trackingEnabled || !isBrowser() || window.fbq) return;
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const fbq: any = function (...args: unknown[]) {
@@ -152,7 +165,7 @@ export function trackMetaEvent(
   params: MetaEventParams = {},
 ): string {
   const eventId = newEventId();
-  if (!isBrowser()) return eventId;
+  if (!trackingEnabled || !isBrowser()) return eventId;
 
   const method = CUSTOM_EVENTS.has(eventName) ? "trackCustom" : "track";
   window.fbq?.(method, eventName, params, { eventID: eventId });

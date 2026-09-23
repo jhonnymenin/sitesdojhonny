@@ -1,5 +1,23 @@
 # 1º Simpósio Técnico e Prático de Neurociência da Memória
 
+> ## ⚠️ Esta pasta é um ESPELHO — o site no ar é o do Lovable
+>
+> O site continua rodando e sendo gerenciado no Lovable, em
+> https://simposioneuro.on-dig.online. Esta cópia existe para alterações e para
+> uma migração futura, **não deve ser publicada na Vercel enquanto isso não mudar**.
+>
+> Para que o espelho não interfira na operação de lá, o rastreamento nasce
+> **desligado**: `VITE_META_PIXEL_ID` não tem valor padrão. Sem ela, o Pixel não é
+> sequer inicializado e nenhum evento sai — nem do navegador, nem da Conversions
+> API. Verificado com o navegador: zero requisições ao Facebook e `window.fbq`
+> indefinido.
+>
+> Isso importa porque o Pixel é o de produção. Com o ID embutido no código, um
+> simples `npm run dev` já mandaria `PageView` e `ViewContent` para a campanha real.
+>
+> **Quando este virar o site no ar**, defina as variáveis do `.env.example` no
+> painel da Vercel. Nada mais precisa mudar.
+
 Landing page do simpósio da On Educação — 5 de dezembro de 2026, Centro de
 Convenções Millenium, São Paulo.
 
@@ -21,17 +39,18 @@ npm run dev      # http://localhost:3000
 
 ## Deploy
 
-Projeto próprio na Vercel, com **Root Directory** apontando para
-`sites/simposio-neuro` e Framework Preset = Other.
+**Não publicado hoje** — ver o aviso no topo. Quando for a hora: projeto próprio
+na Vercel, **Root Directory** `sites/simposio-neuro`, Framework Preset = Other.
 
-### Variáveis de ambiente (obrigatórias)
+### Variáveis de ambiente
 
-Diferente dos outros sites do monorepo, **este precisa de variáveis** para
-funcionar por completo. Configure no painel da Vercel:
+Diferente dos outros sites do monorepo, **este precisa de variáveis**. Todas
+começam vazias de propósito; ver `.env.example`.
 
-| Variável | Para quê | Sem ela |
+| Variável | Para quê | Vazia |
 | --- | --- | --- |
-| `META_CAPI_ACCESS_TOKEN` | Meta Conversions API (eventos server-side) | O endpoint responde 204 e não envia nada; só o Pixel do navegador continua funcionando |
+| `VITE_META_PIXEL_ID` | ID do Pixel (build-time) | **Rastreamento inteiro desligado** — Pixel e CAPI. É o que mantém o espelho inofensivo. Valor de produção: `553465707797085` |
+| `META_CAPI_ACCESS_TOKEN` | Conversions API (server-side) | O endpoint responde 204 e não envia nada |
 | `LOVABLE_API_KEY` | Gateway do Lovable para a planilha de leads | Lead não é gravado (a compra segue normalmente) |
 | `GOOGLE_SHEETS_API_KEY` | Chave da conexão Google Sheets no gateway | Idem |
 
