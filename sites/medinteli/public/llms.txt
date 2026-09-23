@@ -1,0 +1,9 @@
+# MedInteli
+
+> Automação via WhatsApp para clínicas médicas: atendimento 24h, agendamento, lembretes e follow-up automatizados para reduzir faltas e encher a agenda.
+
+A MedInteli oferece uma solução de IA conversacional integrada ao WhatsApp para clínicas médicas no Brasil. A plataforma automatiza o atendimento ao paciente, confirma e remarca consultas, envia lembretes e faz follow-up pós-consulta, eliminando trabalho manual da recepção.
+
+## Pages
+
+- [Home](/): Visão geral da solução, serviços, diferenciais, como funciona, preços e contato.

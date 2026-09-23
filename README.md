@@ -20,6 +20,7 @@ não na raiz.
 | [`sites/dona-paulina`](sites/dona-paulina) | Fundação Dona Paulina de Souza Queiroz (com blog) | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://paulina.on-dig.online |
 | [`sites/simposio-neuro`](sites/simposio-neuro) | 1º Simpósio de Neurociência da Memória — **espelho, não publicado** (o site no ar é o do Lovable) | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://simposioneuro.on-dig.online |
 | [`sites/so-talentos`](sites/so-talentos) | Agência Só Talentos | **Vite SPA** (React 19) + Tailwind v3 — sem SSR | https://lp.sotalentos.com.br |
+| [`sites/medinteli`](sites/medinteli) | MedInteli — automação para clínicas — **espelho, não publicado** (o site no ar é o do Lovable) | **Vite SPA** + Tailwind v3 — sem SSR | https://lp.medinteli.com.br |
 
 ## Trabalhando num site
 
@@ -41,9 +42,14 @@ repositório. O que os distingue é o **Root Directory**:
 A Vercel só dispara o build de um projeto quando há mudança dentro do Root
 Directory dele, então mexer num site não redeploya os outros.
 
-> Nem todos seguem a mesma stack: `sites/so-talentos` veio do template antigo do
-> Lovable e é um **Vite SPA** (sem SSR, Tailwind v3), com um `vercel.json`
-> diferente — ele precisa de um rewrite para o roteamento no cliente funcionar.
+> Nem todos seguem a mesma stack: `sites/so-talentos` e `sites/medinteli` vieram
+> do template antigo do Lovable e são **Vite SPA** (sem SSR, Tailwind v3), com um
+> `vercel.json` diferente — precisam de um rewrite para o roteamento no cliente
+> funcionar.
+>
+> E nem todos são publicados: `sites/simposio-neuro` e `sites/medinteli` são
+> espelhos de sites que seguem rodando no Lovable. Nos dois, o rastreamento nasce
+> desligado para não sujar os dados de produção — ver o aviso no README de cada um.
 
 ## Adicionando um site novo
 
