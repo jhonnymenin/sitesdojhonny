@@ -21,6 +21,7 @@ não na raiz.
 | [`sites/simposio-neuro`](sites/simposio-neuro) | 1º Simpósio de Neurociência da Memória — **espelho, não publicado** (o site no ar é o do Lovable) | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://simposioneuro.on-dig.online |
 | [`sites/so-talentos`](sites/so-talentos) | Agência Só Talentos | **Vite SPA** (React 19) + Tailwind v3 — sem SSR | https://lp.sotalentos.com.br |
 | [`sites/medinteli`](sites/medinteli) | MedInteli — automação para clínicas — **espelho, não publicado** (o site no ar é o do Lovable) | **Vite SPA** + Tailwind v3 — sem SSR | https://lp.medinteli.com.br |
+| [`sites/outubro-prateado`](sites/outubro-prateado) | Outubro Prateado 2026 — movimento pela longevidade | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://outubroprata.on-dig.online |
 
 ## Trabalhando num site
 

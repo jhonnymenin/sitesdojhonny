@@ -1,0 +1,385 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * OUTUBRO PRATEADO — design system.
+ * Warm ivory paper, sophisticated silvers, graphite ink, discreet champagne.
+ * Serif (Cormorant Garamond) = emotion. Sans (Inter) = information.
+ */
+
+@theme inline {
+  --radius-sm: 0px;
+  --radius-md: 1px;
+  --radius-lg: 2px;
+  --radius-xl: 2px;
+  --radius-2xl: 3px;
+  --radius-3xl: 3px;
+  --radius-4xl: 4px;
+
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+
+  --color-paper: var(--paper);
+  --color-ivory: var(--ivory);
+  --color-sand: var(--sand);
+  --color-silver: var(--silver);
+  --color-deep-silver: var(--deep-silver);
+  --color-graphite: var(--graphite);
+  --color-ink: var(--ink);
+  --color-taupe: var(--taupe);
+  --color-champagne: var(--champagne);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 0px;
+
+  --paper: oklch(0.981 0.006 85);
+  --ivory: oklch(0.955 0.012 85);
+  --sand: oklch(0.905 0.02 85);
+  --silver: oklch(0.762 0.003 260);
+  --deep-silver: oklch(0.596 0.005 260);
+  --graphite: oklch(0.32 0.002 260);
+  --ink: oklch(0.24 0.002 260);
+  --taupe: oklch(0.605 0.024 55);
+  --champagne: oklch(0.762 0.028 80);
+
+  --background: var(--ivory);
+  --foreground: var(--ink);
+  --card: var(--paper);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--graphite);
+  --primary-foreground: var(--paper);
+  --secondary: var(--sand);
+  --secondary-foreground: var(--graphite);
+  --muted: var(--sand);
+  --muted-foreground: var(--deep-silver);
+  --accent: var(--champagne);
+  --accent-foreground: var(--ink);
+  --destructive: oklch(0.52 0.16 27);
+  --destructive-foreground: var(--paper);
+  --border: oklch(0.87 0.012 85);
+  --input: oklch(0.87 0.012 85);
+  --ring: var(--taupe);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--champagne) 55%, transparent);
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--taupe);
+    outline-offset: 3px;
+  }
+}
+
+/* ---------- Editorial type ---------- */
+
+@utility display {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+@utility display-xl {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2.9rem, 8.2vw, 7.25rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+@utility display-lg {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(2.3rem, 5.6vw, 4.75rem);
+  line-height: 1;
+  letter-spacing: -0.018em;
+}
+
+@utility display-md {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--deep-silver);
+}
+
+@utility lede {
+  font-size: clamp(1.0625rem, 1.15vw, 1.1875rem);
+  line-height: 1.7;
+  color: color-mix(in oklab, var(--ink) 78%, transparent);
+  max-width: 34ch;
+}
+
+@utility measure {
+  max-width: 62ch;
+}
+
+/* ---------- Layout ---------- */
+
+@utility shell {
+  width: 100%;
+  max-width: 1560px;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 5vw, 5.5rem);
+}
+
+@utility hairline {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in oklab, var(--silver) 70%, transparent) 18%,
+    color-mix(in oklab, var(--silver) 70%, transparent) 82%,
+    transparent
+  );
+}
+
+@utility metal-text {
+  background: linear-gradient(96deg, #85878a 0%, #ffffff 26%, #b7b8ba 48%, #f4f2ee 68%, #9a9b9d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Satin silver legible on ivory / paper surfaces. */
+@utility metal-text-light {
+  background: linear-gradient(96deg, #5f6163 0%, #a9aaad 22%, #6f7174 46%, #b7b8ba 66%, #55575a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Motion ---------- */
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 1s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 1.1s cubic-bezier(0.22, 0.61, 0.36, 1);
+  &.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility reveal-slow {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 1.3s cubic-bezier(0.22, 0.61, 0.36, 1) 0.08s,
+    transform 1.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.08s;
+  &.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility image-mask {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  &.is-revealed {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@utility zoomable {
+  overflow: hidden;
+  & img {
+    transition: transform 1.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  &:hover img {
+    transform: scale(1.03);
+  }
+}
+
+/* ---------- Micro-interactions ---------- */
+
+@utility ui-link {
+  position: relative;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  color: color-mix(in oklab, var(--ink) 80%, transparent);
+  transition: color 0.4s ease;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  &:hover {
+    color: var(--ink);
+  }
+  &:hover::after,
+  &[data-active="true"]::after {
+    transform: scaleX(1);
+  }
+}
+
+@utility btn-arch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 48px;
+  padding: 0 1.5rem;
+  background: var(--graphite);
+  color: var(--paper);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition:
+    background 0.5s ease,
+    color 0.5s ease;
+  & .arrow {
+    transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  &:hover {
+    background: var(--taupe);
+  }
+  &:hover .arrow {
+    transform: translateX(5px);
+  }
+}
+
+@utility btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 48px;
+  padding: 0 1.5rem;
+  border: 1px solid color-mix(in oklab, var(--deep-silver) 45%, transparent);
+  color: var(--ink);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition:
+    border-color 0.5s ease,
+    background 0.5s ease;
+  & .arrow {
+    transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  &:hover {
+    border-color: var(--ink);
+    background: color-mix(in oklab, var(--sand) 45%, transparent);
+  }
+  &:hover .arrow {
+    transform: translateX(5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}
+
+/* --- moving photo strip --- */
+@keyframes marquee-slide {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@utility marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+}
+
+@utility marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 0.75rem;
+  animation: marquee-slide 64s linear infinite;
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+@utility marquee-reverse {
+  animation-direction: reverse;
+  animation-duration: 78s;
+}
