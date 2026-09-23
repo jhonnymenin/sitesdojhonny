@@ -18,6 +18,7 @@ não na raiz.
 | [`sites/projeto-rumo`](sites/projeto-rumo) | Projeto Rumo | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://projetorumo.org |
 | [`sites/sitemoc`](sites/sitemoc) | MOC — X Curso Intensivo de Oncologia | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://onco.on-dig.online |
 | [`sites/dona-paulina`](sites/dona-paulina) | Fundação Dona Paulina de Souza Queiroz (com blog) | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://paulina.on-dig.online |
+| [`sites/simposio-neuro`](sites/simposio-neuro) | 1º Simpósio de Neurociência da Memória (Meta Pixel + CAPI) | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://simposioneuro.on-dig.online |
 
 ## Trabalhando num site
 
