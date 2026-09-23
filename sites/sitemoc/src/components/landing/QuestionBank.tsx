@@ -107,7 +107,7 @@ export function QuestionBank() {
           `questionBank` em src/lib/checkout.ts e voltar com o botão próprio.
         */}
         <Reveal className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <CtaButton href={checkoutUrl("combo", "banco-questoes")} className="w-full sm:w-auto">
+          <CtaButton href={checkoutUrl("comboCompleto", "banco-questoes")} className="w-full sm:w-auto">
             Quero o Combo Completo
           </CtaButton>
           <CtaButton href="#inscricao" variant="outline" className="w-full sm:w-auto">

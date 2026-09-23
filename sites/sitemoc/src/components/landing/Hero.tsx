@@ -2,7 +2,7 @@ import { Radio, RefreshCw, Layers } from "lucide-react";
 import dnaBanner from "@/assets/dna-oficial.jpg";
 import { Chip, CourseName, CtaButton } from "./primitives";
 import { Sponsors } from "./Sponsors";
-import { checkoutUrl } from "@/lib/checkout";
+import { PRICING_ANCHOR } from "@/lib/checkout";
 
 const SPECS = [
   { icon: Radio, label: "Ao vivo", value: "5 encontros on-line ao vivo" },
@@ -61,7 +61,7 @@ export function Hero() {
           </div>
 
           <div className="mt-8">
-            <CtaButton href={checkoutUrl("combo", "hero")} className="w-full sm:w-auto">
+            <CtaButton href={PRICING_ANCHOR} className="w-full sm:w-auto">
               Participar da 10ª edição
             </CtaButton>
           </div>

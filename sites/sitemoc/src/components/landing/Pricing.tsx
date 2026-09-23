@@ -58,6 +58,38 @@ const LOTS = [
 
 const COLUMN = "X Curso Intensivo de Oncologia + Banco de Questões";
 
+/*
+ * As duas ofertas da seção. Os valores são os que o carrinho da EAD Plataforma
+ * cobra com o cupom do lote vigente — conferidos abrindo cada checkout. Ao trocar
+ * de lote, atualizar aqui e o cupom em src/lib/checkout.ts.
+ */
+const OFFERS = [
+  {
+    product: "comboCompleto" as const,
+    placement: "precos" as const,
+    name: "Combo completo",
+    includes: "X Curso Intensivo de Oncologia + Banco de Questões + Onco IA.",
+    from: "De R$ 3.799,00",
+    price: "R$ 2.659",
+    cents: ",30",
+    installments: "ou 2x de R$ 1.329,65",
+    cta: "Garantir o combo completo",
+    featured: true,
+  },
+  {
+    product: "comboIntensivo" as const,
+    placement: "precos-intensivo" as const,
+    name: "Intensivo + Banco de Questões",
+    includes: "X Curso Intensivo de Oncologia + Banco de Questões, sem o Onco IA.",
+    from: "De R$ 2.900,00",
+    price: "R$ 2.030",
+    cents: ",00",
+    installments: "ou 2x de R$ 1.015,00",
+    cta: "Garantir esta condição",
+    featured: false,
+  },
+];
+
 export function Pricing() {
   return (
     <Section id="inscricao">
@@ -99,26 +131,64 @@ export function Pricing() {
             Garanta a sua inscrição com desconto exclusivo
           </SectionTitle>
 
-          <div className="mt-8 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
-            <div>
-              <p className="text-sm text-muted-foreground line-through">De R$ 2.900,00</p>
-              <p className="label-mono mt-2 text-muted-foreground">
-                X Curso Intensivo de Oncologia por
-              </p>
-              <p className="mt-1 font-display text-[40px] leading-none font-bold text-cyan md:text-[54px]">
-                R$ 2.030<span className="text-2xl">,00</span>
-              </p>
-              <p className="mt-3 text-sm text-muted-foreground">Até 30 de setembro.</p>
-            </div>
-            <div className="md:w-72">
-              <CtaButton href={checkoutUrl("combo", "precos")} className="w-full">
-                Garantir a condição do lote atual <ArrowRight size={18} />
-              </CtaButton>
-              <p className="label-mono mt-4 flex items-center gap-2 text-muted-foreground">
-                <Lock size={14} strokeWidth={1.5} /> Inscrição em ambiente seguro
-              </p>
-            </div>
+          {/*
+            Os dois combos lado a lado, cada um com o preço que a plataforma
+            realmente cobra e o link do seu próprio checkout. Antes havia um bloco
+            só: anunciava R$ 2.030 (que é o combo sem Onco IA) e o botão levava ao
+            combo de três produtos, a R$ 2.659,30 — a pessoa via um valor e pagava
+            outro, R$ 629,30 maior.
+          */}
+          <div className="mt-8 grid gap-5 lg:grid-cols-2">
+            {OFFERS.map((offer) => (
+              <div
+                key={offer.product}
+                // A seção roda no tema azul, onde --cyan é branco: `bg-cyan/10`
+                // dava um azul lavado e fazia o card secundário, de fundo sólido,
+                // parecer o principal. O destaque vem do fundo sólido com borda
+                // clara; o secundário recua para fundo transparente.
+                className={cn(
+                  "flex flex-col rounded-lg border p-6 sm:p-7",
+                  offer.featured
+                    ? "border-cyan bg-surface-container shadow-[0_18px_44px_-24px_rgb(0_0_0/0.55)]"
+                    : "border-border bg-transparent",
+                )}
+              >
+                {offer.featured ? <Chip>Mais completo</Chip> : null}
+                <h3
+                  className={cn(
+                    "font-display text-xl font-semibold text-foreground",
+                    offer.featured ? "mt-4" : "",
+                  )}
+                >
+                  {offer.name}
+                </h3>
+                <p className="mt-2 text-sm leading-[1.55] text-muted-foreground">
+                  {offer.includes}
+                </p>
+
+                <p className="mt-6 text-sm text-muted-foreground line-through">{offer.from}</p>
+                <p className="mt-1 font-display text-[38px] leading-none font-bold text-cyan md:text-[46px]">
+                  {offer.price}
+                  <span className="text-2xl">{offer.cents}</span>
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground">{offer.installments}</p>
+
+                <div className="mt-6 flex-1" />
+                <CtaButton
+                  href={checkoutUrl(offer.product, offer.placement)}
+                  variant={offer.featured ? "primary" : "outline"}
+                  className="w-full"
+                >
+                  {offer.cta} <ArrowRight size={18} />
+                </CtaButton>
+              </div>
+            ))}
           </div>
+
+          <p className="label-mono mt-6 flex items-center gap-2 text-muted-foreground">
+            <Lock size={14} strokeWidth={1.5} /> Inscrição em ambiente seguro • Condição válida até
+            30 de setembro
+          </p>
 
           <ul className="mt-8 grid gap-4 md:hidden">
             {LOTS.map((lot) => (

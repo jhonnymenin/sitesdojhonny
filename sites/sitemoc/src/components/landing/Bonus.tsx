@@ -1,6 +1,6 @@
 import { CheckCircle2 } from "lucide-react";
 import { CtaButton, Reveal, Section, SectionTitle } from "./primitives";
-import { checkoutUrl } from "@/lib/checkout";
+import { PRICING_ANCHOR } from "@/lib/checkout";
 
 const AUDIENCE = [
   "Residentes de Clínica Médica que buscam aprofundamento em Oncologia",
@@ -27,7 +27,7 @@ export function Bonus() {
       </ul>
 
       <Reveal className="mt-8">
-        <CtaButton href={checkoutUrl("combo", "bonus")} className="w-full sm:w-auto">
+        <CtaButton href={PRICING_ANCHOR} className="w-full sm:w-auto">
           Realizar a inscrição
         </CtaButton>
       </Reveal>

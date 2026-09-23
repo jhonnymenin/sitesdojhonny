@@ -1,6 +1,7 @@
 import { BrainCircuit, CheckCircle2, FileText } from "lucide-react";
 import banner from "@/assets/banner-oncoia.png";
 import { Chip, CourseName, CtaButton, Reveal } from "./primitives";
+import { checkoutUrl } from "@/lib/checkout";
 
 const HIGHLIGHTS = [
   "IA na prática clínica",
@@ -132,7 +133,7 @@ export function OncoIA() {
 
         <Reveal className="mt-8">
           {/* Onco IA não é comercializado avulso nesta página. */}
-          <CtaButton href="#inscricao" className="w-full sm:w-auto">
+          <CtaButton href={checkoutUrl("comboCompleto", "onco-ia")} className="w-full sm:w-auto">
             Incluir o Onco IA no Combo
           </CtaButton>
         </Reveal>

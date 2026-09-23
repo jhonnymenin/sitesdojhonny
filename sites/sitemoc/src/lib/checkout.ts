@@ -1,14 +1,20 @@
 /*
- * Destinos de compra da landing (item 4 da revisão).
+ * Destinos de compra da landing.
  *
- * Havia um único placeholder ("#CHECKOUT_URL_EAD") por trás de todos os botões,
- * então nenhum deles levava a lugar nenhum. Agora cada CTA declara o produto que
- * vende e o lugar da página de onde partiu, e a URL final é montada aqui.
+ * O checkout da EAD Plataforma aceita o cupom **no caminho da URL**:
+ *
+ *   /checkout/combo/{id-do-combo}/{CUPOM}
+ *
+ * Essa URL monta o carrinho com o combo e o cupom já aplicado, e redireciona
+ * para /cart?coupon=CUPOM. É o formato a usar — a página de produto sozinha
+ * (/combo/{slug}) exige que a pessoa digite o cupom à mão e paga o preço cheio
+ * se não souber o código.
  */
 
-export type Product = "course" | "questionBank" | "combo";
+/** Os dois combos vendidos na página. Não há venda avulsa aqui. */
+export type Product = "comboCompleto" | "comboIntensivo";
 
-/** Onde na página o clique aconteceu. Vai em utm_content, para a métrica. */
+/** Onde na página o clique aconteceu. Vai em utm_content. */
 export type Placement =
   | "header"
   | "header-mobile"
@@ -20,47 +26,37 @@ export type Placement =
   | "onco-ia"
   | "banco-questoes"
   | "precos"
+  | "precos-intensivo"
   | "final"
   | "barra-mobile";
 
-/*
- * O checkout da EAD Plataforma aceita o cupom **no caminho da URL**:
- *
- *   /checkout/combo/{id-do-combo}/{CUPOM}
- *
- * Essa URL monta o carrinho com o combo e o cupom já aplicado, e redireciona
- * para /cart?coupon=CUPOM. É o formato a usar — a página de produto sozinha
- * (/combo/{slug}) exige que a pessoa digite o cupom à mão e pague o preço cheio
- * se não souber o código.
- */
 const CHECKOUT_HOST = "https://cursosmocbrasil.eadplataforma.app";
 
-/** Combo 16 = X Curso Intensivo + Banco de Questões + ONCO IA (de R$ 3.799). */
-const COMBO_ID = "16";
-
 /**
- * Cupom do lote vigente. **O MOC troca os cupons de tempos em tempos**, então
- * conferir antes de cada campanha: basta abrir a URL e ver se o desconto aplica.
+ * Combo, id na plataforma e cupom do lote vigente.
  *
- * Conhecidos até 23/09/2026:
- *   30PUBLI — 30% off no combo 16  → R$ 2.659,30   (lote de lançamento)
- *   15PUBLI — 15% off no combo 16  → R$ 3.229,15   (lote de outubro)
- *   30MOC   — 30% off no combo 20 (Intensivo + Banco, sem ONCO IA) → R$ 2.030,00
- */
-const COUPON = "30PUBLI";
-
-/**
- * URL de checkout de cada produto. Vazio = não vendido avulso nesta página.
+ * **O MOC troca os cupons de tempos em tempos.** Antes de cada campanha, abrir a
+ * URL e conferir se o desconto ainda aplica — o carrinho mostra o percentual.
  *
- * O curso e o Banco de Questões não têm venda avulsa aqui: o Banco existe
- * solto na plataforma (R$ 510, sem desconto), mas ficou de fora de propósito
- * para não abrir uma saída mais barata no meio do funil.
+ * Cupons conhecidos em 23/09/2026:
+ *   30PUBLI — 30% no combo 16 → R$ 2.659,30  (lote de lançamento, em uso)
+ *   15PUBLI — 15% no combo 16 → R$ 3.229,15  (lote de outubro)
+ *   30MOC   — 30% no combo 20 → R$ 2.030,00  (lote de lançamento, em uso)
  */
-const CHECKOUT_BASE: Record<Product, string> = {
-  course: "",
-  questionBank: "",
-  combo: `${CHECKOUT_HOST}/checkout/combo/${COMBO_ID}/${COUPON}`,
+const COMBOS: Record<Product, { id: string; cupom: string }> = {
+  /** X Curso Intensivo + Banco de Questões + ONCO IA — de R$ 3.799. */
+  comboCompleto: { id: "16", cupom: "30PUBLI" },
+  /** X Curso Intensivo + Banco de Questões, sem ONCO IA — de R$ 2.900. */
+  comboIntensivo: { id: "20", cupom: "30MOC" },
 };
+
+/**
+ * Destino dos botões que não nomeiam um combo específico: a seção de
+ * investimento, onde as duas opções ficam lado a lado. Mandar um CTA genérico
+ * direto para um checkout foi o que fez a página anunciar R$ 2.030 e cobrar
+ * R$ 2.659,30.
+ */
+export const PRICING_ANCHOR = "#inscricao";
 
 /*
  * Sobre a medição por utm_content: os parâmetros abaixo sobrevivem ao primeiro
@@ -73,21 +69,21 @@ const CHECKOUT_BASE: Record<Product, string> = {
  * cupom: cupons distintos por origem aparecem separados no relatório de vendas
  * do MOC. Criar esses cupons depende deles.
  */
-
-/** Destino usado enquanto o checkout real não é fornecido: a seção de preços. */
-const FALLBACK = "#inscricao";
-
 export function checkoutUrl(product: Product, placement: Placement): string {
-  const base = CHECKOUT_BASE[product];
-  if (!base) return FALLBACK;
-
-  const url = new URL(base);
+  const { id, cupom } = COMBOS[product];
+  const url = new URL(`${CHECKOUT_HOST}/checkout/combo/${id}/${cupom}`);
   url.searchParams.set("utm_source", "landing");
   url.searchParams.set("utm_medium", "site");
   url.searchParams.set("utm_campaign", "x-intensivo-oncologia");
   url.searchParams.set("utm_content", placement);
   return url.toString();
 }
+
+/**
+ * O Banco de Questões existe avulso na plataforma
+ * (/curso/banco-de-questoes-2026, R$ 510, sem desconto), mas ficou fora da
+ * página de propósito: abriria uma saída mais barata no meio do funil.
+ */
 
 /** WhatsApp oficial de atendimento. */
 const WHATSAPP_NUMBER = "5511978581148";
