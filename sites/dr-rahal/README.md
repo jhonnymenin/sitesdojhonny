@@ -34,16 +34,19 @@ npm run build
 Projeto próprio na Vercel, **Root Directory** `sites/dr-rahal`, Framework
 Preset = Other. Nenhuma variável de ambiente por enquanto.
 
-### Dois domínios
+### Domínios
 
-O site vai responder por mais de um domínio, de provedores diferentes. O
-canônico é `SITE_URL`, em `src/lib/site.ts` — é o que alimenta `og:url`,
-`canonical` e a URL absoluta do `og:image`.
+O principal na Vercel é **`www.drrahaltireoide.com`**; o apex
+(`drrahaltireoide.com`) responde 308 redirecionando para ele.
 
-Os demais domínios devem **redirecionar** para o canônico, não servir o mesmo
-conteúdo: dois domínios entregando a mesma página dividem a autoridade de SEO e
-o Google escolhe sozinho qual indexar. Na Vercel isso se resolve adicionando o
-domínio ao projeto e marcando "Redirect to" apontando para o principal.
+`SITE_URL`, em `src/lib/site.ts`, precisa ser **exatamente o domínio principal**,
+com www — é ele que alimenta `og:url`, `canonical`, a URL absoluta do `og:image`,
+o `sitemap.xml` e o `robots.txt`. Apontar o canonical para uma URL que
+redireciona faz o buscador dar um salto a mais e abre espaço para ele escolher
+sozinho qual versão indexar.
+
+Se o apex virar o principal na Vercel, `SITE_URL`, o sitemap e o robots mudam
+junto.
 
 ## Pendências
 

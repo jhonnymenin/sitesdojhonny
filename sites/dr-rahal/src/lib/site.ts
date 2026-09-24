@@ -12,11 +12,15 @@ export const INSTAGRAM_URL = "https://www.instagram.com/antoniorahal/";
  * Origem pública do site. og:url, canonical e og:image precisam ser absolutos —
  * crawlers não resolvem caminhos relativos.
  *
- * O site vai responder por mais de um domínio. Este é o canônico: é o que os
- * buscadores devem indexar e o que aparece nos previews de compartilhamento. Os
- * outros devem **redirecionar** para cá, não servir o mesmo conteúdo — dois
- * domínios entregando a mesma página sem canonical dividem a autoridade de SEO.
+ * **Com www, de propósito.** Na Vercel o domínio principal é
+ * `www.drrahaltireoide.com`, e o apex (`drrahaltireoide.com`) responde 308
+ * redirecionando para ele. O canonical precisa apontar para a URL final, que é a
+ * que o visitante realmente acessa: declarar uma URL que redireciona faz o
+ * buscador dar um salto a mais e abre espaço para ele escolher sozinho qual
+ * versão indexar.
+ *
+ * Se um dia o apex virar o principal na Vercel, esta linha muda junto.
  */
-export const SITE_URL = "https://drrahaltireoide.com";
+export const SITE_URL = "https://www.drrahaltireoide.com";
 
 export const siteUrl = (path = "/") => `${SITE_URL}${path}`;
