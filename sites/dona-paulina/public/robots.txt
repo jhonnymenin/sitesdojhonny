@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://paulina.on-dig.online/sitemap.xml
+Sitemap: https://www.fdpsq.org.br/sitemap.xml
