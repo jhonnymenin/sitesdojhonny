@@ -11,7 +11,7 @@ import {
 
 import appCss from "../styles.css?url";
 import { AmbientAudio } from "@/components/AmbientAudio";
-import { SITE_URL, siteUrl } from "@/lib/site";
+import { siteUrl } from "@/lib/site";
 
 function NotFoundComponent() {
   return (
@@ -83,7 +83,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Dr. Antônio Rahal" },
       { property: "og:locale", content: "pt_BR" },
-      { property: "og:url", content: SITE_URL },
+      // og:url e canonical NÃO ficam aqui: aqui eles valeriam para todas as
+      // rotas e diriam ao Google que o blog e cada post são cópias da home.
+      // Cada rota declara o seu.
       { name: "twitter:card", content: "summary" },
       { name: "twitter:title", content: "Dr Rahal | Ablação por Radiofrequência" },
       { name: "twitter:description", content: "Tecnologia minimamente invasiva que dispensa a cirurgia na maioria dos casos — com mais conforto, menor risco e recuperação imediata." },
@@ -95,7 +97,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "canonical", href: SITE_URL },
+      // O site não tinha favicon nenhum: a aba aparecia com o ícone genérico.
+      // Gerados a partir do símbolo da marca (src/assets/symbol-rahal.png).
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32.png" },
+      { rel: "icon", type: "image/png", sizes: "192x192", href: "/favicon-192.png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
     ],
   }),
   shellComponent: RootShell,

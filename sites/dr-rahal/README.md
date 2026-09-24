@@ -50,7 +50,10 @@ domínio ao projeto e marcando "Redirect to" apontando para o principal.
 - **Pixel e analytics** ainda não existem no projeto. Quando entrarem, manter os
   IDs em variável de ambiente, não embutidos no código — ver o `CLAUDE.md` da
   raiz do monorepo.
-- O site não tem `sitemap.xml` nem `robots.txt`.
+- **Imagens pesadas.** `dr-rahal-clinic.jpeg` tem 1,8 MB e `dr-rahal-cutout.png`,
+  que é o retrato do hero e carrega acima da dobra, tem 1,5 MB. Converter para
+  WebP reduziria para uma fração disso sem diferença visível. Não foi feito
+  porque mexe no arquivo que o cliente aprovou — vale combinar antes.
 
 ## Contato
 
@@ -60,6 +63,25 @@ os 9 pontos de contato do site — 6 na home, 3 na listagem do blog e 4 no post.
 O número chegou do projeto original como `5511999999999`, nove noves: um exemplo
 que nunca foi trocado. Foi substituído pelo número real do consultório. A
 mensagem pré-preenchida foi mantida exatamente como estava.
+
+## SEO
+
+Cada rota declara o seu `canonical` e `og:url` — home, `/blog` e cada post.
+Eles **não** ficam no `__root.tsx`: lá valeriam para o site inteiro e diriam ao
+Google que o blog e todos os posts são cópias da home, o que os tiraria do
+índice.
+
+Há dados estruturados em JSON-LD: `Physician` na home e `Article` em cada post.
+Os posts não têm data no conteúdo, então `datePublished` fica de fora em vez de
+ser inventado; se as datas forem adicionadas a `src/content/blog.ts`, vale
+incluir.
+
+`public/sitemap.xml` lista as 5 URLs e precisa ser atualizado quando um post
+novo entrar. `public/robots.txt` aponta para ele.
+
+Os favicons foram gerados a partir de `src/assets/symbol-rahal.png` — o site não
+tinha nenhum. O `apple-touch-icon` leva fundo azul-marinho da marca porque o iOS
+não respeita transparência e compõe sobre branco, onde o dourado sumiria.
 
 ## Notas da migração (Lovable → Vercel)
 

@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { BlogShell } from "@/components/BlogShell";
 import { Reveal } from "@/components/Reveal";
 import { posts, isPublished } from "@/content/blog";
+import { siteUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/blog/")({
   head: () => ({
@@ -19,8 +20,10 @@ export const Route = createFileRoute("/blog/")({
           "Informação confiável sobre nódulos de tireoide, ablação por radiofrequência e escolha consciente de tratamento.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: siteUrl("/blog") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: siteUrl("/blog") }],
   }),
   component: BlogIndex,
 });

@@ -3,7 +3,7 @@ import { BlogShell } from "@/components/BlogShell";
 import { Reveal } from "@/components/Reveal";
 import { PostBody } from "@/components/PostBody";
 import { getPost, posts, isPublished } from "@/content/blog";
-import { WHATSAPP_URL } from "@/lib/site";
+import { SITE_URL, WHATSAPP_URL, siteUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => {
@@ -11,7 +11,7 @@ export const Route = createFileRoute("/blog/$slug")({
     if (!post) throw notFound();
     return post;
   },
-  head: ({ loaderData }) => {
+  head: ({ loaderData, params }) => {
     const title = loaderData ? `${loaderData.title} | Dr. Antonio Rahal` : "Artigo | Dr. Antonio Rahal";
     const description = loaderData?.lead.slice(0, 158) ?? "Conteúdo sobre tireoide e ablação.";
     return {
@@ -21,7 +21,29 @@ export const Route = createFileRoute("/blog/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: siteUrl(`/blog/${params.slug}`) },
         { name: "twitter:card", content: "summary_large_image" },
+      ],
+      links: [{ rel: "canonical", href: siteUrl(`/blog/${params.slug}`) }],
+      scripts: [
+        {
+          // Sem datePublished: os posts não têm data no conteúdo, e inventar uma
+          // seria afirmar algo falso para o buscador.
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: loaderData?.title ?? "Artigo",
+            description,
+            mainEntityOfPage: siteUrl(`/blog/${params.slug}`),
+            author: { "@type": "Person", name: "Dr. Antonio Rahal" },
+            publisher: {
+              "@type": "Organization",
+              name: "Dr. Antonio Rahal",
+              logo: { "@type": "ImageObject", url: `${SITE_URL}/favicon-192.png` },
+            },
+          }),
+        },
       ],
     };
   },
