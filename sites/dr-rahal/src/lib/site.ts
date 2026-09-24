@@ -1,12 +1,12 @@
-/**
- * ATENÇÃO: o número abaixo é um placeholder — 5511999999999, nove noves. Veio
- * assim do projeto original. Enquanto não for trocado pelo WhatsApp real do
- * consultório, todos os CTAs de contato do site levam a um número inexistente.
- */
-export const WHATSAPP_URL =
-  "https://wa.me/5511999999999?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20consulta%20com%20o%20Dr.%20Rahal";
+/** WhatsApp do consultório, em formato internacional e só dígitos. */
+const WHATSAPP_NUMERO = "5511998109000";
 
-export const INSTAGRAM_URL = "https://www.instagram.com/antoniorahal";
+/** Mensagem que já vai preenchida ao abrir a conversa. */
+const WHATSAPP_MENSAGEM = "Olá, gostaria de agendar uma consulta com o Dr. Rahal";
+
+export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(WHATSAPP_MENSAGEM)}`;
+
+export const INSTAGRAM_URL = "https://www.instagram.com/antoniorahal/";
 
 /**
  * Origem pública do site. og:url, canonical e og:image precisam ser absolutos —

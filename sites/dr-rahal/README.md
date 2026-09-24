@@ -47,14 +47,19 @@ domínio ao projeto e marcando "Redirect to" apontando para o principal.
 
 ## Pendências
 
-- **O WhatsApp é um número de exemplo.** `WHATSAPP_URL` em `src/lib/site.ts`
-  aponta para `5511999999999` — nove noves. Veio assim do projeto original.
-  Enquanto não for trocado, **todos os CTAs de contato levam a um número
-  inexistente**, e eles são o objetivo da página inteira.
 - **Pixel e analytics** ainda não existem no projeto. Quando entrarem, manter os
   IDs em variável de ambiente, não embutidos no código — ver o `CLAUDE.md` da
   raiz do monorepo.
 - O site não tem `sitemap.xml` nem `robots.txt`.
+
+## Contato
+
+O WhatsApp e o Instagram ficam em `src/lib/site.ts`, num lugar só, e alimentam
+os 9 pontos de contato do site — 6 na home, 3 na listagem do blog e 4 no post.
+
+O número chegou do projeto original como `5511999999999`, nove noves: um exemplo
+que nunca foi trocado. Foi substituído pelo número real do consultório. A
+mensagem pré-preenchida foi mantida exatamente como estava.
 
 ## Notas da migração (Lovable → Vercel)
 
