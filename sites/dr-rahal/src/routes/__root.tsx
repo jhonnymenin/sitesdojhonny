@@ -12,6 +12,7 @@ import {
 import appCss from "../styles.css?url";
 import { AmbientAudio } from "@/components/AmbientAudio";
 import { siteUrl } from "@/lib/site";
+import { OpenAiPixel } from "@/components/OpenAiPixel";
 
 function NotFoundComponent() {
   return (
@@ -132,6 +133,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <Outlet />
       <AmbientAudio />
+      <OpenAiPixel />
     </QueryClientProvider>
   );
 }
