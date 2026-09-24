@@ -47,7 +47,7 @@ export const Route = createFileRoute("/")({
             "Há mais de 90 anos promovendo autonomia, inclusão e qualidade de vida para adultos com deficiência intelectual e TEA.",
           url: SITE_URL,
           logo: `${SITE_URL}/favicon-192.png`,
-          image: `${SITE_URL}/og-image.png`,
+          image: `${SITE_URL}/og-image.jpg`,
           telephone: "+5511930352436",
           areaServed: { "@type": "City", name: "São Paulo" },
           knowsAbout: [

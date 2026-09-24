@@ -30,6 +30,11 @@ export const Route = createFileRoute("/blog/$slug")({
         // Facebook não resolve URL relativa em og:image, e o post era
         // compartilhado sem imagem nenhuma.
         { property: "og:image", content: siteUrl(loaderData.cover) },
+        // As capas são 1280x800. Declarar as medidas evita o card em branco no
+        // primeiro compartilhamento, antes de o crawler baixar a imagem.
+        { property: "og:image:width", content: "1280" },
+        { property: "og:image:height", content: "800" },
+        { property: "og:image:alt", content: loaderData.title },
         // Sem isto o post herdaria a imagem genérica do site no Twitter/X.
         { name: "twitter:image", content: siteUrl(loaderData.cover) },
         { property: "og:url", content: siteUrl(`/blog/${params.slug}`) },
@@ -38,12 +43,25 @@ export const Route = createFileRoute("/blog/$slug")({
       scripts: [
         {
           type: "application/ld+json",
+          /*
+           * Só o que o próprio post afirma. Falta `datePublished`, que o Google
+           * usa para o resultado rico de Article — os posts não têm data em
+           * lugar nenhum do conteúdo, e inventar uma seria pior que omitir.
+           */
           children: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
             headline: loaderData.title,
             description: loaderData.metaDescription,
             articleSection: loaderData.category,
+            image: siteUrl(loaderData.cover),
+            mainEntityOfPage: siteUrl(`/blog/${params.slug}`),
+            author: { "@type": "NGO", name: "Fundação Dona Paulina de Souza Queiroz" },
+            publisher: {
+              "@type": "NGO",
+              name: "Fundação Dona Paulina de Souza Queiroz",
+              logo: { "@type": "ImageObject", url: siteUrl("/favicon-192.png") },
+            },
           }),
         },
       ],

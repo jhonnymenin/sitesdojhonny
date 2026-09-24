@@ -40,11 +40,20 @@ export const Route = createRootRoute({
       { property: "og:site_name", content: "Fundação Dona Paulina de Souza Queiroz" },
       { property: "og:locale", content: "pt_BR" },
       { property: "og:url", content: SITE_URL },
-      { name: "twitter:card", content: "summary" },
+      // `summary` renderiza a imagem num quadradinho ao lado do texto, e a
+      // nossa é larga (1200x675) — metade dela era cortada.
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Fundação Dona Paulina" },
       { name: "twitter:description", content: "Site Oficial de mais de 90 anos de história da Fundação Dona Paulina | Atendimento personalizado e qualidade para todos." },
-      { property: "og:image", content: siteUrl("/og-image.png") },
-      { name: "twitter:image", content: siteUrl("/og-image.png") },
+      // .jpg e não o .png de 1,1 MB: o WhatsApp desiste de gerar prévia acima
+      // de ~300 KB, então o link era compartilhado sem imagem nenhuma.
+      { property: "og:image", content: siteUrl("/og-image.jpg") },
+      // Declarar as medidas evita o primeiro compartilhamento sair em branco:
+      // sem elas o Facebook só monta o card depois de baixar e medir a imagem.
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "675" },
+      { property: "og:image:alt", content: "Fundação Dona Paulina de Souza Queiroz — autonomia, inclusão e qualidade de vida para todos" },
+      { name: "twitter:image", content: siteUrl("/og-image.jpg") },
     ],
     links: [
       // O favicon.ico existia mas não era declarado: o navegador o encontrava
