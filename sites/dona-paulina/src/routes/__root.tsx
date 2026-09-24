@@ -47,6 +47,12 @@ export const Route = createRootRoute({
       { name: "twitter:image", content: siteUrl("/og-image.png") },
     ],
     links: [
+      // O favicon.ico existia mas não era declarado: o navegador o encontrava
+      // sozinho na raiz, e as variantes de alta resolução e de iOS não existiam.
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32.png" },
+      { rel: "icon", type: "image/png", sizes: "192x192", href: "/favicon-192.png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {

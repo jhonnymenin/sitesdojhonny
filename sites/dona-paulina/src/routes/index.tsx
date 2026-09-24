@@ -29,6 +29,36 @@ export const Route = createFileRoute("/")({
       { property: "og:url", content: SITE_URL },
     ],
     links: [{ rel: "canonical", href: SITE_URL }],
+    scripts: [
+      {
+        /*
+         * Dados estruturados. Só afirma o que o próprio site afirma: nome,
+         * propósito, público atendido, cidade e WhatsApp. Não há endereço, CNPJ
+         * nem redes sociais no conteúdo, então esses campos ficam de fora em vez
+         * de serem inventados.
+         */
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "NGO",
+          name: "Fundação Dona Paulina de Souza Queiroz",
+          alternateName: "Fundação Dona Paulina",
+          description:
+            "Há mais de 90 anos promovendo autonomia, inclusão e qualidade de vida para adultos com deficiência intelectual e TEA.",
+          url: SITE_URL,
+          logo: `${SITE_URL}/favicon-192.png`,
+          image: `${SITE_URL}/og-image.png`,
+          telephone: "+5511930352436",
+          areaServed: { "@type": "City", name: "São Paulo" },
+          knowsAbout: [
+            "Deficiência intelectual",
+            "Transtorno do Espectro Autista",
+            "Inclusão de adultos com deficiência",
+            "Empregabilidade assistida",
+          ],
+        }),
+      },
+    ],
   }),
 });
 

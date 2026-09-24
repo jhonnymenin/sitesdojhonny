@@ -26,7 +26,12 @@ export const Route = createFileRoute("/blog/$slug")({
         { property: "og:title", content: loaderData.title },
         { property: "og:description", content: loaderData.metaDescription },
         { property: "og:type", content: "article" },
-        { property: "og:image", content: loaderData.cover },
+        // Absoluto, e não o caminho que o Vite gera: crawler de WhatsApp e
+        // Facebook não resolve URL relativa em og:image, e o post era
+        // compartilhado sem imagem nenhuma.
+        { property: "og:image", content: siteUrl(loaderData.cover) },
+        // Sem isto o post herdaria a imagem genérica do site no Twitter/X.
+        { name: "twitter:image", content: siteUrl(loaderData.cover) },
         { property: "og:url", content: siteUrl(`/blog/${params.slug}`) },
       ],
       links: [{ rel: "canonical", href: siteUrl(`/blog/${params.slug}`) }],

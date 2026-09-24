@@ -56,8 +56,23 @@ O domínio público fica em **um lugar só**: `SITE_URL` em `src/lib/site.ts`.
 O helper `siteUrl(path)` monta as URLs absolutas de `og:url`, `canonical` e
 `og:image` nas três rotas. **Se o domínio mudar, altere apenas esse arquivo.**
 
-O post do blog emite JSON-LD (`Article`). A home ainda não tem dados
-estruturados — um schema `NGO`/`Organization` ali ajudaria na busca.
+Há JSON-LD em todas as páginas: `NGO` na home e `Article` em cada post. O schema
+da home só afirma o que o próprio site afirma — não há endereço, CNPJ nem redes
+sociais no conteúdo, então esses campos ficam de fora em vez de serem inventados.
+
+`public/sitemap.xml` lista as 5 URLs e precisa ser atualizado quando um post novo
+entrar; `public/robots.txt` aponta para ele.
+
+O `favicon.ico` existia mas não era declarado — o navegador o encontrava sozinho
+na raiz, e as variantes de alta resolução e de iOS não existiam. Agora há
+`favicon-32`, `favicon-192` e `apple-touch-icon`, este com fundo branco porque o
+iOS compõe sobre branco e recorta mal ícones transparentes.
+
+**Correção importante:** o `og:image` dos posts era o caminho relativo que o Vite
+gera (`/assets/blog-cover-1-…webp`). Crawler de WhatsApp e Facebook não resolve
+URL relativa, então **todo post compartilhado aparecia sem imagem**. Agora sai
+absoluto, junto com o `twitter:image` por post — sem ele, o post herdaria a
+imagem genérica do site no Twitter/X.
 
 ## Arquivos pesados
 
