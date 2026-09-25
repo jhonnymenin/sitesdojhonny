@@ -8,6 +8,7 @@ import {
 import { FloatingWhats } from "@/components/landing/FloatingWhats";
 import { LeadModal } from "@/components/landing/LeadModal";
 import { SITE_URL } from "@/lib/site";
+import { EMAIL, ENDERECO, TELEFONE_FIXO_E164 } from "@/lib/contato";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -48,7 +49,19 @@ export const Route = createFileRoute("/")({
           url: SITE_URL,
           logo: `${SITE_URL}/favicon-192.png`,
           image: `${SITE_URL}/og-image.jpg`,
-          telephone: "+5511930352436",
+          telephone: TELEFONE_FIXO_E164,
+          email: EMAIL,
+          // O endereço veio da página /contato/ do WordPress anterior da própria
+          // Fundação, recuperada do Internet Archive. Antes o JSON-LD não tinha
+          // endereço nenhum, e sem ele o Google não trata a página como um lugar.
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: ENDERECO.logradouro,
+            addressLocality: ENDERECO.cidade,
+            addressRegion: ENDERECO.uf,
+            postalCode: ENDERECO.cep,
+            addressCountry: "BR",
+          },
           areaServed: { "@type": "City", name: "São Paulo" },
           knowsAbout: [
             "Deficiência intelectual",

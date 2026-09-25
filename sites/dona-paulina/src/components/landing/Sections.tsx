@@ -2,6 +2,7 @@ import hero1 from "@/assets/hero-1.webp";
 import hero2 from "@/assets/hero-2.webp";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { Link } from "@tanstack/react-router";
+import { EMAIL, ENDERECO, TELEFONE_FIXO, TELEFONE_FIXO_E164, WHATSAPP_LEGIVEL } from "@/lib/contato";
 import Autoplay from "embla-carousel-autoplay";
 import { useRef } from "react";
 import instalacao1 from "@/assets/instalacao-1.webp";
@@ -1009,6 +1010,7 @@ export function Closing() {
     { l: "Blog", h: "/blog", internal: true },
     { l: "Vagas", h: "/#vagas" },
     { l: "Doações", h: "/#doacao" },
+    { l: "Contato", h: "/contato", internal: true },
    ];
    return (
      <footer
@@ -1026,7 +1028,10 @@ export function Closing() {
            <span className="col-span-2 font-display text-base font-semibold text-white mb-1">Navegação</span>
           {nav.map((n) =>
             n.internal ? (
-              <Link key={n.l} to="/blog" className="text-white/70 transition hover:text-primary">
+              // O destino vinha fixo em "/blog", ignorando o n.h. Passava
+              // despercebido porque o Blog era o único item interno do menu;
+              // o Contato, acrescentado depois, caía no blog.
+              <Link key={n.l} to={n.h} className="text-white/70 transition hover:text-primary">
                 {n.l}
               </Link>
             ) : (
@@ -1038,11 +1043,25 @@ export function Closing() {
          </nav>
          <div className="flex flex-col gap-3 text-sm text-white/70">
            <span className="font-display text-base font-semibold text-white">Contato</span>
-           <span>São Paulo — SP</span>
-           <a href={WHATS} target="_blank" rel="noopener noreferrer" className="hover:text-primary">
-             WhatsApp: +55 11 93035-2436
+           {/*
+             Antes aqui só dizia "São Paulo — SP". O endereço completo e o
+             telefone fixo saíram da página /contato/ do site anterior da própria
+             Fundação — quem chega pelo rodapé consegue ir até lá ou ligar.
+           */}
+           <address className="not-italic leading-relaxed">
+             {ENDERECO.logradouro}
+             <br />
+             {ENDERECO.bairro} — {ENDERECO.cidade}/{ENDERECO.uf}
+             <br />
+             CEP {ENDERECO.cep}
+           </address>
+           <a href={`tel:${TELEFONE_FIXO_E164}`} className="hover:text-primary">
+             {TELEFONE_FIXO}
            </a>
-           <a href="mailto:fdpsq@fdpsq.org.br" className="hover:text-primary">fdpsq@fdpsq.org.br</a>
+           <a href={WHATS} target="_blank" rel="noopener noreferrer" className="hover:text-primary">
+             WhatsApp: {WHATSAPP_LEGIVEL}
+           </a>
+           <a href={`mailto:${EMAIL}`} className="hover:text-primary">{EMAIL}</a>
            <div className="mt-2 flex gap-3">
              {["Instagram", "Facebook", "YouTube", "WhatsApp"].map((s) => (
                <a

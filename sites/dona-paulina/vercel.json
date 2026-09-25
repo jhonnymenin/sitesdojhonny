@@ -3,5 +3,58 @@
   "framework": null,
   "buildCommand": "npm run build",
   "installCommand": "npm install",
-  "outputDirectory": ".vercel/output"
+  "outputDirectory": ".vercel/output",
+  "redirects": [
+    { "source": "/contato/", "destination": "/contato", "permanent": true },
+
+    { "source": "/quem-somos", "destination": "/#quem-somos", "permanent": true },
+    { "source": "/quem-somos/", "destination": "/#quem-somos", "permanent": true },
+    { "source": "/missao", "destination": "/#missao", "permanent": true },
+    { "source": "/missao/", "destination": "/#missao", "permanent": true },
+    { "source": "/nossos-programas", "destination": "/#programas", "permanent": true },
+    { "source": "/nossos-programas/", "destination": "/#programas", "permanent": true },
+    { "source": "/nossas-instalacoes", "destination": "/#programas", "permanent": true },
+    { "source": "/nossas-instalacoes/", "destination": "/#programas", "permanent": true },
+    { "source": "/parceiros", "destination": "/#quem-somos", "permanent": true },
+    { "source": "/parceiros/", "destination": "/#quem-somos", "permanent": true },
+
+    { "source": "/historico", "destination": "/#historia", "permanent": true },
+    { "source": "/historico/", "destination": "/#historia", "permanent": true },
+    { "source": "/historico/relatorio-de-atividades", "destination": "/#relatorios", "permanent": true },
+    { "source": "/historico/relatorio-de-atividades/", "destination": "/#relatorios", "permanent": true },
+    { "source": "/historico/:resto*", "destination": "/#historia", "permanent": true },
+    { "source": "/testamento", "destination": "/#historia", "permanent": true },
+    { "source": "/testamento/", "destination": "/#historia", "permanent": true },
+    {
+      "source": "/futuro-da-fundacao-dona-paulina-de-souza-queiroz",
+      "destination": "/#historia",
+      "permanent": true
+    },
+    {
+      "source": "/futuro-da-fundacao-dona-paulina-de-souza-queiroz/",
+      "destination": "/#historia",
+      "permanent": true
+    },
+
+    { "source": "/fotos", "destination": "/", "permanent": true },
+    { "source": "/fotos/", "destination": "/", "permanent": true },
+    { "source": "/fotos-2", "destination": "/", "permanent": true },
+    { "source": "/fotos-2/", "destination": "/", "permanent": true },
+    { "source": "/filmes", "destination": "/", "permanent": true },
+    { "source": "/filmes/", "destination": "/", "permanent": true },
+
+    { "source": "/eventos", "destination": "/blog", "permanent": true },
+    { "source": "/eventos/", "destination": "/blog", "permanent": true },
+
+    { "source": "/:ano(\\d{4})/:mes(\\d{2})/:dia(\\d{2})/:resto*", "destination": "/blog", "permanent": true },
+    { "source": "/category/:resto*", "destination": "/blog", "permanent": true },
+    { "source": "/tag/:resto*", "destination": "/blog", "permanent": true },
+    { "source": "/author/:resto*", "destination": "/blog", "permanent": true },
+    { "source": "/feed", "destination": "/blog", "permanent": true },
+    { "source": "/feed/", "destination": "/blog", "permanent": true },
+    { "source": "/:resto*/feed", "destination": "/blog", "permanent": true },
+    { "source": "/:resto*/feed/", "destination": "/blog", "permanent": true },
+    { "source": "/:resto*/embed", "destination": "/", "permanent": true },
+    { "source": "/:resto*/embed/", "destination": "/", "permanent": true }
+  ]
 }
