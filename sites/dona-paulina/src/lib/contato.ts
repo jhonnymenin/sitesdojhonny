@@ -23,10 +23,17 @@ export const WHATSAPP_LEGIVEL = "+55 11 93035-2436";
 
 export const ENDERECO = {
   logradouro: "Av. Vereador José Diniz, 2436",
+  // A Fundação sempre se descreveu como Brooklin, e é assim que a região é
+  // conhecida; nos Correios a mesma faixa consta como Santo Amaro. Mantido
+  // Brooklin no texto, que é o que a pessoa reconhece, com o CEP correto.
   bairro: "Brooklin",
   cidade: "São Paulo",
   uf: "SP",
-  cep: "04604-006",
+  // 04604-004, e não o 04604-006 que estava na página antiga da Fundação.
+  // Pelos Correios (ViaCEP), o 04604-006 cobre os números 3292–3530 da avenida;
+  // o 2436 cai na faixa 2302–2690, que é o 04604-004. O site antigo publicava o
+  // CEP errado — conferido na base oficial, não copiado de diretório.
+  cep: "04604-004",
 } as const;
 
 export const ENDERECO_LINHA = `${ENDERECO.logradouro} — ${ENDERECO.bairro}, ${ENDERECO.cidade} — ${ENDERECO.uf}, CEP ${ENDERECO.cep}`;
