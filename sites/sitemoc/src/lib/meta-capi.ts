@@ -72,6 +72,31 @@ function validar(entrada: unknown): EntradaCapi {
   };
 }
 
+/**
+ * IP de quem está acessando.
+ *
+ * `getRequestIP` voltou vazio na Vercel, e o Meta **recusa o evento inteiro** se
+ * não houver IP — user-agent sozinho não satisfaz o requisito de dado de
+ * identificação. Por isso a busca é manual e em cascata pelos cabeçalhos que a
+ * Vercel põe na requisição.
+ *
+ * O `x-forwarded-for` vem como lista separada por vírgula, do cliente até o
+ * último proxy; o primeiro item é o visitante. Pegar o último pegaria o IP da
+ * própria infraestrutura e estragaria o match.
+ */
+function ipDoVisitante(): string | undefined {
+  const encadeado = getRequestHeader("x-forwarded-for");
+  if (encadeado) {
+    const primeiro = encadeado.split(",")[0]?.trim();
+    if (primeiro) return primeiro;
+  }
+  for (const cabecalho of ["x-vercel-forwarded-for", "x-real-ip", "cf-connecting-ip"]) {
+    const valor = getRequestHeader(cabecalho);
+    if (valor) return valor.split(",")[0]?.trim();
+  }
+  return getRequestIP({ xForwardedFor: true });
+}
+
 export const enviarEventoCapi = createServerFn({ method: "POST" })
   .inputValidator(validar)
   .handler(async ({ data }) => {
@@ -81,8 +106,16 @@ export const enviarEventoCapi = createServerFn({ method: "POST" })
     // navegador continua funcionando sozinho.
     if (token === "") return { enviado: false, motivo: "sem token" };
 
-    const ip = getRequestIP({ xForwardedFor: true });
+    const ip = ipDoVisitante();
     const userAgent = getRequestHeader("user-agent");
+
+    // O Meta recusa o evento inteiro quando não há nenhum dado de identificação,
+    // e user-agent sozinho não conta. Sem IP não adianta gastar a chamada: o
+    // pixel do navegador continua medindo por conta dele.
+    if (!ip) {
+      console.error("[CAPI] sem IP do visitante — evento não enviado");
+      return { enviado: false, motivo: "sem ip" };
+    }
 
     const evento: Record<string, unknown> = {
       event_name: data.nome,
