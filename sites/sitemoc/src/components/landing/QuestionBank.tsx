@@ -1,7 +1,7 @@
 import { ClipboardList, CheckCircle2 } from "lucide-react";
 import banner from "@/assets/banner-banco-questoes.png";
 import { Chip, CourseName, CtaButton, Reveal } from "./primitives";
-import { checkoutUrl } from "@/lib/checkout";
+import { PRICING_ANCHOR } from "@/lib/checkout";
 
 const STEPS = [
   "Responda à questão",
@@ -107,7 +107,9 @@ export function QuestionBank() {
           `questionBank` em src/lib/checkout.ts e voltar com o botão próprio.
         */}
         <Reveal className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <CtaButton href={checkoutUrl("comboCompleto", "banco-questoes")} className="w-full sm:w-auto">
+          {/* Item 6 do PDF: passa a rolar até o lote atual em vez de ir ao
+            checkout — a pessoa compara as três opções antes de escolher. */}
+          <CtaButton href={PRICING_ANCHOR} className="w-full sm:w-auto">
             Quero o Combo Completo
           </CtaButton>
           <CtaButton href="#inscricao" variant="outline" className="w-full sm:w-auto">

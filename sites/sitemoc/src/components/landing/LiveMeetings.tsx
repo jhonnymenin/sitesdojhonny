@@ -1,6 +1,6 @@
 import { Radio } from "lucide-react";
 import { Chip, CtaButton, Reveal, Section, SectionTitle } from "./primitives";
-import { PRICING_ANCHOR } from "@/lib/checkout";
+import { checkoutUrl } from "@/lib/checkout";
 
 const MEETINGS = [
   "Encontro 1",
@@ -47,7 +47,9 @@ export function LiveMeetings() {
       </ol>
 
       <Reveal className="mt-8">
-        <CtaButton href={PRICING_ANCHOR} className="w-full sm:w-auto">
+        {/* O MOC pediu que este vá direto ao checkout do combo de 2 cursos
+            (item 4 do PDF de 29/09), e não mais à tabela de preços. */}
+        <CtaButton href={checkoutUrl("comboIntensivo", "encontros")} className="w-full sm:w-auto">
           Garantir acesso aos encontros
         </CtaButton>
       </Reveal>

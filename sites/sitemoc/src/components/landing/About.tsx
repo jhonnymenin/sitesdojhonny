@@ -9,7 +9,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { CtaButton, Reveal, Section, SectionTitle } from "./primitives";
-import { PRICING_ANCHOR } from "@/lib/checkout";
+import { checkoutUrl } from "@/lib/checkout";
 
 const RECEIVES = [
   { icon: PlayCircle, text: "Cerca de 140 aulas cobrindo as áreas da oncologia" },
@@ -47,7 +47,8 @@ export function About() {
       </ul>
 
       <Reveal className="mt-8">
-        <CtaButton href={PRICING_ANCHOR} className="w-full sm:w-auto">
+        {/* Item 5 do PDF: vai direto ao checkout do combo de 2 cursos. */}
+        <CtaButton href={checkoutUrl("comboIntensivo", "sobre")} className="w-full sm:w-auto">
           Realizar a inscrição
         </CtaButton>
       </Reveal>

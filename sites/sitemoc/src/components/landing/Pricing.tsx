@@ -33,8 +33,13 @@ const INCLUDED = [
  * Evolução dos lotes. Os valores são os que o checkout cobra, não uma conta
  * feita aqui: a plataforma aplica o desconto linear sobre o combo inteiro.
  *
- * Conferidos abrindo o carrinho: 30PUBLI → R$ 2.659,30, 15PUBLI → R$ 3.229,15,
- * 30MOC → R$ 2.030,00, e o valor cheio do combo completo R$ 3.799,00.
+ * Conferidos abrindo o carrinho em 29/09/2026 com o cupom vigente 30REDES:
+ * combo completo → R$ 2.729,00, combo de 2 cursos → R$ 2.030,00, e o valor cheio
+ * do combo completo R$ 3.799,00.
+ *
+ * O 30REDES tira R$ 1.070 fixos do combo completo, não 30% — por isso ele custa
+ * R$ 2.729,00 e não os R$ 2.659,30 que o cupom anterior dava. O valor aqui é o
+ * que a plataforma cobra, não uma conta feita nesta página.
  *
  * A linha de outubro do Combo MOC (R$ 2.465,00) é projeção: é 15% sobre
  * R$ 2.900, mas o MOC ainda não criou o cupom desse lote. Conferir quando criar.
@@ -44,11 +49,11 @@ const INCLUDED = [
  */
 const LOTS = [
   {
-    period: "Lançamento — 30% de desconto",
+    period: "Lançamento — até 30% de desconto",
     detail: "De 1º a 30 de setembro.",
     intensivo: "R$ 2.030,00",
-    oncoia: "R$ 629,30",
-    total: "R$ 2.659,30",
+    oncoia: "R$ 699,00",
+    total: "R$ 2.729,00",
     current: true,
   },
   {
@@ -74,7 +79,8 @@ const COLUNAS = ["Lote", "Intensivo + Banco", "Acréscimo do Onco IA", "Combo co
 /*
  * As três opções de compra da seção. Os valores são os que o carrinho da EAD Plataforma
  * cobra com o cupom do lote vigente — conferidos abrindo cada checkout. Ao trocar
- * de lote, atualizar aqui e o cupom em src/lib/checkout.ts.
+ * de lote ou de cupom, atualizar aqui e em src/lib/checkout.ts: os dois têm que
+ * mudar juntos, senão a página anuncia um valor e o carrinho cobra outro.
  */
 const OFFERS = [
   {
@@ -83,9 +89,9 @@ const OFFERS = [
     name: "Combo completo",
     includes: "X Curso Intensivo de Oncologia + Banco de Questões + Onco IA.",
     from: "De R$ 3.799,00",
-    price: "R$ 2.659",
-    cents: ",30",
-    installments: "ou 2x de R$ 1.329,65",
+    price: "R$ 2.729",
+    cents: ",00",
+    installments: "ou 2x de R$ 1.364,50",
     cta: "Garantir o combo completo",
     featured: true,
   },
@@ -154,7 +160,13 @@ export function Pricing() {
           className="pointer-events-none absolute inset-x-10 -inset-y-6 rounded-lg bg-cyan/20 blur-[90px]"
         />
         <div className="glass glow-cyan relative rounded-lg p-6 sm:p-8 md:p-10">
-          <Chip>Lote atual • Lançamento 30% OFF</Chip>
+          {/*
+            "até 30%", e não "30%": com o cupom 30REDES o combo de 2 cursos tem
+            os 30% cheios, mas o combo completo fica em 28,17% — o cupom tira
+            R$ 1.070 fixos, não um percentual. Afirmar 30% seco seria anunciar um
+            desconto que o carrinho não dá no produto principal.
+          */}
+          <Chip>Lote atual • Lançamento até 30% OFF</Chip>
           <SectionTitle className="mt-5 max-w-2xl">
             Garanta a sua inscrição com desconto exclusivo
           </SectionTitle>

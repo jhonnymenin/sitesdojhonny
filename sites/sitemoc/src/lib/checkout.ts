@@ -43,16 +43,31 @@ const CHECKOUT_HOST = "https://cursosmocbrasil.eadplataforma.app";
  * **O MOC troca os cupons de tempos em tempos.** Antes de cada campanha, abrir a
  * URL e conferir se o desconto ainda aplica — o carrinho mostra o percentual.
  *
- * Cupons conhecidos em 23/09/2026:
- *   30PUBLI — 30% no combo 16 → R$ 2.659,30  (lote de lançamento, em uso)
- *   15PUBLI — 15% no combo 16 → R$ 3.229,15  (lote de outubro)
- *   30MOC   — 30% no combo 20 → R$ 2.030,00  (lote de lançamento, em uso)
+ * **Cupom vigente: 30REDES**, pedido pelo MOC em 29/09/2026.
+ *
+ * Atenção ao combo completo: o 30REDES **não é 30%** nele. Conferido abrindo o
+ * carrinho, ele tira R$ 1.070 fixos de R$ 3.799 — dá R$ 2.729,00, ou 28,17%. O
+ * cupom anterior (30PUBLI) dava os 30% cheios, R$ 2.659,30. O preço exibido no
+ * Pricing.tsx foi alinhado ao que o checkout cobra; se o MOC corrigir o cupom
+ * para 30% de verdade, os dois lugares mudam juntos.
+ *
+ * No combo de 2 cursos o 30REDES dá 30% certinho: R$ 2.030,00, igual ao 30MOC.
+ *
+ * **O Banco de Questões avulso não aceita cupom por URL.** A plataforma só lê
+ * cupom no caminho para combos: /checkout/curso/37/30REDES responde /not-found.
+ * O MOC pediu o cupom nele (item 11 do PDF), mas isso depende deles — ou criando
+ * um combo de um produto só, ou deixando o desconto automático no curso.
+ *
+ * Cupons conferidos em 29/09/2026, abrindo o carrinho com sessão limpa:
+ *   30REDES — combo 16 → R$ 2.729,00 (28,17%)   | combo 20 → R$ 2.030,00 (30%)
+ *   30PUBLI — combo 16 → R$ 2.659,30 (30%)      [anterior]
+ *   30MOC   — combo 20 → R$ 2.030,00 (30%)      [anterior]
  */
 const DESTINOS: Record<Product, string> = {
-  /** Combo 16: X Curso Intensivo + Banco de Questões + ONCO IA — de R$ 3.799. */
-  comboCompleto: `${CHECKOUT_HOST}/checkout/combo/16/30PUBLI`,
-  /** Combo 20: X Curso Intensivo + Banco de Questões, sem ONCO IA — de R$ 2.900. */
-  comboIntensivo: `${CHECKOUT_HOST}/checkout/combo/20/30MOC`,
+  /** Combo 16: X Curso Intensivo + Banco de Questões + ONCO IA — de R$ 3.799 por R$ 2.729. */
+  comboCompleto: `${CHECKOUT_HOST}/checkout/combo/16/30REDES`,
+  /** Combo 20: X Curso Intensivo + Banco de Questões, sem ONCO IA — de R$ 2.900 por R$ 2.030. */
+  comboIntensivo: `${CHECKOUT_HOST}/checkout/combo/20/30REDES`,
   /** Banco de Questões avulso — R$ 510 sem desconto, ou 2x de R$ 255. */
   bancoQuestoes: `${CHECKOUT_HOST}/curso/banco-de-questoes-2026`,
 };
