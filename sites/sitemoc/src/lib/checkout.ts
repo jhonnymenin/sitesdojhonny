@@ -53,10 +53,10 @@ const CHECKOUT_HOST = "https://cursosmocbrasil.eadplataforma.app";
  *
  * No combo de 2 cursos o 30REDES dá 30% certinho: R$ 2.030,00, igual ao 30MOC.
  *
- * **O Banco de Questões avulso não aceita cupom por URL.** A plataforma só lê
- * cupom no caminho para combos: /checkout/curso/37/30REDES responde /not-found.
- * O MOC pediu o cupom nele (item 11 do PDF), mas isso depende deles — ou criando
- * um combo de um produto só, ou deixando o desconto automático no curso.
+ * O Banco de Questões avulso segue **sem cupom**, e agora por decisão do MOC: a
+ * primeira versão do PDF pedia 30REDES nele, mas a plataforma só lê cupom no
+ * caminho para combos (/checkout/curso/37/30REDES responde /not-found). O PDF
+ * revisado aponta para a página do curso em cursos.mocbrasil.com.
  *
  * Cupons conferidos em 29/09/2026, abrindo o carrinho com sessão limpa:
  *   30REDES — combo 16 → R$ 2.729,00 (28,17%)   | combo 20 → R$ 2.030,00 (30%)
@@ -68,8 +68,13 @@ const DESTINOS: Record<Product, string> = {
   comboCompleto: `${CHECKOUT_HOST}/checkout/combo/16/30REDES`,
   /** Combo 20: X Curso Intensivo + Banco de Questões, sem ONCO IA — de R$ 2.900 por R$ 2.030. */
   comboIntensivo: `${CHECKOUT_HOST}/checkout/combo/20/30REDES`,
-  /** Banco de Questões avulso — R$ 510 sem desconto, ou 2x de R$ 255. */
-  bancoQuestoes: `${CHECKOUT_HOST}/curso/banco-de-questoes-2026`,
+  /**
+   * Banco de Questões avulso — R$ 510 sem desconto, ou 2x de R$ 255.
+   *
+   * Vai para `cursos.mocbrasil.com`, **outro domínio** que o resto: é a URL que
+   * o MOC mandou no PDF revisado. Não usa CHECKOUT_HOST de propósito.
+   */
+  bancoQuestoes: "https://cursos.mocbrasil.com/curso/banco-de-questoes-2026",
 };
 
 /**
