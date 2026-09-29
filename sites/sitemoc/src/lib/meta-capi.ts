@@ -118,20 +118,11 @@ export const enviarEventoCapi = createServerFn({ method: "POST" })
     }
     // Ajuda a diagnosticar de fora: diz de qual cabeçalho o IP veio e se o
     // user-agent chegou, sem expor o IP em si.
-    /*
-     * Impressão digital do token, para descobrir de fora **qual** valor chegou
-     * sem expor o valor. O tamanho sozinho não bastou: sabendo só que tem 204
-     * caracteres, não dá para dizer se foi cortado no fim, no meio, ou se é
-     * outro token. Comparando este hash com o de cada hipótese, dá.
-     */
-    const digestBuf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token));
-    const impressao = Array.from(new Uint8Array(digestBuf))
-      .slice(0, 6)
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
-    const diag = `ip:${ip.includes(":") ? "v6" : "v4"} ua:${userAgent ? "sim" : "não"} token:${token.length}c sha:${impressao}${
-      token !== token.trim() ? " COM-ESPAÇO" : ""
-    }`;
+    // Diagnóstico do que importa para o Meta aceitar o evento: sem IP ele
+    // recusa o envio inteiro. O tamanho e o hash do token saíram daqui depois de
+    // servirem para achar uma colagem truncada — não há por que expor isso numa
+    // resposta pública em regime normal.
+    const diag = `ip:${ip.includes(":") ? "v6" : "v4"} ua:${userAgent ? "sim" : "não"}`;
 
     const evento: Record<string, unknown> = {
       event_name: data.nome,
