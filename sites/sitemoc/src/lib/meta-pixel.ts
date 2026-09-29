@@ -47,6 +47,17 @@ export function pixelEnabled(): boolean {
   return idParaEsteAmbiente() !== "";
 }
 
+/**
+ * Identificador único do evento, compartilhado com a Conversions API.
+ *
+ * É o que permite ao Meta perceber que o evento do navegador e o do servidor são
+ * o mesmo e contar uma vez só. Sem ele, cada conversão contaria em dobro.
+ */
+export function novoEventId(): string {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) return crypto.randomUUID();
+  return `evt_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+}
+
 type FbqFn = ((...args: unknown[]) => void) & {
   queue?: unknown[];
   callMethod?: (...args: unknown[]) => void;
@@ -61,6 +72,10 @@ declare global {
     _fbq?: FbqFn;
   }
 }
+
+/** O event_id do PageView desta visita, para o servidor mandar o mesmo. */
+let pageViewEventId = "";
+export const obterPageViewEventId = () => pageViewEventId;
 
 /** Injeta o snippet oficial uma única vez. Seguro para chamar mais de uma vez. */
 export function initMetaPixel(): void {
@@ -84,7 +99,8 @@ export function initMetaPixel(): void {
   document.head.appendChild(script);
 
   fbq("init", id);
-  fbq("track", "PageView");
+  pageViewEventId = novoEventId();
+  fbq("track", "PageView", {}, { eventID: pageViewEventId });
 }
 
 /**
@@ -95,19 +111,22 @@ export function initMetaPixel(): void {
  * e o cupom já montados. A compra em si acontece fora do nosso domínio, então
  * `Purchase` não tem como sair daqui — teria que vir da plataforma do MOC.
  */
-export function trackInitiateCheckout(dados?: { produto?: string; valor?: number }): void {
+export function trackInitiateCheckout(
+  dados: { produto?: string; valor?: number; eventId: string },
+): void {
   if (typeof window === "undefined" || !pixelEnabled()) return;
-  window.fbq?.("track", "InitiateCheckout", {
-    content_name: dados?.produto,
-    value: dados?.valor,
-    currency: "BRL",
-  });
+  window.fbq?.(
+    "track",
+    "InitiateCheckout",
+    { content_name: dados.produto, value: dados.valor, currency: "BRL" },
+    { eventID: dados.eventId },
+  );
 }
 
 /** Clique num botão de WhatsApp: é o contato comercial, não a compra. */
-export function trackContact(): void {
+export function trackContact(eventId: string): void {
   if (typeof window === "undefined" || !pixelEnabled()) return;
-  window.fbq?.("track", "Contact");
+  window.fbq?.("track", "Contact", {}, { eventID: eventId });
 }
 
 /**
@@ -118,12 +137,14 @@ export function trackContact(): void {
  * valores demonstrou interesse real, e é esse público que vale mandar para o
  * Meta otimizar.
  */
-export function trackViewContent(): void {
+export function trackViewContent(eventId: string): void {
   if (typeof window === "undefined" || !pixelEnabled()) return;
-  window.fbq?.("track", "ViewContent", {
-    content_name: "Seção de investimento",
-    content_category: "Preços",
-  });
+  window.fbq?.(
+    "track",
+    "ViewContent",
+    { content_name: "Seção de investimento", content_category: "Preços" },
+    { eventID: eventId },
+  );
 }
 
 /**
@@ -138,12 +159,18 @@ export function trackOfertaSelecionada(dados: {
   produto: string;
   valor: number;
   plano: string;
+  eventId: string;
 }): void {
   if (typeof window === "undefined" || !pixelEnabled()) return;
-  window.fbq?.("trackCustom", "OfertaSelecionada", {
-    produto: dados.produto,
-    valor: dados.valor,
-    plano: dados.plano,
-    currency: "BRL",
-  });
+  window.fbq?.(
+    "trackCustom",
+    "OfertaSelecionada",
+    {
+      produto: dados.produto,
+      valor: dados.valor,
+      plano: dados.plano,
+      currency: "BRL",
+    },
+    { eventID: dados.eventId },
+  );
 }

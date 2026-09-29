@@ -1,11 +1,15 @@
 import { useEffect } from "react";
 import {
   initMetaPixel,
+  novoEventId,
+  obterPageViewEventId,
+  pixelEnabled,
   trackContact,
   trackInitiateCheckout,
   trackOfertaSelecionada,
   trackViewContent,
 } from "@/lib/meta-pixel";
+import { enviarEventoCapi, type EntradaCapi } from "@/lib/meta-capi";
 import { PRICING_ANCHOR } from "@/lib/checkout";
 
 /*
@@ -23,7 +27,25 @@ function produtoDoLink(href: string): { produto: string; valor: number } {
 }
 
 /**
- * Carrega o Meta Pixel e mede as conversões da landing.
+ * Manda o mesmo evento pelo servidor, com o mesmo event_id.
+ *
+ * Dispara e esquece, de propósito: o clique da pessoa não pode esperar uma
+ * chamada de rede, e uma falha na medição nunca deve atrapalhar a navegação.
+ * O `catch` vazio é intencional — falha de medição não vira erro no console da
+ * pessoa nem quebra a página.
+ */
+function espelharNoServidor(entrada: EntradaCapi): void {
+  if (!pixelEnabled()) return;
+  void enviarEventoCapi({ data: entrada }).catch(() => {});
+}
+
+/**
+ * Carrega o Meta Pixel e mede as conversões da landing, pelos dois caminhos.
+ *
+ * Cada evento sai do navegador (pixel) e do servidor (Conversions API) com o
+ * mesmo `event_id`, e o Meta conta uma vez só. O caminho do servidor existe
+ * porque bloqueador de anúncio e ITP do Safari derrubam boa parte dos eventos do
+ * navegador.
  *
  * Os botões de conversão estão em sete componentes, e o MOC os aprovou print a
  * print. Em vez de pôr um onClick em cada um — mexendo em arquivo revisado por
@@ -37,6 +59,12 @@ export function MetaPixel() {
   useEffect(() => {
     initMetaPixel();
 
+    // O PageView do navegador já saiu dentro do init; aqui vai o par dele.
+    const pageViewId = obterPageViewEventId();
+    if (pageViewId) {
+      espelharNoServidor({ nome: "PageView", eventId: pageViewId, url: location.href });
+    }
+
     const aoClicar = (evento: MouseEvent) => {
       const alvo = evento.target;
       if (!(alvo instanceof Element)) return;
@@ -46,7 +74,9 @@ export function MetaPixel() {
       const href = link.getAttribute("href") ?? "";
 
       if (href.includes("wa.me/")) {
-        trackContact();
+        const eventId = novoEventId();
+        trackContact(eventId);
+        espelharNoServidor({ nome: "Contact", eventId, url: location.href });
         return;
       }
 
@@ -56,16 +86,34 @@ export function MetaPixel() {
       if (!DESTINOS_DE_COMPRA.some((d) => href.includes(d))) return;
 
       const { produto, valor } = produtoDoLink(href);
-      trackInitiateCheckout({ produto, valor });
+
+      const idCheckout = novoEventId();
+      trackInitiateCheckout({ produto, valor, eventId: idCheckout });
+      espelharNoServidor({
+        nome: "InitiateCheckout",
+        eventId: idCheckout,
+        url: location.href,
+        produto,
+        valor,
+      });
 
       // O evento personalizado só nos três cards de preço, que foi o que o MOC
       // pediu. Os outros botões que levam ao checkout ficam só com o padrão:
       // ali a pessoa não escolheu entre as opções, foi levada direto.
       if (link.closest(PRICING_ANCHOR)) {
+        const idOferta = novoEventId();
         trackOfertaSelecionada({
           produto,
           valor,
           plano: link.textContent?.replace(/\s+/g, " ").trim() ?? "",
+          eventId: idOferta,
+        });
+        espelharNoServidor({
+          nome: "OfertaSelecionada",
+          eventId: idOferta,
+          url: location.href,
+          produto,
+          valor,
         });
       }
     };
@@ -84,7 +132,9 @@ export function MetaPixel() {
       observer = new IntersectionObserver(
         (entradas) => {
           if (entradas.some((e) => e.isIntersecting)) {
-            trackViewContent();
+            const eventId = novoEventId();
+            trackViewContent(eventId);
+            espelharNoServidor({ nome: "ViewContent", eventId, url: location.href });
             observer?.disconnect();
           }
         },
