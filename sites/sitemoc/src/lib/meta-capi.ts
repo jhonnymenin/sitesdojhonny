@@ -118,9 +118,18 @@ export const enviarEventoCapi = createServerFn({ method: "POST" })
     }
     // Ajuda a diagnosticar de fora: diz de qual cabeçalho o IP veio e se o
     // user-agent chegou, sem expor o IP em si.
-    // O tamanho do token (só o número) permite conferir de fora se ele foi
-    // truncado ou colado com espaço na variável de ambiente, sem expor o valor.
-    const diag = `ip:${ip.includes(":") ? "v6" : "v4"} ua:${userAgent ? "sim" : "não"} token:${token.length}c${
+    /*
+     * Impressão digital do token, para descobrir de fora **qual** valor chegou
+     * sem expor o valor. O tamanho sozinho não bastou: sabendo só que tem 204
+     * caracteres, não dá para dizer se foi cortado no fim, no meio, ou se é
+     * outro token. Comparando este hash com o de cada hipótese, dá.
+     */
+    const digestBuf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token));
+    const impressao = Array.from(new Uint8Array(digestBuf))
+      .slice(0, 6)
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+    const diag = `ip:${ip.includes(":") ? "v6" : "v4"} ua:${userAgent ? "sim" : "não"} token:${token.length}c sha:${impressao}${
       token !== token.trim() ? " COM-ESPAÇO" : ""
     }`;
 
