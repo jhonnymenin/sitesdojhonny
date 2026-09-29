@@ -118,7 +118,11 @@ export const enviarEventoCapi = createServerFn({ method: "POST" })
     }
     // Ajuda a diagnosticar de fora: diz de qual cabeçalho o IP veio e se o
     // user-agent chegou, sem expor o IP em si.
-    const diag = `ip:${ip.includes(":") ? "v6" : "v4"} ua:${userAgent ? "sim" : "não"}`;
+    // O tamanho do token (só o número) permite conferir de fora se ele foi
+    // truncado ou colado com espaço na variável de ambiente, sem expor o valor.
+    const diag = `ip:${ip.includes(":") ? "v6" : "v4"} ua:${userAgent ? "sim" : "não"} token:${token.length}c${
+      token !== token.trim() ? " COM-ESPAÇO" : ""
+    }`;
 
     const evento: Record<string, unknown> = {
       event_name: data.nome,
