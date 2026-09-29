@@ -116,6 +116,9 @@ export const enviarEventoCapi = createServerFn({ method: "POST" })
       console.error("[CAPI] sem IP do visitante — evento não enviado");
       return { enviado: false, motivo: "sem ip" };
     }
+    // Ajuda a diagnosticar de fora: diz de qual cabeçalho o IP veio e se o
+    // user-agent chegou, sem expor o IP em si.
+    const diag = `ip:${ip.includes(":") ? "v6" : "v4"} ua:${userAgent ? "sim" : "não"}`;
 
     const evento: Record<string, unknown> = {
       event_name: data.nome,
@@ -153,11 +156,16 @@ export const enviarEventoCapi = createServerFn({ method: "POST" })
       if (!resposta.ok) {
         // Só a mensagem, nunca o corpo inteiro: a resposta de erro do Graph
         // ecoa parte da requisição, e o log da Vercel é lido por mais gente.
-        const erro = corpo["error"] as { message?: string } | undefined;
-        console.error("[CAPI] Meta recusou o evento:", erro?.message ?? resposta.status);
-        return { enviado: false, motivo: "recusado" };
+        const erro = corpo["error"] as { message?: string; error_user_msg?: string } | undefined;
+        const detalhe = erro?.error_user_msg ?? erro?.message ?? `HTTP ${resposta.status}`;
+        console.error("[CAPI] Meta recusou o evento:", detalhe);
+        // O detalhe volta para quem chamou porque o log da Vercel exige CLI
+        // autenticado, e sem a mensagem do Meta não dá para saber o que no
+        // payload ele recusou. Não é dado sensível: descreve o payload, nunca
+        // ecoa o token.
+        return { enviado: false, motivo: "recusado", detalhe: detalhe.slice(0, 300), diag };
       }
-      return { enviado: true, recebidos: corpo["events_received"] ?? 0 };
+      return { enviado: true, recebidos: corpo["events_received"] ?? 0, diag };
     } catch (erro) {
       // Medição nunca pode quebrar a página. Se o Meta estiver fora do ar, o
       // clique da pessoa segue normalmente e só o evento se perde.
