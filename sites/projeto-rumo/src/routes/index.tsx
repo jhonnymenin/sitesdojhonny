@@ -14,7 +14,9 @@ import { useReveal } from "@/hooks/use-reveal";
 
 // og:url e canonical precisam ser absolutos — crawlers não resolvem caminhos relativos.
 const SITE_URL = "https://projetorumo.org";
-const WHATSAPP_NUMBER = "5511970687422";
+// WhatsApp do Daniel Candido, para onde vão os três botões de contato do site.
+// Internacional e só dígitos, que é o formato que o wa.me entende.
+const WHATSAPP_NUMBER = "5511972269655";
 const WHATSAPP_SUPPORT_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Olá! Gostaria de apoiar o Projeto Rumo.")}`;
 const WHATSAPP_DONOR_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Olá! Tenho interesse em ser doador(a) do Projeto Rumo.")}`;
 
