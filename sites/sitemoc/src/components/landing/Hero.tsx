@@ -56,7 +56,7 @@ export function Hero() {
           <div className="mt-8 rounded-md border border-cyan/40 bg-cyan/10 p-4 sm:p-5">
             <p className="label-mono text-orange">Condição especial de lançamento</p>
             <p className="mt-2 text-base leading-[1.6] text-foreground">
-              DESCONTO de até 30% até 30 de setembro.
+              DESCONTO de até 30% até 15 de outubro.
             </p>
           </div>
 

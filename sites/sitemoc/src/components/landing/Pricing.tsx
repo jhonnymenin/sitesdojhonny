@@ -50,7 +50,7 @@ const INCLUDED = [
 const LOTS = [
   {
     period: "Lançamento — até 30% de desconto",
-    detail: "De 1º a 30 de setembro.",
+    detail: "De 1º de setembro a 15 de outubro.",
     intensivo: "R$ 2.030,00",
     oncoia: "R$ 699,00",
     total: "R$ 2.729,00",
@@ -58,7 +58,7 @@ const LOTS = [
   },
   {
     period: "Condição especial — 15% de desconto",
-    detail: "De 1º a 31 de outubro.",
+    detail: "De 16 a 31 de outubro.",
     intensivo: "R$ 2.465,00",
     oncoia: "R$ 764,15",
     total: "R$ 3.229,15",
@@ -231,7 +231,7 @@ export function Pricing() {
 
           <p className="label-mono mt-6 flex items-center gap-2 text-muted-foreground">
             <Lock size={14} strokeWidth={1.5} /> Inscrição em ambiente seguro • Condição válida até
-            30 de setembro
+            15 de outubro
           </p>
 
           <ul className="mt-8 grid gap-4 md:hidden">

@@ -19,7 +19,7 @@ import { SITE_URL } from "@/lib/site";
 
 const TITLE = "MOC | X Curso Intensivo de Oncologia";
 const DESCRIPTION =
-  "X Curso Intensivo de Oncologia: cerca de 140 aulas, 5 encontros on-line ao vivo, 1 ano de acesso e certificado MOC. Lançamento com até 30% OFF até 30/09.";
+  "X Curso Intensivo de Oncologia: cerca de 140 aulas, 5 encontros on-line ao vivo, 1 ano de acesso e certificado MOC. Lançamento com até 30% OFF até 15/10.";
 
 export const Route = createFileRoute("/")({
   head: () => ({

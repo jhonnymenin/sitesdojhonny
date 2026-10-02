@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { CtaButton } from "./primitives";
 import { PRICING_ANCHOR } from "@/lib/checkout";
 
-// Encerramento da oferta de lançamento (30% de desconto): 30/09/2026.
-const OFFER_END = new Date("2026-09-30T23:59:59-03:00").getTime();
+// Encerramento da oferta de lançamento (30% de desconto): 15/10/2026.
+// Prorrogado pelo MOC; a data anterior era 30/09.
+const OFFER_END = new Date("2026-10-15T23:59:59-03:00").getTime();
 
 function diff() {
   const ms = Math.max(0, OFFER_END - Date.now());
@@ -31,7 +32,7 @@ export function UrgencyBar() {
       <div className="mx-auto flex w-full max-w-[1280px] items-center justify-center gap-4 px-5 py-2 md:justify-between md:px-10">
         <p className="label-mono text-muted-foreground">
           <span className="font-display font-semibold text-orange">Lançamento | Oferta</span>
-          <span className="hidden md:inline"> · até 30 de setembro</span>
+          <span className="hidden md:inline"> · até 15 de outubro</span>
           {time ? (
             <span className="ml-2 text-foreground">
               {time.d}d {pad(time.h)}:{pad(time.m)}:{pad(time.s)}
