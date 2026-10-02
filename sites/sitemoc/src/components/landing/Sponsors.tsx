@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import logoJohnsonJohnson from "@/assets/sponsors/johnson-johnson.png";
 import logoAstraZeneca from "@/assets/sponsors/astrazeneca.png";
+import logoDaiichiSankyo from "@/assets/sponsors/daiichi-sankyo.png";
 
 /*
  * Patrocinadores (item 2 da revisão).
@@ -8,7 +9,12 @@ import logoAstraZeneca from "@/assets/sponsors/astrazeneca.png";
  * Referência (print 02): marcas empilhadas à direita, cada uma precedida do tipo
  * de patrocínio, com a Diamante maior que a Ouro. É o que `height` controla — a
  * largura sai da proporção de cada arte, e elas são bem diferentes
- * (J&J ≈ 10,7:1, AstraZeneca ≈ 4:1).
+ * (J&J ≈ 10,7:1, Daiichi-Sankyo ≈ 5,8:1, AstraZeneca ≈ 4:1).
+ *
+ * As artes são recortadas na marca, **sem margem no arquivo**. O PNG oficial da
+ * Daiichi vinha com 49% de altura em espaço vazio: na mesma classe de altura das
+ * outras, a marca apareceria com metade do tamanho. As duas marcas Ouro dividem
+ * o mesmo `height` justamente para terem o mesmo peso visual.
  *
  * TRATAMENTO DE COR: os arquivos são os oficiais, em cores de marca. Sobre o
  * azul-marinho do hero, o roxo da AstraZeneca fica ilegível, então as marcas são
@@ -28,6 +34,12 @@ const SPONSORS = [
     tier: "Patrocínio Ouro",
     name: "AstraZeneca",
     logo: logoAstraZeneca,
+    height: "h-7 md:h-8",
+  },
+  {
+    tier: "Patrocínio Ouro",
+    name: "Daiichi-Sankyo",
+    logo: logoDaiichiSankyo,
     height: "h-7 md:h-8",
   },
 ];
