@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { AmbientAudio } from "@/components/AmbientAudio";
 import { siteUrl } from "@/lib/site";
 import { OpenAiPixel } from "@/components/OpenAiPixel";
+import { GoogleTagManager, GoogleTagManagerNoScript } from "@/components/GoogleTagManager";
 
 function NotFoundComponent() {
   return (
@@ -119,6 +120,8 @@ function RootShell({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        {/* O Google pede o noscript do GTM como primeiro elemento do body. */}
+        <GoogleTagManagerNoScript />
         {children}
         <Scripts />
       </body>
@@ -134,6 +137,7 @@ function RootComponent() {
       <Outlet />
       <AmbientAudio />
       <OpenAiPixel />
+      <GoogleTagManager />
     </QueryClientProvider>
   );
 }
