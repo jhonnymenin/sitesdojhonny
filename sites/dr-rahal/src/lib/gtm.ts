@@ -1,3 +1,5 @@
+import { emProducao } from "./dominios";
+
 /*
  * Google Tag Manager.
  *
@@ -12,28 +14,10 @@
  * de outro cliente.
  */
 
+
 /** Container do Dr. Rahal, enviado pelo Victor em 09/10/2026. */
 const CONTAINER_ID = "GTM-5G82TJ49";
 
-/**
- * Domínios em que o GTM pode carregar.
- *
- * São **quatro**, não dois: o site responde no `.com` e no `.com.br`, cada um
- * com o apex devolvendo 308 para o www. O `.com.br` ficou de fora na primeira
- * versão e o GTM simplesmente não carregava lá — quem chegasse por ele ficaria
- * invisível para todas as tags do container, sem erro nenhum aparecendo.
- *
- * Os apex entram na lista mesmo redirecionando: se um dia algum deles passar a
- * servir o site direto, o rastreamento não para em silêncio.
- *
- * Ao acrescentar domínio na Vercel, acrescentar aqui também.
- */
-const HOSTS_DE_PRODUCAO = [
-  "www.drrahaltireoide.com",
-  "drrahaltireoide.com",
-  "www.drrahaltireoide.com.br",
-  "drrahaltireoide.com.br",
-];
 
 /**
  * `VITE_GTM_ID` tem prioridade: serve para testar com um container falso e para
@@ -44,7 +28,7 @@ const ID_DO_ENV = (import.meta.env["VITE_GTM_ID"] as string | undefined) ?? "";
 export function idParaEsteAmbiente(): string {
   if (ID_DO_ENV !== "") return ID_DO_ENV;
   if (typeof window === "undefined") return "";
-  return HOSTS_DE_PRODUCAO.includes(window.location.hostname) ? CONTAINER_ID : "";
+  return emProducao() ? CONTAINER_ID : "";
 }
 
 /** O id que o `<noscript>` precisa renderizar no servidor. Ver GoogleTagManager.tsx. */
