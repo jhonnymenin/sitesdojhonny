@@ -18,11 +18,22 @@ const CONTAINER_ID = "GTM-5G82TJ49";
 /**
  * Domínios em que o GTM pode carregar.
  *
- * O apex responde 308 para o www, mas fica na lista porque quem chega pelo apex
- * recebe o HTML só depois do redirecionamento — e se um dia o apex passar a
- * servir direto, o rastreamento não para silenciosamente.
+ * São **quatro**, não dois: o site responde no `.com` e no `.com.br`, cada um
+ * com o apex devolvendo 308 para o www. O `.com.br` ficou de fora na primeira
+ * versão e o GTM simplesmente não carregava lá — quem chegasse por ele ficaria
+ * invisível para todas as tags do container, sem erro nenhum aparecendo.
+ *
+ * Os apex entram na lista mesmo redirecionando: se um dia algum deles passar a
+ * servir o site direto, o rastreamento não para em silêncio.
+ *
+ * Ao acrescentar domínio na Vercel, acrescentar aqui também.
  */
-const HOSTS_DE_PRODUCAO = ["www.drrahaltireoide.com", "drrahaltireoide.com"];
+const HOSTS_DE_PRODUCAO = [
+  "www.drrahaltireoide.com",
+  "drrahaltireoide.com",
+  "www.drrahaltireoide.com.br",
+  "drrahaltireoide.com.br",
+];
 
 /**
  * `VITE_GTM_ID` tem prioridade: serve para testar com um container falso e para
