@@ -552,50 +552,81 @@ function Committee() {
   );
 }
 
+/*
+ * A agenda é transcrita do PDF "Programação Científica" enviado pela
+ * organização em 12/10/2026. Horários, títulos e nomes seguem o documento;
+ * onde ele diz "a definir", o site também diz.
+ *
+ * `sub` aceita lista porque os casos clínicos da Mesa 5 têm um palestrante por
+ * especialidade — numa linha só, em caixa alta e com o espaçamento da fonte do
+ * site, viraria um bloco ilegível.
+ */
 type AgendaEntry =
   | { kind: "mesa"; title: string; note?: string }
-  | { kind: "item"; time: string; title: string; sub?: string };
+  | { kind: "item"; time: string; title: string; sub?: string | string[] };
 
 function Agenda() {
   const entries: AgendaEntry[] = [
-    { kind: "item", time: "07h30", title: "Credenciamento e Welcome Coffee" },
-    { kind: "item", time: "08h15", title: "Abertura Institucional", sub: "Carlos Cunha, CEO do Grupo CITA, e diretores médicos" },
+    { kind: "item", time: "07h30", title: "Credenciamento e recepção" },
+    { kind: "item", time: "08h00", title: "Abertura institucional" },
+    { kind: "item", time: "08h25", title: "Apresentação do vídeo institucional" },
 
-    { kind: "mesa", title: "Mesa 1 — Integração do Cuidado e Jornada do Paciente" },
-    { kind: "item", time: "08h30", title: "Jornada do Paciente como Instrumento de Eficiência", sub: "Dr. Júlio Moraes" },
-    { kind: "item", time: "08h45", title: "Importância da Integração entre Médico Prescritor e Centro de Terapia Assistida", sub: "Dr. Rafael Carvalho" },
-    { kind: "item", time: "09h00", title: "Acompanhamento de Desfechos e Experiência do Paciente", sub: "Dra. Ana Teresa Amoedo" },
-    { kind: "item", time: "09h15", title: "Discussão" },
-    { kind: "item", time: "09h30", title: "Simpósio Satélite I" },
-    { kind: "item", time: "10h00", title: "Coffee Break" },
+    { kind: "mesa", title: "Mesa 1 — Integração do cuidado e jornada do paciente", note: "Moderador: Dr. Alexandre Ibrahim" },
+    { kind: "item", time: "08h30", title: "A jornada do paciente como instrumento de eficiência no cuidado", sub: "Dr. Júlio Moraes" },
+    { kind: "item", time: "08h45", title: "A importância da integração entre o médico prescritor e o Centro de Terapia Assistida", sub: "Dr. Rafael Carvalho" },
+    { kind: "item", time: "09h00", title: "Acompanhamento de desfechos como medida de eficácia clínica e experiência do paciente", sub: "Dra. Ana Teresa Amoedo" },
+    { kind: "item", time: "09h15", title: "Discussão da mesa", sub: "Katiucia (enfermeira), Eloisa Amoedo (psicóloga) e Carolina Rolim (nutricionista)" },
 
-    { kind: "mesa", title: "Mesa 2 — Hot Topics em Doenças Imunomediadas" },
-    { kind: "item", time: "10h30", title: "Papel dos Exames Genéticos no Diagnóstico e Manejo" },
-    { kind: "item", time: "10h50", title: "Manejo de Comorbidades e Impacto nos Desfechos" },
-    { kind: "item", time: "11h10", title: "Terapia Celular nas Doenças Imunomediadas", sub: "Dr. Henrique Dalmolin" },
-    { kind: "item", time: "11h30", title: "Discussão" },
-    { kind: "item", time: "12h00", title: "Simpósio Satélite II" },
-    { kind: "item", time: "12h30", title: "Simpósio Satélite III" },
-    { kind: "item", time: "13h00", title: "Almoço e Networking" },
+    { kind: "item", time: "09h30", title: "Simpósio satélite 1 — Johnson & Johnson / Tremfya: das articulações ao intestino, o papel da segurança na jornada do paciente crônico", sub: "Dra. Carla Saad e Dra. Genóile Santana" },
+    { kind: "item", time: "10h00", title: "Coffee break e networking" },
 
-    { kind: "mesa", title: "Mesa 3 — Controvérsias em Doenças Imunomediadas" },
-    { kind: "item", time: "14h00", title: "Diagnóstico e Manejo das Imunodeficiências Primárias" },
-    { kind: "item", time: "14h15", title: "Neuroimunologia: Diagnóstico Preciso e Tratamento Precoce", sub: "Dra. Samira Apóstolos" },
-    { kind: "item", time: "14h30", title: "Desafios no Diagnóstico e Manejo da Hidradenite Supurativa" },
-    { kind: "item", time: "14h45", title: "Discussão" },
+    { kind: "mesa", title: "Mesa 2 — Hot topics em doenças imunomediadas", note: "Moderador: Dr. Célio Roberto Gonçalves" },
+    { kind: "item", time: "10h30", title: "O papel dos exames genéticos no diagnóstico e manejo das doenças imunomediadas", sub: "Dr. Antônio Condino" },
+    { kind: "item", time: "10h50", title: "Manejo de comorbidades e impacto nos desfechos das doenças imunomediadas", sub: "Dr. Henrique Ayres" },
+    { kind: "item", time: "11h10", title: "Terapia celular nas doenças imunomediadas", sub: "Dr. Henrique Dalmolin" },
+    { kind: "item", time: "11h30", title: "Discussão da mesa", sub: "Dr. Antônio Condino, Dr. Henrique Ayres e Dr. Henrique Dalmolin" },
 
-    { kind: "mesa", title: "Mesa 4 — Aplicações Clínicas e Decisões Compartilhadas" },
-    { kind: "item", time: "15h00", title: "Do Intestino às Articulações: Individualização do Tratamento" },
-    { kind: "item", time: "15h15", title: "Dermatite Atópica: Impacto do Diagnóstico na Escolha do Tratamento" },
-    { kind: "item", time: "15h30", title: "Lúpus em 2026: Estratégia para Cada Paciente" },
-    { kind: "item", time: "15h45", title: "Discussão" },
-    { kind: "item", time: "16h00", title: "Simpósio Satélite IV" },
-    { kind: "item", time: "16h30", title: "Coffee Break" },
+    { kind: "item", time: "12h00", title: "Simpósio satélite 2 — Eli Lilly", sub: "Tema e palestrante a definir" },
+    { kind: "item", time: "12h30", title: "Simpósio satélite 3 — GSK: janela de oportunidade no tratamento do LES, um caso de vida real", sub: "Dr. Henrique Dalmolin" },
+    { kind: "item", time: "13h00", title: "Almoço e networking" },
 
-    { kind: "mesa", title: "Mesa 5 — Casos Clínicos Interativos", note: "Moderador: Dr. Fernando — EV CITI" },
-    { kind: "item", time: "17h00", title: "Caso Clínico: Gastroenterologia, Dermatologia e Reumatologia" },
-    { kind: "item", time: "17h30", title: "Caso Clínico: Neuroimunologia, Dermatologia, Imunologia e Reumatologia" },
-    { kind: "item", time: "18h00", title: "Mensagens Finais e Encerramento", sub: "Carlos Cunha, CEO do Grupo CITA, e diretores médicos" },
+    { kind: "mesa", title: "Mesa 3 — Controvérsias em doenças imunomediadas", note: "Moderador: Dr. Luiz Adsuara" },
+    { kind: "item", time: "14h00", title: "Diagnóstico e manejo das imunodeficiências primárias", sub: "Dr. José Carlison" },
+    { kind: "item", time: "14h15", title: "Neuroimunologia: diagnóstico preciso e tratamento precoce", sub: "Dra. Samira Apóstolos" },
+    { kind: "item", time: "14h30", title: "Desafios no diagnóstico e manejo da hidradenite supurativa", sub: "Dr. Wagner Galvão" },
+    { kind: "item", time: "14h45", title: "Discussão da mesa", sub: "Dr. José Carlison, Dra. Samira Apóstolos e Dr. Wagner Galvão" },
+
+    { kind: "mesa", title: "Mesa 4 — Aplicações clínicas e decisões compartilhadas", note: "Moderadora: Dra. Lídia Salles" },
+    { kind: "item", time: "15h00", title: "Red flags: quando investigar DII", sub: "Dra. Genóile Santana" },
+    { kind: "item", time: "15h15", title: "Dermatite atópica: o impacto do diagnóstico na escolha do tratamento", sub: "Dra. Renata Magalhães" },
+    { kind: "item", time: "15h30", title: "Lúpus: como escolher a melhor estratégia para cada paciente?", sub: "Dr. Joaquim Ivo Vasques" },
+    { kind: "item", time: "15h45", title: "Discussão da mesa", sub: "Dra. Genóile Santana, Dra. Renata Magalhães e Dr. Joaquim Ivo Vasques" },
+
+    { kind: "item", time: "16h00", title: "Simpósio satélite 4 — Johnson & Johnson / Simponi: tomada de decisão no paciente multissistêmico", sub: "Dr. Joaquim Ivo Vasques" },
+    { kind: "item", time: "16h30", title: "Coffee break e networking" },
+
+    { kind: "mesa", title: "Mesa 5 — Casos clínicos interativos", note: "Moderador: Dr. Fernando Henrique Carlos De Souza" },
+    {
+      kind: "item",
+      time: "17h00",
+      title: "Interface entre gastroenterologia, dermatologia e reumatologia: retocolite ulcerativa e hidradenite supurativa",
+      sub: [
+        "Gastroenterologia: Dr. Diogo Delgado Dotta",
+        "Reumatologia: Dra. Carla Saad",
+        "Dermatologia: Dra. Renata Magalhães",
+      ],
+    },
+    {
+      kind: "item",
+      time: "17h30",
+      title: "Miastenia gravis e espondiloartrite axial",
+      sub: [
+        "Reumatologia: Dra. Carla Saad",
+        "Imunologia: Dra. Mariana de Gouveia Pereira Pimentel",
+        "Neurologia: Dra. Samira Apóstolos",
+      ],
+    },
+    { kind: "item", time: "18h00", title: "Encerramento institucional" },
   ];
 
   return (
@@ -609,7 +640,7 @@ function Agenda() {
         <Reveal>
           <div className="flex items-baseline gap-4 sm:gap-6">
             <span className="editorial-num text-5xl text-white/10 sm:text-7xl md:text-8xl">05</span>
-            <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-[#6BBE7A] sm:text-[10px] sm:tracking-[0.45em]">Programa preliminar</span>
+            <span className="text-[9px] font-bold uppercase tracking-[0.35em] text-[#6BBE7A] sm:text-[10px] sm:tracking-[0.45em]">Programação científica</span>
           </div>
           <h2 className="mt-6 max-w-2xl font-display text-3xl font-bold leading-tight sm:text-4xl md:mt-8 md:text-5xl">
             Um dia inteiro de <span className="italic text-[#6BBE7A]">imersão clínica</span>.
@@ -637,7 +668,13 @@ function Agenda() {
                   <span className="font-display text-sm font-semibold leading-snug text-white sm:text-base md:text-lg">{e.title}</span>
                   {e.sub ? (
                     <span className="col-start-2 text-[9px] font-medium uppercase tracking-[0.25em] text-white/50 sm:text-[10px] sm:tracking-[0.3em] md:col-start-3 md:col-end-auto md:text-right">
-                      {e.sub}
+                      {Array.isArray(e.sub)
+                        ? e.sub.map((linha) => (
+                            <span key={linha} className="block">
+                              {linha}
+                            </span>
+                          ))
+                        : e.sub}
                     </span>
                   ) : null}
                 </li>
@@ -648,7 +685,7 @@ function Agenda() {
 
         <Reveal>
           <p className="mt-10 text-[11px] font-medium uppercase tracking-[0.25em] text-white/40">
-            Programação preliminar sujeita a alterações.
+            Programação científica sujeita a alterações.
           </p>
         </Reveal>
       </div>
