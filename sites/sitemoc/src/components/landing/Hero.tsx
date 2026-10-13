@@ -35,10 +35,16 @@ export function Hero() {
           <h1 className="mt-6 font-course text-[36px] leading-[1.05] font-bold tracking-[-0.02em] text-heading md:text-[58px]">
             <CourseName>X Curso Intensivo de Oncologia</CourseName>
           </h1>
+          {/*
+            Enxugado de 36 para 17 palavras. O texto anterior ocupava cinco
+            linhas no mobile e empurrava o preço e o botão para fora da primeira
+            tela — quem chega de anúncio decide ali. O público e o objetivo
+            continuam ditos; o que saiu foi a repetição de "oncologistas" e o
+            "revisar e atualizar seus conhecimentos", que a seção Sobre detalha.
+          */}
           <p className="mt-5 text-base leading-[1.6] text-muted-foreground md:text-lg">
-            Formação completa e abrangente para oncologistas que estão se preparando para a prova de
-            Título de Especialista em Oncologia Clínica (TEOC) e para oncologistas experientes que
-            desejam revisar e atualizar seus conhecimentos.
+            Formação completa para quem vai prestar o TEOC e para o oncologista que quer se
+            atualizar.
           </p>
 
           <dl className="mt-8 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
