@@ -2,18 +2,29 @@ import { Reveal, Section, SectionTitle } from "./primitives";
 import malufPhoto from "@/assets/maluf-oficial.jpg";
 import buzaidPhoto from "@/assets/buzaid-oficial.jpg";
 
+/*
+ * Os dois coordenadores, **lado a lado em qualquer tela**. Antes empilhavam no
+ * mobile: um embaixo do outro, cada um com um currículo de três linhas, e quem
+ * rolava via um médico de cada vez em vez da dupla que assina o curso. Juntos
+ * eles dizem mais do que separados.
+ *
+ * O currículo encolheu para a instituição principal. O texto completo trazia
+ * cargos em três hospitais, doutorado e número de CRM: é credencial de
+ * assinatura de laudo, não argumento de página de venda. Quem reconhece os
+ * nomes não precisa ler, e quem não reconhece não vai decidir por causa do CRM.
+ */
 const PEOPLE = [
   {
     photo: buzaidPhoto,
     name: "Dr. Antonio Carlos Buzaid",
-    role: "Coordenador do X Curso Intensivo de Oncologia | Embaixador do curso Onco IA",
-    bio: "Diretor Médico Geral do Centro de Oncologia do Hospital Nove de Julho e Hospital Samaritano Higienópolis de São Paulo – Rede Américas - CRM-SP 45.405",
+    role: "Coordenador",
+    bio: "Diretor Médico Geral do Centro de Oncologia do Hospital Nove de Julho e Samaritano Higienópolis",
   },
   {
     photo: malufPhoto,
     name: "Dr. Fernando Maluf",
-    role: "Coordenador do X Curso Intensivo de Oncologia",
-    bio: "Diretor Médico Associado do Centro Oncológico da BP – A Beneficência Portuguesa de São Paulo; Membro do Comitê Gestor do Centro de Oncologia do Hospital Israelita Albert Einstein; Doutor em Urologia pela FMUSP - CRM-SP 81.930",
+    role: "Coordenador",
+    bio: "Diretor Médico Associado do Centro Oncológico da BP e membro do Comitê Gestor do Einstein",
   },
 ];
 
@@ -26,25 +37,27 @@ export function Coordinators() {
         </SectionTitle>
       </Reveal>
 
-      <div className="mt-10 grid gap-5 md:grid-cols-2">
+      <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-5">
         {PEOPLE.map((p) => (
-          <Reveal
-            key={p.name}
-            className="glass flex flex-col gap-5 rounded-lg p-5 sm:flex-row sm:p-6"
-          >
+          <Reveal key={p.name} className="glass flex flex-col rounded-lg p-4 sm:p-6">
+            {/*
+              Retrato em pé: com duas colunas num celular de 390px, cada cartão
+              tem ~170px. Foto ao lado do texto não caberia; por cima, cabe e
+              ainda dá presença ao rosto, que é o que vende aqui.
+            */}
             <img
               src={p.photo}
               alt={p.name}
               loading="lazy"
               width={640}
               height={800}
-              className="h-40 w-full shrink-0 rounded-md border border-border object-cover object-top sm:h-40 sm:w-32"
+              className="aspect-[4/5] w-full rounded-md border border-border object-cover object-top"
             />
-            <div className="min-w-0">
-              <h3 className="font-display text-lg font-semibold text-foreground">{p.name}</h3>
-              <p className="mt-1 text-sm leading-snug text-cyan">{p.role}</p>
-              <p className="mt-3 text-sm leading-[1.55] text-muted-foreground">{p.bio}</p>
-            </div>
+            <h3 className="mt-4 font-display text-base leading-snug font-semibold text-foreground sm:text-lg">
+              {p.name}
+            </h3>
+            <p className="label-mono mt-1 text-cyan">{p.role}</p>
+            <p className="mt-2 text-xs leading-[1.5] text-muted-foreground sm:text-sm">{p.bio}</p>
           </Reveal>
         ))}
       </div>

@@ -2,6 +2,7 @@ import { Radio, RefreshCw, Layers } from "lucide-react";
 import dnaBanner from "@/assets/dna-oficial.jpg";
 import { Chip, CourseName, CtaButton } from "./primitives";
 import { Sponsors } from "./Sponsors";
+import { VideoBuzaid } from "./VideoBuzaid";
 import { PRICING_ANCHOR } from "@/lib/checkout";
 
 const SPECS = [
@@ -28,7 +29,13 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-background" />
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-24 bg-gradient-to-t from-transparent to-background" />
 
-      <div className="relative mx-auto w-full max-w-[1280px]">
+      {/*
+        Duas colunas a partir de lg: o texto à esquerda e a chamada do Buzaid à
+        direita. No mobile o vídeo desce para logo depois do botão — ali a
+        pessoa já leu a oferta, e um rosto conhecido falando é o argumento mais
+        forte que esta página tem.
+      */}
+      <div className="relative mx-auto grid w-full max-w-[1280px] items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,34rem)] lg:gap-14">
         <div className="max-w-2xl">
           <Chip className="text-[10px] sm:text-xs">
             X Curso Intensivo de Oncologia · 10ª edição
@@ -74,13 +81,18 @@ export function Hero() {
           </div>
         </div>
 
+        {/* Sem `order`: a ordem natural do DOM (texto, vídeo, patrocinadores) já
+            põe o texto na coluna 1 e o vídeo na 2. Com `order-last` o vídeo ia
+            para depois dos patrocinadores e caía abaixo da dobra. */}
+        <VideoBuzaid />
+
         {/*
-          Patrocinadores no canto inferior direito do hero, sobre o grafismo de
-          DNA (print 01 da revisão). Só a partir de lg: abaixo disso a coluna de
-          texto ocupa quase toda a largura e o bloco colidiria com ela, então
-          ele desce para depois do CTA.
+          Patrocinadores abaixo das duas colunas. Antes ficavam no canto inferior
+          direito do hero (print 01 da revisão) — lugar que o vídeo passou a
+          ocupar. Com `lg:col-span-2` eles atravessam a largura toda, que também
+          lê melhor: as três marcas numa linha em vez de empilhadas num canto.
         */}
-        <Sponsors className="mt-12 lg:absolute lg:right-0 lg:bottom-0 lg:mt-0" />
+        <Sponsors className="mt-2 lg:col-span-2 lg:mt-4 lg:flex-row lg:items-center lg:gap-10" />
       </div>
     </section>
   );
