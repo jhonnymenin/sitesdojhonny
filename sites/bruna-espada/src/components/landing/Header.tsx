@@ -7,6 +7,9 @@ const links = [
   { href: "#sobre", label: "Sobre" },
   { href: "#cuidados", label: "Micropigmentação" },
   { href: "#pele", label: "Estética" },
+  // Entra depois de "Estética" porque é onde a seção fica na página, e antes de
+  // "Processo": quem procura preço costuma ir ao menu antes de rolar tudo.
+  { href: "#procedimentos", label: "Procedimentos" },
   { href: "#processo", label: "Processo" },
   { href: "#duvidas", label: "Dúvidas" },
 ];

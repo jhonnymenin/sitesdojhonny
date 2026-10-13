@@ -15,6 +15,8 @@ import { MobileCta } from "@/components/landing/MobileCta";
 import { Positioning } from "@/components/landing/Positioning";
 import { Regeneration } from "@/components/landing/Regeneration";
 import { Results } from "@/components/landing/Results";
+import { Catalog } from "@/components/landing/Catalog";
+import { ENDERECO, REDES } from "@/lib/contato";
 import { Skincare } from "@/components/landing/Skincare";
 import { Steps } from "@/components/landing/Steps";
 
@@ -47,13 +49,15 @@ export const Route = createFileRoute("/")({
           description: DESCRIPTION,
           address: {
             "@type": "PostalAddress",
-            addressLocality: "São Caetano do Sul",
-            addressRegion: "SP",
+            streetAddress: ENDERECO.logradouro,
+            addressLocality: ENDERECO.cidade,
+            addressRegion: ENDERECO.uf,
+            postalCode: ENDERECO.cep,
             addressCountry: "BR",
           },
           telephone: "+5511942457002",
           areaServed: "São Caetano do Sul – SP",
-          sameAs: ["https://instagram.com/brunaespada"],
+          sameAs: REDES.map((r) => r.url),
           founder: { "@type": "Person", name: "Bruna Espada" },
           makesOffer: [
             "Micropigmentação",
@@ -92,6 +96,7 @@ function Index() {
         <Regeneration />
         <Depigmentation />
         <Skincare />
+        <Catalog />
         <Identification />
         <Difference />
         <Steps />

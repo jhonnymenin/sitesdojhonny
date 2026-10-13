@@ -1,6 +1,7 @@
 import logoWhite from "@/assets/logo-bruna-branca.png";
 import submarca from "@/assets/submarca-bruna-dourada.png";
 import { Cta, Reveal, WHATSAPP_URL } from "./ui";
+import { ENDERECO, MAPS_URL, REDES, WHATSAPP_LEGIVEL } from "@/lib/contato";
 
 export function Closing() {
   return (
@@ -81,23 +82,41 @@ export function Closing() {
                 rel="noopener noreferrer"
                 className="transition-colors duration-300 hover:text-gold-light"
               >
-                WhatsApp: (11) 94245-7002
+                WhatsApp: {WHATSAPP_LEGIVEL}
               </a>
             </p>
-            <p>
-              <a
-                href="https://instagram.com/brunaespada"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors duration-300 hover:text-gold-light"
-              >
-                Instagram: @brunaespada
-              </a>
-            </p>
+            {REDES.map((rede) => (
+              <p key={rede.nome}>
+                <a
+                  href={rede.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors duration-300 hover:text-gold-light"
+                >
+                  {rede.nome}: {rede.handle}
+                </a>
+              </p>
+            ))}
           </div>
           <div className="text-sm text-champagne/80 md:text-right">
-            <p>São Caetano do Sul – SP</p>
-            <p className="mt-2 text-xs text-champagne/50">
+            {/*
+              Antes aqui dizia só "São Caetano do Sul – SP". O endereço completo
+              entrou em 13/10/2026, e vira link para o mapa: quem chega no rodapé
+              procurando o ateliê quer traçar a rota, não copiar a rua.
+            */}
+            <a
+              href={MAPS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block transition-colors duration-300 hover:text-gold-light"
+            >
+              <span className="block">{ENDERECO.logradouro}</span>
+              <span className="block">
+                {ENDERECO.bairro} — {ENDERECO.cidade}/{ENDERECO.uf}
+              </span>
+              <span className="block">CEP {ENDERECO.cep}</span>
+            </a>
+            <p className="mt-3 text-xs text-champagne/50">
               © {new Date().getFullYear()} Ateliê Bruna Espada
             </p>
           </div>
