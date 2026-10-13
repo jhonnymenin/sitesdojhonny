@@ -4,12 +4,10 @@ import { UrgencyBar } from "@/components/landing/UrgencyBar";
 import { Header } from "@/components/landing/Header";
 import { Hero } from "@/components/landing/Hero";
 import { About } from "@/components/landing/About";
-import { Bonus } from "@/components/landing/Bonus";
 import { LiveMeetings } from "@/components/landing/LiveMeetings";
 import { Coordinators } from "@/components/landing/Coordinators";
 import { OncoIA } from "@/components/landing/OncoIA";
 import { QuestionBank } from "@/components/landing/QuestionBank";
-import { WhyJourney } from "@/components/landing/WhyJourney";
 import { Pricing } from "@/components/landing/Pricing";
 import { FAQ } from "@/components/landing/FAQ";
 import { FinalCTA, Footer, MobileCtaBar } from "@/components/landing/FinalCTA";
@@ -69,7 +67,6 @@ function Index() {
           <LiveMeetings />
         </div>
         <div className="theme-light">
-          <Bonus />
         </div>
         <div className="theme-blue">
           <QuestionBank />
@@ -81,7 +78,6 @@ function Index() {
           <Pricing />
         </div>
         <div className="theme-light">
-          <WhyJourney />
           <FAQ />
         </div>
         <div className="theme-blue">

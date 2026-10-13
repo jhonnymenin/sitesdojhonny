@@ -1,33 +1,8 @@
-import { ArrowRight, Lock, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Chip, CtaButton, Reveal, Section, SectionTitle } from "./primitives";
 import { checkoutUrl } from "@/lib/checkout";
 
-const INCLUDED = [
-  {
-    name: "X Curso Intensivo de Oncologia",
-    items: [
-      "Cerca de 140 aulas atualizadas",
-      "5 encontros on-line ao vivo",
-      "Participação de +60 especialistas do Brasil",
-      "Acesso por 1 ano",
-      "Certificado MOC",
-    ],
-  },
-  {
-    name: "Banco de Questões",
-    items: ["350 questões comentadas", "Simulado com 50 questões", "Certificado de conclusão"],
-  },
-  {
-    name: "Onco IA",
-    items: [
-      "13 aulas e mais de 11 horas",
-      "Workshop ao vivo",
-      "Materiais complementares",
-      "Certificação WorldMed Academy + MOC",
-    ],
-  },
-];
 
 /*
  * Evolução dos lotes. Os valores são os que o checkout cobra, não uma conta
@@ -132,27 +107,16 @@ export function Pricing() {
           X Curso Intensivo de Oncologia + Banco de Questões + Onco IA
         </p>
         <p className="mt-3 max-w-2xl text-base leading-[1.6] text-muted-foreground md:text-lg">
-          O combo completo reúne o X Curso Intensivo de Oncologia, o Banco de Questões e o Onco IA.
-          Se preferir, leve o curso com o Banco de Questões, sem o Onco IA — ou só o Banco de
-          Questões.
+          Três formas de entrar. Escolha a sua.
         </p>
       </Reveal>
 
-      <div className="mt-10 grid gap-5 md:grid-cols-3">
-        {INCLUDED.map((block) => (
-          <Reveal key={block.name} className="glass rounded-lg p-5 sm:p-6">
-            <h3 className="font-display text-lg font-semibold text-foreground">{block.name}</h3>
-            <ul className="mt-4 space-y-2.5">
-              {block.items.map((item) => (
-                <li key={item} className="flex gap-3 text-sm leading-[1.55] text-muted-foreground">
-                  <CheckCircle2 size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-cyan" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        ))}
-      </div>
+      {/*
+        Aqui havia três cartões repetindo o conteúdo do Curso, do Banco de
+        Questões e do Onco IA — cada um já tem a sua própria seção logo acima
+        nesta página, com mais detalhe. Quem chega nos preços já leu; o que
+        falta é o valor e o botão. Eram 150 palavras ditas pela segunda vez.
+      */}
 
       <Reveal className="relative mt-12">
         <div
@@ -234,34 +198,16 @@ export function Pricing() {
             15 de outubro
           </p>
 
-          <ul className="mt-8 grid gap-4 md:hidden">
-            {LOTS.map((lot) => (
-              <li
-                key={lot.period}
-                className={cn(
-                  "rounded-lg border border-border p-5",
-                  lot.current ? "bg-cyan/10" : "",
-                )}
-              >
-                <p className="font-display text-base font-semibold text-foreground">{lot.period}</p>
-                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{lot.detail}</p>
-                <dl className="mt-4 grid grid-cols-3 gap-3 text-sm">
-                  {[
-                    [COLUNAS[1], lot.intensivo],
-                    [COLUNAS[2], lot.oncoia],
-                    [COLUNAS[3], lot.total],
-                  ].map(([k, v]) => (
-                    <div key={k} className="min-w-0">
-                      <dt className="label-mono text-[10px] leading-tight text-muted-foreground">
-                        {k}
-                      </dt>
-                      <dd className="mt-1 text-foreground">{v}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </li>
-            ))}
-          </ul>
+          {/*
+            No mobile a tabela de lotes virava três cartões de quatro números
+            cada — doze valores num celular, e dois dos lotes nem estão em
+            vigor. Fica só a próxima mudança de preço, que é a informação que
+            cria urgência; a tabela inteira segue no desktop, onde cabe.
+          */}
+          <p className="mt-8 text-sm leading-relaxed text-muted-foreground md:hidden">
+            A partir de 16 de outubro o desconto cai para 15%, e em 1º de novembro os valores voltam
+            ao preço cheio.
+          </p>
 
           <div className="mt-10 hidden md:block">
             <table className="w-full border-collapse text-left">
