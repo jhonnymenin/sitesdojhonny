@@ -28,7 +28,7 @@ export function UrgencyBar() {
   const pad = (n: number) => String(n).padStart(2, "0");
 
   return (
-    <div className="theme-blue fixed inset-x-0 top-0 z-50 border-b border-border">
+    <div className="theme-blue border-b border-border">
       <div className="mx-auto flex w-full max-w-[1280px] items-center justify-center gap-4 px-5 py-2 md:justify-between md:px-10">
         <p className="label-mono text-muted-foreground">
           <span className="font-display font-semibold text-orange">Lançamento | Oferta</span>

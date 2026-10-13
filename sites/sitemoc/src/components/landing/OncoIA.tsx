@@ -10,13 +10,6 @@ const HIGHLIGHTS = [
   "Ferramentas de uso imediato",
 ];
 
-const JOURNEY = [
-  "Rastreamento e diagnóstico",
-  "Diagnóstico de precisão",
-  "Decisão terapêutica",
-  "Tratamento personalizado",
-  "Monitoramento e análise de desfechos",
-];
 
 const SPECS = [
   "Conteúdo validado",
@@ -74,30 +67,31 @@ export function OncoIA() {
           ))}
         </ul>
 
-        <div className="mt-6 grid gap-5 md:grid-cols-2">
-          <Reveal className="glass rounded-lg p-5 sm:p-6">
-            <p className="label-mono text-cyan">Coordenação acadêmica</p>
-            <ul className="mt-3 space-y-1.5 text-base text-foreground">
-              <li>Dra. Camilla Yamada</li>
-              <li>Dr. Felipe Roth</li>
-              <li>Dr. Thiago William Carnier Jorge</li>
-            </ul>
-            <p className="label-mono mt-6 text-cyan">Embaixador</p>
-            <p className="mt-2 text-base text-foreground">Dr. Antonio Carlos Buzaid</p>
-          </Reveal>
+        {/*
+          Saiu o cartão "Da detecção aos desfechos", que listava as cinco etapas
+          da jornada do paciente. É ementa de curso: quem está decidindo comprar
+          não lê, e os quatro destaques logo acima já dizem que o curso cobre a
+          jornada inteira.
 
-          <Reveal className="glass rounded-lg p-5 sm:p-6">
-            <p className="label-mono text-cyan">Da detecção aos desfechos</p>
-            <ul className="mt-4 space-y-2.5">
-              {JOURNEY.map((j) => (
-                <li key={j} className="flex gap-3 text-sm leading-[1.55] text-muted-foreground">
-                  <CheckCircle2 size={18} strokeWidth={1.5} className="mt-0.5 shrink-0 text-cyan" />
-                  {j}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
+          A coordenação passa a ocupar a linha toda — o Buzaid como embaixador é
+          o nome com mais peso desta seção e estava espremido em meia coluna.
+        */}
+        <Reveal className="glass mt-6 rounded-lg p-5 sm:p-6">
+          <div className="grid gap-5 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-10">
+            <div>
+              <p className="label-mono text-cyan">Embaixador</p>
+              <p className="mt-2 font-display text-xl font-semibold text-foreground md:text-2xl">
+                Dr. Antonio Carlos Buzaid
+              </p>
+            </div>
+            <div>
+              <p className="label-mono text-cyan">Coordenação acadêmica</p>
+              <p className="mt-2 text-base leading-[1.6] text-foreground">
+                Dra. Camilla Yamada · Dr. Felipe Roth · Dr. Thiago William Carnier Jorge
+              </p>
+            </div>
+          </div>
+        </Reveal>
 
         <div className="mt-5 flex flex-wrap gap-2.5">
           {SPECS.map((s) => (
@@ -126,9 +120,6 @@ export function OncoIA() {
               </li>
             ))}
           </ul>
-          <p className="mt-5 text-sm leading-[1.55] text-muted-foreground">
-            Conheça boas práticas, limites e critérios para uma adoção ética e segura.
-          </p>
         </Reveal>
 
         <Reveal className="mt-8">

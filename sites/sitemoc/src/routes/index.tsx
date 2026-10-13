@@ -53,8 +53,17 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="min-h-screen bg-background">
-      <UrgencyBar />
-      <Header />
+      {/*
+        A barra de oferta e o header ficam numa pilha sticky, não dois `fixed`
+        soltos. Antes o header tinha `top-12` cravado (48px) e a barra media
+        35px no mobile: sobravam 13px de fresta por onde o conteúdo da página
+        passava rolando, bem no topo. Empilhados, não existe número para
+        desencontrar.
+      */}
+      <div className="sticky top-0 z-50">
+        <UrgencyBar />
+        <Header />
+      </div>
       <main>
         <div className="theme-dark">
           <Hero />

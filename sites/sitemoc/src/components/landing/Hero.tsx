@@ -15,7 +15,8 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative isolate overflow-hidden px-5 pt-32 pb-14 md:px-10 md:pt-40 md:pb-20"
+      // pt enxuto: as barras agora ocupam espaço no fluxo, não flutuam por cima.
+        className="relative isolate overflow-hidden px-5 pt-10 pb-14 md:px-10 md:pt-16 md:pb-20"
       style={{
         backgroundImage: `url(${dnaBanner})`,
         backgroundSize: "cover",
