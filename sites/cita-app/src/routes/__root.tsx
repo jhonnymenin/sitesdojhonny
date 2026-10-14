@@ -1,0 +1,151 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SITE_URL, siteUrl } from "@/lib/site";
+import {
+  Outlet,
+  Link,
+  createRootRouteWithContext,
+  useRouter,
+  HeadContent,
+  Scripts,
+} from "@tanstack/react-router";
+
+import { AppTabBar } from "@/components/app/AppTabBar";
+
+import appCss from "../styles.css?url";
+
+function NotFoundComponent() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <div className="max-w-md text-center">
+        <h1 className="text-7xl font-bold text-foreground">404</h1>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">Página não encontrada</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Esta página não existe ou foi movida.
+        </p>
+        <div className="mt-6">
+          <Link
+            to="/"
+            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            Voltar ao início
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/*
+ * `error` chega como `unknown` no tipo do TanStack — a versão corrigida do
+ * react-start apertou essa assinatura. Tipar como Error aqui quebrava o
+ * typecheck, e tratar como unknown é o correto: nem toda coisa lançada é Error.
+ */
+function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
+  console.error(error);
+  const router = useRouter();
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <div className="max-w-md text-center">
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">
+          Esta página não carregou
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Algo deu errado do nosso lado. Tente de novo ou volte ao início.
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
+          <button
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
+            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            Tentar de novo
+          </button>
+          <a
+            href="/"
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+          >
+            Voltar ao início
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  head: () => ({
+    meta: [
+      { charSet: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { name: "theme-color", content: "#004D5C" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-title", content: "Simpósio CITA" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { title: "I Simpósio CITA de Doenças Imunomediadas — 17/10/2026, São Paulo" },
+      { name: "description", content: "I Simpósio CITA de Doenças Imunomediadas. 17 de outubro de 2026, Espaço Milenium — São Paulo. Encontro exclusivo, por convite, para 250 médicos." },
+      { name: "author", content: "WorldMed Academy" },
+      { property: "og:title", content: "I Simpósio CITA de Doenças Imunomediadas — 17/10/2026, São Paulo" },
+      { property: "og:description", content: "I Simpósio CITA de Doenças Imunomediadas. 17 de outubro de 2026, Espaço Milenium — São Paulo. Encontro exclusivo, por convite, para 250 médicos." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: SITE_URL },
+      { property: "og:locale", content: "pt_BR" },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "I Simpósio CITA de Doenças Imunomediadas — 17/10/2026, São Paulo" },
+      { name: "twitter:description", content: "I Simpósio CITA de Doenças Imunomediadas. 17 de outubro de 2026, Espaço Milenium — São Paulo. Encontro exclusivo, por convite, para 250 médicos." },
+      { property: "og:image", content: siteUrl("/og-image.png") },
+      { name: "twitter:image", content: siteUrl("/og-image.png") },
+    ],
+    links: [
+      { rel: "canonical", href: SITE_URL },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap",
+      },
+      {
+        rel: "stylesheet",
+        href: appCss,
+      },
+    ],
+  }),
+  shellComponent: RootShell,
+  component: RootComponent,
+  notFoundComponent: NotFoundComponent,
+  errorComponent: ErrorComponent,
+});
+
+function RootShell({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="pt-BR">
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        {children}
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+function RootComponent() {
+  const { queryClient } = Route.useRouteContext();
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <div className="min-h-screen bg-mist/60 font-sans text-navy">
+        <div className="mx-auto min-h-screen w-full max-w-[600px] bg-white pb-24 shadow-[0_0_60px_-30px_rgba(0,77,92,0.35)]">
+          <Outlet />
+        </div>
+        <AppTabBar />
+      </div>
+    </QueryClientProvider>
+  );
+}
