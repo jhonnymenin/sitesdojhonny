@@ -23,6 +23,7 @@ import { sponsorsData } from "@/data/sponsorsData";
 import { SectionTitle } from "@/components/app/AppPage";
 import { CitaClinics } from "@/components/app/CitaClinics";
 import { SponsorLogo } from "@/components/app/SponsorLogo";
+import { InstallBanner } from "@/components/app/InstallApp";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -114,6 +115,15 @@ function HomePage() {
         <svg viewBox="0 0 600 40" preserveAspectRatio="none" className="block h-8 w-full fill-mist" aria-hidden>
           <path d="M0,40 C150,0 450,0 600,40 Z" />
         </svg>
+      </section>
+
+      {/*
+        Convite de instalação acima de tudo: é a primeira tela, e no dia do
+        evento o app precisa estar a um toque. Ele se esconde sozinho quando já
+        está instalado ou quando a pessoa dispensa.
+      */}
+      <section className="px-4 pt-4">
+        <InstallBanner />
       </section>
 
       <section className="px-4 pt-5">
