@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AgendaRouteImport } from './routes/agenda'
 import { Route as ContatoRouteImport } from './routes/contato'
+import { Route as EuvouRouteImport } from './routes/euvou'
 import { Route as InformacoesRouteImport } from './routes/informacoes'
 import { Route as InteratividadeRouteImport } from './routes/interatividade'
 import { Route as MateriaisRouteImport } from './routes/materiais'
@@ -32,6 +33,11 @@ const AgendaRoute = AgendaRouteImport.update({
 const ContatoRoute = ContatoRouteImport.update({
   id: '/contato',
   path: '/contato',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EuvouRoute = EuvouRouteImport.update({
+  id: '/euvou',
+  path: '/euvou',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InformacoesRoute = InformacoesRouteImport.update({
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/agenda': typeof AgendaRoute
   '/contato': typeof ContatoRoute
+  '/euvou': typeof EuvouRoute
   '/informacoes': typeof InformacoesRoute
   '/interatividade': typeof InteratividadeRoute
   '/materiais': typeof MateriaisRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/agenda': typeof AgendaRoute
   '/contato': typeof ContatoRoute
+  '/euvou': typeof EuvouRoute
   '/informacoes': typeof InformacoesRoute
   '/interatividade': typeof InteratividadeRoute
   '/materiais': typeof MateriaisRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/agenda': typeof AgendaRoute
   '/contato': typeof ContatoRoute
+  '/euvou': typeof EuvouRoute
   '/informacoes': typeof InformacoesRoute
   '/interatividade': typeof InteratividadeRoute
   '/materiais': typeof MateriaisRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/'
     | '/agenda'
     | '/contato'
+    | '/euvou'
     | '/informacoes'
     | '/interatividade'
     | '/materiais'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/'
     | '/agenda'
     | '/contato'
+    | '/euvou'
     | '/informacoes'
     | '/interatividade'
     | '/materiais'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/'
     | '/agenda'
     | '/contato'
+    | '/euvou'
     | '/informacoes'
     | '/interatividade'
     | '/materiais'
@@ -139,6 +151,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AgendaRoute: typeof AgendaRoute
   ContatoRoute: typeof ContatoRoute
+  EuvouRoute: typeof EuvouRoute
   InformacoesRoute: typeof InformacoesRoute
   InteratividadeRoute: typeof InteratividadeRoute
   MateriaisRoute: typeof MateriaisRoute
@@ -168,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/contato'
       fullPath: '/contato'
       preLoaderRoute: typeof ContatoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/euvou': {
+      id: '/euvou'
+      path: '/euvou'
+      fullPath: '/euvou'
+      preLoaderRoute: typeof EuvouRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/informacoes': {
@@ -219,6 +239,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AgendaRoute: AgendaRoute,
   ContatoRoute: ContatoRoute,
+  EuvouRoute: EuvouRoute,
   InformacoesRoute: InformacoesRoute,
   InteratividadeRoute: InteratividadeRoute,
   MateriaisRoute: MateriaisRoute,

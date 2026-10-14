@@ -29,11 +29,14 @@ export const speakersData: Speaker[] = [
   { id: "ana-teresa-amoedo", name: "Dra. Ana Teresa Amoedo", photo: photoBy("Dra._Ana_Teresa_Amoedo.jpg") },
   { id: "antonio-condino", name: "Dr. Antonio Condino", photo: photoBy("Dr._Antonio_Condino.jpg") },
   { id: "carla-saad", name: "Dra. Carla Saad", photo: photoBy("Dra._Carla_Saad.jpg") },
-  { id: "genoile-silva", name: "Dra. Genoile Silva", photo: photoBy("Dra._Genoile_Silva.jpg") },
+  // Nome conforme a programação científica oficial. O id e o arquivo da foto
+  // seguem a grafia antiga de propósito: são internos, e renomear o arquivo
+  // quebraria o glob sem ganho nenhum.
+  { id: "genoile-silva", name: "Dra. Genóile Santana", photo: photoBy("Dra._Genoile_Silva.jpg") },
   { id: "gleison-duarte", name: "Dr. Gleison Duarte", photo: photoBy("Dr._Gleison_Duarte.jpg") },
   { id: "julio-bertacini", name: "Dr. Júlio Bertacini", photo: photoBy("Dr._Júlio_Bertacini.jpg") },
   { id: "rafael-carvalho", name: "Dr. Rafael Carvalho", photo: photoBy("Dr._Rafael_Carvalho.jpg") },
-  { id: "samila-apostolo", name: "Dra. Samila Apóstolo", photo: photoBy("Dra._Samila_Apóstolo.jpg") },
+  { id: "samila-apostolo", name: "Dra. Samira Apóstolos", photo: photoBy("Dra._Samila_Apóstolo.jpg") },
   { id: "julio-moraes", name: "Dr. Júlio Moraes" },
   { id: "henrique-dalmolin", name: "Dr. Henrique Dalmolin" },
 ];

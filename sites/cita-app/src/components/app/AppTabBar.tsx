@@ -12,6 +12,7 @@ import {
   Sparkles,
   Zap,
   ChevronRight,
+  Camera,
 } from "lucide-react";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { cn } from "@/lib/utils";
@@ -24,6 +25,9 @@ const tabs: { to: string; label: string; icon: typeof Home; exact?: boolean }[] 
 ];
 
 const moreLinks: { to: string; label: string; icon: typeof Home }[] = [
+  // Primeiro da lista: é a única coisa do app que a pessoa faz ANTES do
+  // evento, e é a que gera divulgação.
+  { to: "/euvou", label: "#EuVou — monte a sua arte", icon: Camera },
   { to: "/interatividade", label: "Interatividade", icon: Zap },
   { to: "/informacoes", label: "Informações práticas", icon: Info },
   { to: "/patrocinadores", label: "Patrocinadores", icon: Award },

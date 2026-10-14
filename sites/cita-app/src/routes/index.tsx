@@ -13,6 +13,7 @@ import {
   Clock,
   ArrowRight,
   User,
+  Camera,
 } from "lucide-react";
 import logoHeaderAsset from "@/assets/logo-header-unificado-v2.png";
 import { eventData } from "@/data/eventData";
@@ -43,6 +44,13 @@ export const Route = createFileRoute("/")({
 });
 
 const quickAccess = [
+  {
+    to: "/euvou",
+    title: "#EuVou",
+    desc: "Monte a sua arte e compartilhe",
+    icon: Camera,
+    tone: "leaf" as const,
+  },
   { to: "/agenda", icon: CalendarDays, title: "Agenda", desc: "Confira a programação completa", tone: "navy" },
   { to: "/palestrantes", icon: Users, title: "Palestrantes", desc: "Conheça os especialistas", tone: "leaf" },
   { to: "/materiais", icon: FileText, title: "Materiais", desc: "Acesse apresentações e conteúdos", tone: "teal" },
