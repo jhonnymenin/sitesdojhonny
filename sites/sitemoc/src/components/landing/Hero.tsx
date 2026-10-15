@@ -25,9 +25,14 @@ export function Hero() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-background/95 via-background/80 to-background/95 md:bg-gradient-to-r md:from-background md:via-background/85 md:to-background/35" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-b from-transparent to-background" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-24 bg-gradient-to-t from-transparent to-background" />
+      {/*
+        Véu chapado, de opacidade única. Aqui havia três (em algumas seções
+        quatro) camadas de gradient: uma lateral e duas esfumando topo e base
+        contra o fundo da página. O efeito era um borrão de transição no começo
+        e no fim de cada bloco. Com uma camada só de opacidade constante, a arte
+        aparece por inteiro e o corte entre as seções é reto.
+      */}
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-background/90 md:bg-background/82" />
 
       {/*
         Duas colunas a partir de lg: o texto à esquerda e a chamada do Buzaid à
@@ -44,15 +49,17 @@ export function Hero() {
             <CourseName>X Curso Intensivo de Oncologia</CourseName>
           </h1>
           {/*
-            Enxugado de 36 para 17 palavras. O texto anterior ocupava cinco
-            linhas no mobile e empurrava o preço e o botão para fora da primeira
-            tela — quem chega de anúncio decide ali. O público e o objetivo
-            continuam ditos; o que saiu foi a repetição de "oncologistas" e o
-            "revisar e atualizar seus conhecimentos", que a seção Sobre detalha.
+            Texto original da landing, de volta na íntegra e em corpo maior. Ele
+            tinha sido enxugado para 17 palavras porque empurrava preço e botão
+            para fora da primeira tela do celular; o Jhonny pediu de volta, e a
+            primeira tela deixa de ser o critério aqui. A barra fixa do rodapé
+            já carrega preço e botão em qualquer altura da página, então quem
+            chega de anúncio continua com a oferta à mão mesmo sem rolar.
           */}
-          <p className="mt-5 text-base leading-[1.6] text-muted-foreground md:text-lg">
-            Formação completa para quem vai prestar o TEOC e para o oncologista que quer se
-            atualizar.
+          <p className="mt-5 max-w-2xl text-lg leading-[1.55] text-muted-foreground md:text-xl">
+            Formação completa e abrangente para oncologistas que estão se preparando para a prova de
+            Título de Especialista em Oncologia Clínica (TEOC) e para oncologistas experientes que
+            desejam revisar e atualizar seus conhecimentos.
           </p>
 
           <dl className="mt-8 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">

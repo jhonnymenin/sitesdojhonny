@@ -118,12 +118,14 @@ export function Pricing() {
         falta é o valor e o botão. Eram 150 palavras ditas pela segunda vez.
       */}
 
+      {/*
+        Painel chapado: fundo sólido e borda. Antes havia um halo ciano de
+        `blur-[90px]` atrás e um `glow-cyan` em volta — dois borrões sobre a
+        seção que é a mais importante da página. O destaque agora vem do
+        contraste do fundo com o da seção, que é reto e não desfoca nada.
+      */}
       <Reveal className="relative mt-12">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-10 -inset-y-6 rounded-lg bg-cyan/20 blur-[90px]"
-        />
-        <div className="glass glow-cyan relative rounded-lg p-6 sm:p-8 md:p-10">
+        <div className="relative rounded-lg border border-border bg-surface p-6 sm:p-8 md:p-10">
           {/*
             "até 30%", e não "30%": com o cupom 30REDES o combo de 2 cursos tem
             os 30% cheios, mas o combo completo fica em 28,17% — o cupom tira
