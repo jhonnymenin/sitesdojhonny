@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Download, ImagePlus, Minus, Plus, RotateCcw, Check } from "lucide-react";
+import { Download, ImagePlus, Minus, Plus, RotateCcw, Check, Share2 } from "lucide-react";
 import moldura from "@/assets/euvou-moldura.webp";
 
 /*
@@ -28,6 +28,7 @@ import moldura from "@/assets/euvou-moldura.webp";
 const ARTE_W = 1080;
 const ARTE_H = 1920;
 const CIRCULO = { cx: 540, cy: 776, r: 331 };
+const NOME_ARQUIVO = "euvou-simposio-cita.png";
 
 type Transform = { escala: number; x: number; y: number };
 
@@ -38,15 +39,23 @@ export function EuVou() {
   const [escalaMin, setEscalaMin] = useState(1);
   const [confirmado, setConfirmado] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
+  /** URL da arte pronta. Fica na tela para dar o caminho do toque longo no iOS. */
+  const [resultado, setResultado] = useState<string | null>(null);
+  const [ocupado, setOcupado] = useState(false);
+  const [podeCompartilhar, setPodeCompartilhar] = useState(false);
 
   const palcoRef = useRef<HTMLDivElement>(null);
-  const arrasto = useRef<{ ativo: boolean; px: number; py: number; ox: number; oy: number }>({
+  const resultadoRef = useRef<HTMLDivElement>(null);
+  const arrasto = useRef<{ ativo: boolean; id: number; px: number; py: number; ox: number; oy: number }>({
     ativo: false,
+    id: -1,
     px: 0,
     py: 0,
     ox: 0,
     oy: 0,
   });
+  /** Dedos encostados no palco. Mais de um = pinça, e aí ninguém arrasta. */
+  const dedos = useRef<Set<number>>(new Set());
   // Distância entre os dois dedos no início da pinça, para o zoom proporcional.
   const pinca = useRef<{ dist: number; escala: number } | null>(null);
 
@@ -54,6 +63,16 @@ export function EuVou() {
     const img = new Image();
     img.onload = () => setMolduraImg(img);
     img.src = moldura;
+
+    // Só no cliente, e com um arquivo de mentira: `canShare` responde conforme o
+    // tipo, então perguntar sem arquivo daria true em aparelho que não manda
+    // imagem nenhuma.
+    try {
+      const teste = new File([new Blob()], "t.png", { type: "image/png" });
+      setPodeCompartilhar(Boolean(navigator.canShare?.({ files: [teste] })));
+    } catch {
+      setPodeCompartilhar(false);
+    }
   }, []);
 
   /** Menor escala que ainda cobre o disco inteiro — nunca sobra buraco. */
@@ -118,18 +137,28 @@ export function EuVou() {
 
   function aoTocar(e: React.PointerEvent) {
     if (!foto || confirmado) return;
+    // Só o primeiro dedo arrasta. Sem isso o segundo dedo da pinça reiniciava o
+    // arrasto na posição dele e a foto saltava enquanto a pessoa dava zoom.
+    if (dedos.current.size > 0) {
+      arrasto.current.ativo = false;
+      dedos.current.add(e.pointerId);
+      return;
+    }
+    dedos.current.add(e.pointerId);
     (e.target as Element).setPointerCapture?.(e.pointerId);
-    arrasto.current = { ativo: true, px: e.clientX, py: e.clientY, ox: t.x, oy: t.y };
+    arrasto.current = { ativo: true, id: e.pointerId, px: e.clientX, py: e.clientY, ox: t.x, oy: t.y };
   }
   function aoMover(e: React.PointerEvent) {
     if (!arrasto.current.ativo || !foto) return;
+    if (e.pointerId !== arrasto.current.id || dedos.current.size > 1) return;
     const f = fator();
     const nx = arrasto.current.ox + (e.clientX - arrasto.current.px) * f;
     const ny = arrasto.current.oy + (e.clientY - arrasto.current.py) * f;
     setT((atual) => limitar({ ...atual, x: nx, y: ny }, foto));
   }
-  function aoSoltar() {
-    arrasto.current.ativo = false;
+  function aoSoltar(e: React.PointerEvent) {
+    dedos.current.delete(e.pointerId);
+    if (e.pointerId === arrasto.current.id) arrasto.current.ativo = false;
   }
 
   function aoTouchStart(e: React.TouchEvent) {
@@ -178,24 +207,75 @@ export function EuVou() {
     return c;
   }
 
-  function baixar() {
+  /*
+   * Salvar no celular não é baixar.
+   *
+   * O caminho antigo era só `<a download>`, que é o jeito do desktop. No iPhone
+   * o Safari ignora o atributo em blob: a arte abria numa aba e morria ali, sem
+   * ir para o Fotos — foi o "no mobile não funcionou". O caminho certo no
+   * celular é a folha de compartilhamento do próprio sistema, que já traz
+   * "Salvar em Fotos", Instagram e WhatsApp, que é para onde a arte vai mesmo.
+   *
+   * Ordem: compartilhar (se o aparelho souber mandar arquivo), senão baixar. E,
+   * dê certo ou não, a arte final fica visível na tela: no iPhone dá para
+   * segurar o dedo na imagem e salvar, que é a saída que funciona em qualquer
+   * navegador, inclusive o de dentro do Instagram.
+   */
+  async function gerar(): Promise<Blob | null> {
     const c = compor();
-    if (!c) return;
-    c.toBlob((blob) => {
+    if (!c) return null;
+    return new Promise((resolve) => c.toBlob((b) => resolve(b), "image/png"));
+  }
+
+  function baixarBlob(blob: Blob) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = NOME_ARQUIVO;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    // Sem o revoke o blob fica na memória até a aba fechar.
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }
+
+  async function salvar() {
+    setErro(null);
+    setOcupado(true);
+    try {
+      const blob = await gerar();
       if (!blob) {
         setErro("Não consegui gerar a imagem. Tente de novo.");
         return;
       }
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "euvou-simposio-cita.png";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      // Sem o revoke o blob fica na memória até a aba fechar.
-      setTimeout(() => URL.revokeObjectURL(url), 2000);
-    }, "image/png");
+
+      // A arte vai para a tela antes de qualquer tentativa: se o compartilhar
+      // falhar, a pessoa já tem a imagem ali para segurar o dedo e salvar.
+      setResultado((anterior) => {
+        if (anterior) URL.revokeObjectURL(anterior);
+        return URL.createObjectURL(blob);
+      });
+
+      // A arte pronta nasce abaixo da dobra; sem isso a dica de segurar o dedo
+      // fica numa parte da tela que a pessoa não viu.
+      requestAnimationFrame(() =>
+        resultadoRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }),
+      );
+
+      const arquivo = new File([blob], NOME_ARQUIVO, { type: "image/png" });
+      if (navigator.canShare?.({ files: [arquivo] })) {
+        try {
+          await navigator.share({ files: [arquivo], title: "#EuVou — I Simpósio CITA" });
+          return;
+        } catch (e) {
+          // Cancelar não é erro: a pessoa fechou a folha de propósito.
+          if ((e as DOMException)?.name === "AbortError") return;
+        }
+      }
+      baixarBlob(blob);
+    } finally {
+      setOcupado(false);
+    }
   }
 
   const pct = foto ? Math.round((t.escala / escalaMin) * 100) : 100;
@@ -229,14 +309,27 @@ export function EuVou() {
               overflow: "hidden",
             }}
           >
+            {/*
+              O deslocamento vai em `left`/`top`, não dentro do `transform`.
+
+              Porcentagem em `translate()` é relativa ao **próprio elemento**, e
+              não ao container: `translate(10%)` desloca 10% da largura da
+              imagem. Como a imagem é sempre maior que o círculo, o arrasto na
+              prévia andava mais do que o arrasto real — a arte baixada saía com
+              um enquadramento diferente do que a pessoa tinha ajustado. Em
+              `left`/`top` a porcentagem é relativa ao container (o círculo), que
+              é o que queremos. O `translate(-50%, -50%)` fica, porque aí 50% do
+              próprio tamanho é exatamente o que centra a imagem.
+            */}
             <img
               src={foto.src}
               alt=""
               draggable={false}
-              className="absolute top-1/2 left-1/2 max-w-none select-none"
+              className="absolute max-w-none -translate-x-1/2 -translate-y-1/2 select-none"
               style={{
                 width: `${(foto.naturalWidth * t.escala * 100) / (CIRCULO.r * 2)}%`,
-                transform: `translate(calc(-50% + ${(t.x / (CIRCULO.r * 2)) * 100}%), calc(-50% + ${(t.y / (CIRCULO.r * 2)) * 100}%))`,
+                left: `${50 + (t.x / (CIRCULO.r * 2)) * 100}%`,
+                top: `${50 + (t.y / (CIRCULO.r * 2)) * 100}%`,
               }}
             />
           </div>
@@ -341,15 +434,54 @@ export function EuVou() {
           <>
             <button
               type="button"
-              onClick={baixar}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#004D5C] p-4 text-sm font-semibold text-white"
+              onClick={salvar}
+              disabled={ocupado}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#004D5C] p-4 text-sm font-semibold text-white disabled:opacity-60"
             >
-              <Download size={18} strokeWidth={1.75} />
-              Baixar minha arte
+              {podeCompartilhar ? <Share2 size={18} strokeWidth={1.75} /> : <Download size={18} strokeWidth={1.75} />}
+              {ocupado ? "Gerando…" : podeCompartilhar ? "Salvar e compartilhar" : "Baixar minha arte"}
             </button>
+
+            {resultado ? (
+              <div ref={resultadoRef} className="app-card p-4">
+                <p className="text-xs leading-relaxed text-slate-500">
+                  Pronto! Se a sua arte não foi para a galeria,{" "}
+                  <strong className="font-semibold text-[#004D5C]">
+                    toque e segure na imagem abaixo
+                  </strong>{" "}
+                  e escolha salvar.
+                </p>
+                {/*
+                  A arte fica aqui como imagem de verdade, e não como canvas: é o
+                  toque longo que salva no iPhone, inclusive dentro do navegador
+                  do Instagram, onde compartilhar e baixar não funcionam.
+                */}
+                <img
+                  src={resultado}
+                  alt="Sua arte #EuVou pronta para salvar"
+                  className="mt-3 w-full rounded-xl"
+                />
+                <a
+                  href={resultado}
+                  download={NOME_ARQUIVO}
+                  className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-slate-200 p-3 text-sm font-semibold text-slate-600"
+                >
+                  <Download size={16} strokeWidth={1.75} />
+                  Baixar de novo
+                </a>
+              </div>
+            ) : null}
+
             <button
               type="button"
-              onClick={() => setConfirmado(false)}
+              onClick={() => {
+                setConfirmado(false);
+                // A arte mostrada é de um enquadramento que deixou de valer.
+                setResultado((a) => {
+                  if (a) URL.revokeObjectURL(a);
+                  return null;
+                });
+              }}
               className="app-card flex w-full items-center justify-center gap-2 p-4 text-sm font-semibold text-slate-600"
             >
               Ajustar de novo
