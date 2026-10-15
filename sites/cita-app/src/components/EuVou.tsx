@@ -27,7 +27,13 @@ import moldura from "@/assets/euvou-moldura.webp";
 
 const ARTE_W = 1080;
 const ARTE_H = 1920;
-const CIRCULO = { cx: 540, cy: 776, r: 331 };
+/*
+ * Disco da foto, medido no arquivo da moldura: o cinza vazado vai até o raio
+ * 331,5. O raio aqui é 332, meio pixel A MAIS de propósito — a foto passa por
+ * baixo da borda da moldura e some sob ela. Com 331 sobrava um anel branco de
+ * 1px entre o fim da foto e o começo da arte, visível na imagem baixada.
+ */
+const CIRCULO = { cx: 540, cy: 776, r: 332 };
 const NOME_ARQUIVO = "euvou-simposio-cita.png";
 
 type Transform = { escala: number; x: number; y: number };
