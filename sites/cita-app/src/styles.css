@@ -257,6 +257,65 @@
   }
 }
 
+/*
+ * Palco da moldura #EuVou.
+ *
+ * A arte é 9:16, e o palco antes era dimensionado pela LARGURA: 22rem de largura
+ * davam 626px de altura. Num Samsung com a barra do navegador à vista sobram uns
+ * 730px de tela — ou seja, a prévia sozinha comia a tela inteira e o botão de
+ * escolher a foto nascia abaixo dela, coberto pela barra de baixo. Quem abria a
+ * página via uma moldura vazia e nenhum botão, e não tinha como saber que
+ * precisava rolar. Em paisagem ficava pior ainda.
+ *
+ * Agora quem manda é a ALTURA disponível, e a largura sai da proporção. O `vh`
+ * vem antes do `svh` de propósito: é a reserva para quem não entende `svh`.
+ */
+@utility euvou-layout {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@utility euvou-controles {
+  width: 100%;
+  max-width: 22rem;
+  margin-inline: auto;
+  min-width: 0;
+}
+
+/*
+ * Em paisagem o celular vira uma tela larga e baixa (uns 412px de altura). Com
+ * prévia e controles empilhados, a prévia sozinha come a altura e o botão de
+ * escolher a foto cai atrás da barra de baixo — foi o "girei a tela e corta o
+ * botão". Aqui a sobra é horizontal, então os dois ficam lado a lado, e a prévia
+ * pode até crescer, porque não disputa mais altura com os botões.
+ *
+ * O critério é altura baixa, não orientação: num tablet deitado, que é largo e
+ * alto, empilhado continua melhor.
+ */
+@media (min-width: 640px) and (max-height: 560px) {
+  .euvou-layout {
+    grid-template-columns: auto minmax(0, 22rem);
+    align-items: start;
+    justify-content: center;
+  }
+
+  /*
+    Em paisagem a conta é por subtração, não por porcentagem: o cabeçalho e a
+    barra de baixo comem uma fatia fixa da altura, e 80% da tela estourava o que
+    sobra. As 10rem são o cabeçalho, a barra e as margens.
+  */
+  .palco-euvou {
+    height: min(calc(100vh - 10rem), 34rem);
+    height: min(calc(100svh - 10rem), 34rem);
+  }
+}
+
+@utility palco-euvou {
+  height: min(62vh, 34rem);
+  height: min(62svh, 34rem);
+  max-width: 100%;
+}
+
 @utility app-card {
   border-radius: 1.25rem;
   background: #ffffff;

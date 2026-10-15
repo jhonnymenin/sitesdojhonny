@@ -39,6 +39,12 @@ export function EuVou() {
   const [escalaMin, setEscalaMin] = useState(1);
   const [confirmado, setConfirmado] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
+  /*
+   * Detalhe técnico do que falhou. Aparece só quando dá erro, em letra miúda.
+   * Serve para quando a falha acontece num aparelho que não temos em mãos: o
+   * print de quem reclamou passa a dizer o motivo, em vez de só "não deu".
+   */
+  const [detalhe, setDetalhe] = useState<string | null>(null);
   /** URL da arte pronta. Fica na tela para dar o caminho do toque longo no iOS. */
   const [resultado, setResultado] = useState<string | null>(null);
   const [ocupado, setOcupado] = useState(false);
@@ -111,9 +117,11 @@ export function EuVou() {
     if (typeof createImageBitmap === "function") {
       try {
         return await createImageBitmap(arquivo, { imageOrientation: "from-image" });
-      } catch {
-        // Cai para o <img>.
+      } catch (e) {
+        passos.current.push(`bitmap:${(e as Error)?.name ?? "falhou"}`);
       }
+    } else {
+      passos.current.push("bitmap:indisponível");
     }
     const url = URL.createObjectURL(arquivo);
     try {
@@ -158,14 +166,20 @@ export function EuVou() {
     return img;
   }
 
+  /** Rastro do caminho percorrido, para a mensagem de erro. */
+  const passos = useRef<string[]>([]);
+
   async function aoEscolher(e: React.ChangeEvent<HTMLInputElement>) {
     const arquivo = e.target.files?.[0];
+    passos.current = [];
     // O valor é limpo para que escolher a MESMA foto de novo volte a disparar o
     // evento — sem isso, quem tenta de novo depois de um erro não consegue.
     e.target.value = "";
     if (!arquivo) return;
     setErro(null);
+    setDetalhe(null);
     setOcupado(true);
+    const kb = Math.round(arquivo.size / 1024);
     try {
       const img = await prepararFoto(arquivo);
       const base = escalaDeCobertura(img);
@@ -177,8 +191,12 @@ export function EuVou() {
         if (a) URL.revokeObjectURL(a);
         return null;
       });
-    } catch {
+    } catch (e) {
       setErro("Não consegui abrir essa foto. Tente outra, ou tire uma nova pela câmera.");
+      setDetalhe(
+        `${(e as Error)?.message ?? "erro"} · tipo "${arquivo.type || "(vazio)"}" · ${kb} KB` +
+          (passos.current.length ? ` · ${passos.current.join(" ")}` : ""),
+      );
     } finally {
       setOcupado(false);
     }
@@ -358,11 +376,18 @@ export function EuVou() {
   const pct = foto ? Math.round((t.escala / escalaMin) * 100) : 100;
 
   return (
-    <div>
+    /*
+      Prévia e controles como duas células: empilhadas no retrato, lado a lado
+      quando a tela é larga e baixa (celular deitado). Ver `.euvou-layout`.
+    */
+    <div className="euvou-layout">
       {/* Palco: a prévia é um retângulo na proporção da arte (9:16). */}
       <div
         ref={palcoRef}
-        className="relative mx-auto w-full max-w-[22rem] overflow-hidden rounded-2xl bg-white shadow-sm"
+        // `palco-euvou` manda na altura; a largura sai da proporção. Dimensionar
+        // pela largura fazia a prévia ocupar a tela inteira do Android e empurrar
+        // o botão de escolher a foto para fora dela.
+        className="palco-euvou relative mx-auto overflow-hidden rounded-2xl bg-white shadow-sm"
         // `touchAction: none` para o arraste não virar rolagem da página no celular.
         style={{ aspectRatio: `${ARTE_W} / ${ARTE_H}`, touchAction: "none" }}
         onPointerDown={aoTocar}
@@ -431,13 +456,19 @@ export function EuVou() {
         ) : null}
       </div>
 
-      {erro ? (
-        <p className="mt-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">
-          {erro}
-        </p>
-      ) : null}
+      <div className="euvou-controles">
+        {erro ? (
+          <div className="mb-3 rounded-lg bg-red-50 px-4 py-3 text-red-700" role="alert">
+            <p className="text-sm">{erro}</p>
+            {detalhe ? (
+              <p className="mt-1.5 font-mono text-[10px] leading-snug break-all text-red-700/70">
+                {detalhe}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
 
-      <div className="mt-5 space-y-3">
+        <div className="space-y-3">
         {/*
           Abrir a foto agora é assíncrono (decodifica e reduz antes de mostrar).
           Em foto grande isso leva um instante, e sem aviso o toque parece ter
@@ -570,6 +601,7 @@ export function EuVou() {
             </button>
           </>
         ) : null}
+        </div>
       </div>
     </div>
   );
