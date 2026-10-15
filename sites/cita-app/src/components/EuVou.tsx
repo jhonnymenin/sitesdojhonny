@@ -81,30 +81,107 @@ export function EuVou() {
     [],
   );
 
-  function aoEscolher(e: React.ChangeEvent<HTMLInputElement>) {
+  /*
+   * Abrir a foto que a pessoa escolheu — a parte que mais quebrava no Android.
+   *
+   * TRÊS COISAS DAVAM CÍRCULO VAZIO, e nenhuma delas avisava:
+   *
+   * 1. O tipo do arquivo era usado como porteiro (`type.startsWith("image/")`).
+   *    No Android o seletor devolve muita foto com `type` vazio ou
+   *    `application/octet-stream` — típico de imagem vinda do Google Fotos ou do
+   *    Drive. A foto era boa e ficava de fora. Agora quem decide é a decodificação:
+   *    se abrir, é imagem.
+   *
+   * 2. Imagem que carrega mas mede 0x0 deixava a escala em Infinity, e a largura
+   *    da prévia virava `Infinity%` — ou seja, nada na tela, sem erro nenhum.
+   *
+   * 3. Foto de celular moderno tem 12, 50, 108 megapixels. O disco final tem 662
+   *    pixels. Carregar o arquivo inteiro na memória para mostrar num círculo
+   *    desse tamanho é desperdício que o iPhone aguenta e o Android intermediário
+   *    não: a imagem decodifica e simplesmente não pinta. Agora a foto é reduzida
+   *    para no máximo 1600px do lado maior antes de qualquer coisa — sem perda
+   *    visível, porque é mais que o dobro do que o círculo usa.
+   */
+  const LADO_MAXIMO = 1600;
+
+  /** Decodifica o arquivo. `createImageBitmap` é o caminho que menos falha no
+   *  Android; o `<img>` fica de reserva para quem não tiver. Os dois já aplicam
+   *  a rotação do EXIF, então a foto nunca sai deitada. */
+  async function decodificar(arquivo: Blob): Promise<ImageBitmap | HTMLImageElement> {
+    if (typeof createImageBitmap === "function") {
+      try {
+        return await createImageBitmap(arquivo, { imageOrientation: "from-image" });
+      } catch {
+        // Cai para o <img>.
+      }
+    }
+    const url = URL.createObjectURL(arquivo);
+    try {
+      return await new Promise<HTMLImageElement>((ok, falha) => {
+        const img = new Image();
+        img.onload = () => ok(img);
+        img.onerror = () => falha(new Error("decode"));
+        img.src = url;
+      });
+    } finally {
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+    }
+  }
+
+  /** Converte o que foi decodificado numa <img> já reduzida, pronta para usar. */
+  async function prepararFoto(arquivo: Blob): Promise<HTMLImageElement> {
+    const fonte = await decodificar(arquivo);
+    const lw = "width" in fonte ? fonte.width : (fonte as HTMLImageElement).naturalWidth;
+    const lh = "height" in fonte ? fonte.height : (fonte as HTMLImageElement).naturalHeight;
+    if (!lw || !lh) throw new Error("vazia");
+
+    const reducao = Math.min(1, LADO_MAXIMO / Math.max(lw, lh));
+    const c = document.createElement("canvas");
+    c.width = Math.max(1, Math.round(lw * reducao));
+    c.height = Math.max(1, Math.round(lh * reducao));
+    const ctx = c.getContext("2d");
+    if (!ctx) throw new Error("canvas");
+    ctx.drawImage(fonte as CanvasImageSource, 0, 0, c.width, c.height);
+    if ("close" in fonte) fonte.close();
+
+    const blob = await new Promise<Blob | null>((ok) => c.toBlob(ok, "image/jpeg", 0.92));
+    if (!blob) throw new Error("blob");
+
+    const url = URL.createObjectURL(blob);
+    const img = await new Promise<HTMLImageElement>((ok, falha) => {
+      const el = new Image();
+      el.onload = () => ok(el);
+      el.onerror = () => falha(new Error("recarregar"));
+      el.src = url;
+    });
+    if (!img.naturalWidth || !img.naturalHeight) throw new Error("vazia");
+    return img;
+  }
+
+  async function aoEscolher(e: React.ChangeEvent<HTMLInputElement>) {
     const arquivo = e.target.files?.[0];
+    // O valor é limpo para que escolher a MESMA foto de novo volte a disparar o
+    // evento — sem isso, quem tenta de novo depois de um erro não consegue.
+    e.target.value = "";
     if (!arquivo) return;
     setErro(null);
-
-    if (!arquivo.type.startsWith("image/")) {
-      setErro("Escolha um arquivo de imagem.");
-      return;
-    }
-
-    const url = URL.createObjectURL(arquivo);
-    const img = new Image();
-    img.onload = () => {
+    setOcupado(true);
+    try {
+      const img = await prepararFoto(arquivo);
       const base = escalaDeCobertura(img);
       setEscalaMin(base);
       setT({ escala: base, x: 0, y: 0 });
       setFoto(img);
       setConfirmado(false);
-    };
-    img.onerror = () => {
-      setErro("Não consegui abrir essa imagem. Tente outra.");
-      URL.revokeObjectURL(url);
-    };
-    img.src = url;
+      setResultado((a) => {
+        if (a) URL.revokeObjectURL(a);
+        return null;
+      });
+    } catch {
+      setErro("Não consegui abrir essa foto. Tente outra, ou tire uma nova pela câmera.");
+    } finally {
+      setOcupado(false);
+    }
   }
 
   /*
@@ -361,9 +438,14 @@ export function EuVou() {
       ) : null}
 
       <div className="mt-5 space-y-3">
+        {/*
+          Abrir a foto agora é assíncrono (decodifica e reduz antes de mostrar).
+          Em foto grande isso leva um instante, e sem aviso o toque parece ter
+          falhado — foi assim que o círculo vazio passou por "não funcionou".
+        */}
         <label className="app-card flex cursor-pointer items-center justify-center gap-2 p-4 text-sm font-semibold text-[#004D5C]">
           <ImagePlus size={18} strokeWidth={1.75} />
-          {foto ? "Trocar a foto" : "Escolher uma foto"}
+          {ocupado && !foto ? "Abrindo a foto…" : foto ? "Trocar a foto" : "Escolher uma foto"}
           <input type="file" accept="image/*" className="sr-only" onChange={aoEscolher} />
         </label>
 
