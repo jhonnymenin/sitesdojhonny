@@ -38,7 +38,7 @@ export type AgendaItem = {
 
 /*
  * Transcrita do PDF "Programação Científica" enviado pela organização em
- * 14/10/2026. Horários, títulos, moderadores e palestrantes seguem o documento;
+ * 15/10/2026. Horários, títulos, moderadores e palestrantes seguem o documento;
  * onde ele diz "a definir", o app também diz.
  */
 export const agendaData: AgendaItem[] = [
@@ -55,6 +55,7 @@ export const agendaData: AgendaItem[] = [
     session: "Abertura institucional",
     kind: "abertura",
     period: "manha",
+    description: "Carlos Bernardo Cunha Filho (Presidente do Grupo CITA).",
   },
   {
     id: "video-institucional",
@@ -91,7 +92,7 @@ export const agendaData: AgendaItem[] = [
       {
         time: "09h15",
         title: "Discussão da mesa",
-        speakerName: "Katiucia (enfermeira), Eloisa Amoedo (psicóloga) e Carolina Rolim (nutricionista)",
+        speakerName: "Katiucia Veloso (enfermeira), Eloisa Amoedo (psicóloga) e Carolina Rolim (nutricionista)",
       },
     ],
   },
@@ -142,9 +143,11 @@ export const agendaData: AgendaItem[] = [
     id: "satelite-2",
     time: "12h00",
     session: "Simpósio satélite 2 — Eli Lilly",
+    title: "A ciência entre a obesidade e a inflamação aplicada às doenças psoriásicas",
     kind: "satelite",
     period: "manha",
-    description: "Tema e palestrante a definir.",
+    speakerIds: ["carla-saad"],
+    description: "Palestrante: Dra. Carla Saad.",
   },
   {
     id: "satelite-3",
@@ -235,20 +238,20 @@ export const agendaData: AgendaItem[] = [
     kind: "mesa",
     period: "tarde",
     moderator: "Dr. Fernando Henrique Carlos De Souza",
-    speakerIds: ["carla-saad", "samila-apostolo"],
+    speakerIds: ["samila-apostolo"],
     talks: [
       {
         time: "17h00",
         title:
           "Interface entre gastroenterologia, dermatologia e reumatologia: retocolite ulcerativa e hidradenite supurativa",
         speakerName:
-          "Gastroenterologia: Dr. Diogo Delgado Dotta · Reumatologia: Dra. Carla Saad · Dermatologia: Dra. Renata Magalhães",
+          "Gastroenterologia: Dr. Diogo Dellgado · Reumatologia: Dr. Cristiano Campanholo · Dermatologia: Dra. Renata Magalhães",
       },
       {
         time: "17h30",
         title: "Miastenia gravis e espondiloartrite axial",
         speakerName:
-          "Reumatologia: Dra. Carla Saad · Imunologia: Dra. Mariana de Gouveia Pereira Pimentel · Neurologia: Dra. Samira Apóstolos",
+          "Reumatologia: Dr. Cristiano Campanholo · Imunologia: Dra. Mariana Gouveia · Neurologia: Dra. Samira Apóstolos",
       },
     ],
   },

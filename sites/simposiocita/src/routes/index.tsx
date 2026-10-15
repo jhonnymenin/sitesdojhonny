@@ -568,14 +568,14 @@ type AgendaEntry =
 function Agenda() {
   const entries: AgendaEntry[] = [
     { kind: "item", time: "07h30", title: "Credenciamento e recepção" },
-    { kind: "item", time: "08h00", title: "Abertura institucional" },
+    { kind: "item", time: "08h00", title: "Abertura institucional", sub: "Carlos Bernardo Cunha Filho (Presidente do Grupo CITA)" },
     { kind: "item", time: "08h25", title: "Apresentação do vídeo institucional" },
 
     { kind: "mesa", title: "Mesa 1 — Integração do cuidado e jornada do paciente", note: "Moderador: Dr. Alexandre Ibrahim" },
     { kind: "item", time: "08h30", title: "A jornada do paciente como instrumento de eficiência no cuidado", sub: "Dr. Júlio Moraes" },
     { kind: "item", time: "08h45", title: "A importância da integração entre o médico prescritor e o Centro de Terapia Assistida", sub: "Dr. Rafael Carvalho" },
     { kind: "item", time: "09h00", title: "Acompanhamento de desfechos como medida de eficácia clínica e experiência do paciente", sub: "Dra. Ana Teresa Amoedo" },
-    { kind: "item", time: "09h15", title: "Discussão da mesa", sub: "Katiucia (enfermeira), Eloisa Amoedo (psicóloga) e Carolina Rolim (nutricionista)" },
+    { kind: "item", time: "09h15", title: "Discussão da mesa", sub: "Katiucia Veloso (enfermeira), Eloisa Amoedo (psicóloga) e Carolina Rolim (nutricionista)" },
 
     { kind: "item", time: "09h30", title: "Simpósio satélite 1 — Johnson & Johnson / Tremfya: das articulações ao intestino, o papel da segurança na jornada do paciente crônico", sub: "Dra. Carla Saad e Dra. Genóile Santana" },
     { kind: "item", time: "10h00", title: "Coffee break e networking" },
@@ -586,7 +586,7 @@ function Agenda() {
     { kind: "item", time: "11h10", title: "Terapia celular nas doenças imunomediadas", sub: "Dr. Henrique Dalmolin" },
     { kind: "item", time: "11h30", title: "Discussão da mesa", sub: "Dr. Antônio Condino, Dr. Henrique Ayres e Dr. Henrique Dalmolin" },
 
-    { kind: "item", time: "12h00", title: "Simpósio satélite 2 — Eli Lilly", sub: "Tema e palestrante a definir" },
+    { kind: "item", time: "12h00", title: "Simpósio satélite 2 — Eli Lilly: a ciência entre a obesidade e a inflamação aplicada às doenças psoriásicas", sub: "Dra. Carla Saad" },
     { kind: "item", time: "12h30", title: "Simpósio satélite 3 — GSK: janela de oportunidade no tratamento do LES, um caso de vida real", sub: "Dr. Henrique Dalmolin" },
     { kind: "item", time: "13h00", title: "Almoço e networking" },
 
@@ -611,8 +611,8 @@ function Agenda() {
       time: "17h00",
       title: "Interface entre gastroenterologia, dermatologia e reumatologia: retocolite ulcerativa e hidradenite supurativa",
       sub: [
-        "Gastroenterologia: Dr. Diogo Delgado Dotta",
-        "Reumatologia: Dra. Carla Saad",
+        "Gastroenterologia: Dr. Diogo Dellgado",
+        "Reumatologia: Dr. Cristiano Campanholo",
         "Dermatologia: Dra. Renata Magalhães",
       ],
     },
@@ -621,8 +621,8 @@ function Agenda() {
       time: "17h30",
       title: "Miastenia gravis e espondiloartrite axial",
       sub: [
-        "Reumatologia: Dra. Carla Saad",
-        "Imunologia: Dra. Mariana de Gouveia Pereira Pimentel",
+        "Reumatologia: Dr. Cristiano Campanholo",
+        "Imunologia: Dra. Mariana Gouveia",
         "Neurologia: Dra. Samira Apóstolos",
       ],
     },
