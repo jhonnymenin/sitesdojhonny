@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import logoJohnsonJohnson from "@/assets/sponsors/johnson-johnson.png";
 import logoAstraZeneca from "@/assets/sponsors/astrazeneca.png";
 import logoDaiichiSankyo from "@/assets/sponsors/daiichi-sankyo.png";
+import logoNovartis from "@/assets/sponsors/novartis.png";
 
 /*
  * Patrocinadores.
@@ -23,6 +24,12 @@ import logoDaiichiSankyo from "@/assets/sponsors/daiichi-sankyo.png";
  *
  * A Diamante continua medida por altura: ela está sozinha na categoria, e o que
  * importa ali é ser maior que as Ouro.
+ *
+ * APOIO INSTITUCIONAL vem abaixo da Ouro e menor que ela, como o MOC pediu. A
+ * comparação é por largura, a mesma régua da Ouro: 96/112px contra 112/128px,
+ * uns 86%. Comparar por altura não serviria aqui — o lockup da Novartis é bem
+ * mais largo que alto (6:1 contra 4:1 da AstraZeneca), e igualar altura a faria
+ * ocupar mais largura que as Ouro, que é o oposto do pedido.
  *
  * As artes são recortadas na marca, **sem margem no arquivo** — o PNG oficial da
  * Daiichi vinha com 49% da altura em espaço vazio, o que a encolheria.
@@ -50,6 +57,12 @@ const TIERS = [
       { name: "AstraZeneca", logo: logoAstraZeneca },
       { name: "Daiichi-Sankyo", logo: logoDaiichiSankyo },
     ],
+  },
+  {
+    tier: "Apoio Institucional",
+    // Mesma régua da Ouro (largura), um degrau abaixo dela.
+    size: "h-auto w-24 md:w-28",
+    brands: [{ name: "Novartis", logo: logoNovartis }],
   },
 ];
 
