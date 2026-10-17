@@ -38,7 +38,7 @@ export type AgendaItem = {
 
 /*
  * Transcrita do PDF "Programação Científica" enviado pela organização em
- * 15/10/2026. Horários, títulos, moderadores e palestrantes seguem o documento;
+ * 17/10/2026. Horários, títulos, moderadores e palestrantes seguem o documento;
  * onde ele diz "a definir", o app também diz.
  */
 export const agendaData: AgendaItem[] = [
@@ -147,7 +147,7 @@ export const agendaData: AgendaItem[] = [
     kind: "satelite",
     period: "manha",
     speakerIds: ["carla-saad"],
-    description: "Palestrante: Dra. Carla Saad.",
+    description: "Palestrantes: Dra. Carla Saad e Dra. Renata Magalhães.",
   },
   {
     id: "satelite-3",
@@ -245,7 +245,7 @@ export const agendaData: AgendaItem[] = [
         title:
           "Interface entre gastroenterologia, dermatologia e reumatologia: retocolite ulcerativa e hidradenite supurativa",
         speakerName:
-          "Gastroenterologia: Dr. Diogo Dellgado · Reumatologia: Dr. Cristiano Campanholo · Dermatologia: Dra. Renata Magalhães",
+          "Gastroenterologia: Dr. Diogo Delgado Dotta · Reumatologia: Dr. Cristiano Campanholo · Dermatologia: Dra. Renata Magalhães",
       },
       {
         time: "17h30",

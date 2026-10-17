@@ -586,7 +586,7 @@ function Agenda() {
     { kind: "item", time: "11h10", title: "Terapia celular nas doenças imunomediadas", sub: "Dr. Henrique Dalmolin" },
     { kind: "item", time: "11h30", title: "Discussão da mesa", sub: "Dr. Antônio Condino, Dr. Henrique Ayres e Dr. Henrique Dalmolin" },
 
-    { kind: "item", time: "12h00", title: "Simpósio satélite 2 — Eli Lilly: a ciência entre a obesidade e a inflamação aplicada às doenças psoriásicas", sub: "Dra. Carla Saad" },
+    { kind: "item", time: "12h00", title: "Simpósio satélite 2 — Eli Lilly: a ciência entre a obesidade e a inflamação aplicada às doenças psoriásicas", sub: "Dra. Carla Saad e Dra. Renata Magalhães" },
     { kind: "item", time: "12h30", title: "Simpósio satélite 3 — GSK: janela de oportunidade no tratamento do LES, um caso de vida real", sub: "Dr. Henrique Dalmolin" },
     { kind: "item", time: "13h00", title: "Almoço e networking" },
 
@@ -611,7 +611,7 @@ function Agenda() {
       time: "17h00",
       title: "Interface entre gastroenterologia, dermatologia e reumatologia: retocolite ulcerativa e hidradenite supurativa",
       sub: [
-        "Gastroenterologia: Dr. Diogo Dellgado",
+        "Gastroenterologia: Dr. Diogo Delgado Dotta",
         "Reumatologia: Dr. Cristiano Campanholo",
         "Dermatologia: Dra. Renata Magalhães",
       ],
