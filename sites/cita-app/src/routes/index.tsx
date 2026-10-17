@@ -17,12 +17,14 @@ import {
 } from "lucide-react";
 import logoHeaderAsset from "@/assets/logo-header-unificado-v2.png";
 import { eventData } from "@/data/eventData";
-import { agendaData, getNextActivity } from "@/data/agendaData";
+import { agendaData } from "@/data/agendaData";
 import { speakersData } from "@/data/speakersData";
 import { sponsorsData } from "@/data/sponsorsData";
 import { SectionTitle } from "@/components/app/AppPage";
 import { CitaClinics } from "@/components/app/CitaClinics";
 import { SponsorLogo } from "@/components/app/SponsorLogo";
+import { useRelogioDoEvento } from "@/lib/relogio";
+import { cn } from "@/lib/utils";
 import { InstallBanner } from "@/components/app/InstallApp";
 
 export const Route = createFileRoute("/")({
@@ -70,7 +72,29 @@ const toneClass: Record<string, string> = {
 };
 
 function HomePage() {
-  const next = getNextActivity(new Date(), eventData.isoDate);
+  /*
+   * A hora vem do relógio de quem abre, nunca do servidor. Antes isto era
+   * `getNextActivity(new Date())` no corpo do componente: no SSR rodava com a
+   * hora da máquina da Vercel e ia para o cache, de modo que o cartão mostrava
+   * a atividade do momento do build para todo mundo, o dia inteiro.
+   */
+  const relogio = useRelogioDoEvento();
+  const aoVivo = relogio.pronto && relogio.noDia;
+  /*
+   * Depois do encerramento não há "acontecendo" nem "a seguir". Sem este último
+   * caso o cartão caía na primeira atividade do dia e dizia "ENCERRADO · 07h30
+   * Credenciamento", que lê como se o credenciamento tivesse acabado agora.
+   */
+  const destaque = aoVivo
+    ? (relogio.acontecendo ?? relogio.aSeguir ?? agendaData[agendaData.length - 1])
+    : agendaData[0];
+  const rotulo = !aoVivo
+    ? "Programado"
+    : relogio.terminou
+      ? "Encerrado"
+      : relogio.acontecendo
+        ? "Acontecendo agora"
+        : "A seguir";
   const highlights = agendaData.filter((a) => a.kind === "mesa");
   const featuredSpeakers = speakersData.filter((s) => s.photo).slice(0, 6);
 
@@ -127,22 +151,35 @@ function HomePage() {
       </section>
 
       <section className="px-4 pt-5">
-        <SectionTitle>Próxima atividade</SectionTitle>
+        <SectionTitle>
+          {relogio.acontecendo
+            ? "Acontecendo agora"
+            : relogio.terminou
+              ? "Simpósio encerrado"
+              : "Próxima atividade"}
+        </SectionTitle>
         <div className="app-card overflow-hidden">
           <div className="flex items-start gap-4 p-5">
             <div className="flex shrink-0 flex-col items-center rounded-2xl bg-navy px-3 py-2 text-white">
               <Clock size={14} className="text-leaf" />
-              <span className="mt-1 font-display text-base font-bold leading-none">{next.item.time}</span>
+              <span className="mt-1 font-display text-base font-bold leading-none">{destaque.time}</span>
             </div>
             <div className="min-w-0">
-              <span className="inline-flex rounded-full bg-leaf/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-leaf">
-                {next.status}
+              <span
+                className={cn(
+                  "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold tracking-[0.18em] uppercase",
+                  relogio.acontecendo
+                    ? "animate-pulse bg-leaf text-white"
+                    : "bg-leaf/15 text-leaf",
+                )}
+              >
+                {rotulo}
               </span>
               <h3 className="mt-2 font-display text-base font-bold uppercase tracking-[0.05em] text-navy">
-                {next.item.session}
+                {destaque.session}
               </h3>
-              {next.item.title && (
-                <p className="text-[13px] leading-snug text-navy/70">{next.item.title}</p>
+              {destaque.title && (
+                <p className="text-[13px] leading-snug text-navy/70">{destaque.title}</p>
               )}
               <p className="mt-1 flex items-center gap-1 text-xs text-navy/55">
                 <MapPin size={12} /> {eventData.venue}

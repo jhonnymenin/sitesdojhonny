@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { ExternalLink, ChevronDown, Users } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ExternalLink, ChevronDown, Users, Radio, Check, ArrowDown } from "lucide-react";
 import { AppPage } from "@/components/app/AppPage";
 import { agendaData, type AgendaItem, type AgendaKind } from "@/data/agendaData";
 import { materialBySession } from "@/data/materialsData";
 import { speakerById } from "@/data/speakersData";
 import { cn } from "@/lib/utils";
+import { useRelogioDoEvento, type Estado, type Relogio } from "@/lib/relogio";
 
 export const Route = createFileRoute("/agenda")({
   head: () => ({
@@ -43,12 +44,14 @@ const kindChip: Record<AgendaKind, string> = {
 function AgendaPage() {
   const manha = agendaData.filter((a) => a.period === "manha");
   const tarde = agendaData.filter((a) => a.period === "tarde");
+  const relogio = useRelogioDoEvento();
 
   return (
     <AppPage title="Agenda" subtitle="17 de outubro de 2026 · Sábado">
-      <PeriodBlock label="Manhã" tone="leaf" items={manha} />
+      <AoVivo relogio={relogio} />
+      <PeriodBlock label="Manhã" tone="leaf" items={manha} relogio={relogio} />
       <div className="h-7" />
-      <PeriodBlock label="Tarde" tone="navy" items={tarde} />
+      <PeriodBlock label="Tarde" tone="navy" items={tarde} relogio={relogio} />
       <p className="mt-6 text-center text-[11px] text-navy/45">
         * Programação preliminar sujeita a alterações
       </p>
@@ -56,7 +59,91 @@ function AgendaPage() {
   );
 }
 
-function PeriodBlock({ label, tone, items }: { label: string; tone: "leaf" | "navy"; items: AgendaItem[] }) {
+/**
+ * Faixa de situação do dia, no topo da agenda.
+ *
+ * Só existe no dia do evento. Fora dele a agenda é uma lista de consulta, e um
+ * aviso de "acontecendo agora" ali seria ruído — ou pior, mentira.
+ */
+function AoVivo({ relogio }: { relogio: Relogio }) {
+  if (!relogio.pronto || !relogio.noDia) return null;
+
+  if (relogio.terminou) {
+    return (
+      <div className="app-card mb-5 flex items-center gap-3 p-4">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-navy/8 text-navy/50">
+          <Check size={18} strokeWidth={2} />
+        </span>
+        <p className="text-[13px] leading-snug font-semibold text-navy">
+          O simpósio foi encerrado. Obrigado por participar!
+        </p>
+      </div>
+    );
+  }
+
+  const atual = relogio.acontecendo;
+  const proxima = relogio.aSeguir;
+
+  return (
+    <div className="app-card mb-5 overflow-hidden">
+      {atual ? (
+        <div className="flex items-start gap-3 p-4">
+          <span className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-leaf text-white">
+            <Radio size={18} strokeWidth={1.8} />
+            <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 animate-pulse rounded-full bg-leaf ring-2 ring-white" />
+          </span>
+          <div className="min-w-0">
+            <p className="text-[10px] font-bold tracking-[0.18em] text-leaf uppercase">
+              Acontecendo agora
+            </p>
+            <p className="mt-1 font-display text-[14px] leading-tight font-bold text-navy uppercase">
+              {atual.session}
+            </p>
+            {atual.title && (
+              <p className="mt-0.5 text-[12px] leading-snug text-navy/65">{atual.title}</p>
+            )}
+          </div>
+        </div>
+      ) : null}
+
+      {proxima ? (
+        <div
+          className={cn(
+            "flex items-start gap-3 p-4",
+            atual && "border-t border-navy/8 bg-mist/40",
+          )}
+        >
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-teal/12 text-teal">
+            <ArrowDown size={18} strokeWidth={1.8} />
+          </span>
+          <div className="min-w-0">
+            <p className="text-[10px] font-bold tracking-[0.18em] text-teal uppercase">
+              A seguir · {proxima.time}
+            </p>
+            <p className="mt-1 font-display text-[14px] leading-tight font-bold text-navy uppercase">
+              {proxima.session}
+            </p>
+            {proxima.title && (
+              <p className="mt-0.5 text-[12px] leading-snug text-navy/65">{proxima.title}</p>
+            )}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function PeriodBlock({
+  label,
+  tone,
+  items,
+  relogio,
+}: {
+  label: string;
+  tone: "leaf" | "navy";
+  items: AgendaItem[];
+  relogio: Relogio;
+}) {
   return (
     <section>
       <div
@@ -76,15 +163,46 @@ function PeriodBlock({ label, tone, items }: { label: string; tone: "leaf" | "na
           )}
         />
         {items.map((item) => (
-          <TimelineItem key={item.id} item={item} tone={tone} />
+          <TimelineItem
+            key={item.id}
+            item={item}
+            tone={tone}
+            estado={relogio.pronto && relogio.noDia ? relogio.estadoDe(item.id) : null}
+          />
         ))}
       </ol>
     </section>
   );
 }
 
-function TimelineItem({ item, tone }: { item: AgendaItem; tone: "leaf" | "navy" }) {
+function TimelineItem({
+  item,
+  tone,
+  estado,
+}: {
+  item: AgendaItem;
+  tone: "leaf" | "navy";
+  /** null fora do dia do evento, ou enquanto a hora ainda não foi lida */
+  estado: Estado | null;
+}) {
   const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLLIElement>(null);
+  const jaRolou = useRef(false);
+
+  /*
+   * Leva a tela até o que está acontecendo, uma vez só.
+   *
+   * A agenda tem 16 blocos e não cabe numa tela: quem abre o app às 15h quer ver
+   * a Mesa 4, não o credenciamento das 7h30. `jaRolou` existe porque o relógio
+   * atualiza a cada minuto — sem ele, a página puxaria a tela de volta no meio
+   * da leitura de quem foi consultar outro horário.
+   */
+  useEffect(() => {
+    if (estado !== "agora" || jaRolou.current) return;
+    jaRolou.current = true;
+    setOpen(true);
+    ref.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [estado]);
   const material = materialBySession(item.id);
   const speakers = (item.speakerIds ?? []).map(speakerById).filter(Boolean);
   const hasDetails =
@@ -95,16 +213,30 @@ function TimelineItem({ item, tone }: { item: AgendaItem; tone: "leaf" | "navy" 
     (item.talks?.length ?? 0) > 0;
   const minor = item.kind === "coffee" || item.kind === "almoco";
 
+  const agora = estado === "agora";
+  const passou = estado === "passou";
+
   return (
-    <li className="relative">
+    <li ref={ref} className="relative">
       <span
         aria-hidden
         className={cn(
-          "absolute -left-6 top-5 h-3.5 w-3.5 rounded-full border-2 border-white",
-          minor ? "bg-navy/25" : tone === "leaf" ? "bg-leaf" : "bg-navy",
+          "absolute -left-6 top-5 h-3.5 w-3.5 rounded-full border-2 border-white transition-colors",
+          // O que já passou perde a cor do marcador; o que está acontecendo
+          // ganha um halo que pulsa. É o que dá para ler a linha do tempo de
+          // relance, sem ler nenhum texto.
+          passou ? "bg-navy/20" : minor ? "bg-navy/25" : tone === "leaf" ? "bg-leaf" : "bg-navy",
+          agora && "scale-125 bg-leaf ring-4 ring-leaf/25",
         )}
       />
-      <div className={cn("app-card overflow-hidden", minor && "bg-mist/50 shadow-none")}>
+      <div
+        className={cn(
+          "app-card overflow-hidden transition-opacity",
+          minor && "bg-mist/50 shadow-none",
+          passou && "opacity-55",
+          agora && "ring-2 ring-leaf shadow-[0_10px_30px_-14px_rgba(0,0,0,0.35)]",
+        )}
+      >
         <button
           type="button"
           onClick={() => hasDetails && setOpen((v) => !v)}
@@ -143,6 +275,16 @@ function TimelineItem({ item, tone }: { item: AgendaItem; tone: "leaf" | "navy" 
               {material && (
                 <span className="inline-flex rounded-full bg-teal/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.14em] text-teal">
                   Materiais
+                </span>
+              )}
+              {agora && (
+                <span className="inline-flex animate-pulse items-center gap-1 rounded-full bg-leaf px-2 py-0.5 text-[9px] font-bold tracking-[0.14em] text-white uppercase">
+                  <Radio size={9} strokeWidth={2.5} /> Agora
+                </span>
+              )}
+              {passou && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-navy/8 px-2 py-0.5 text-[9px] font-bold tracking-[0.14em] text-navy/45 uppercase">
+                  <Check size={9} strokeWidth={3} /> Encerrado
                 </span>
               )}
             </span>
