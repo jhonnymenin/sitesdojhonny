@@ -66,14 +66,14 @@ export function MobileCtaBar() {
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-surface px-4 py-3 md:hidden">
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
         <div className="min-w-0">
-          <p className="label-mono text-muted-foreground">Lançamento · até 30% OFF</p>
+          <p className="label-mono text-muted-foreground">15% OFF · até 31 de outubro</p>
           {/*
             "A partir de" porque a barra leva à seção de preços, onde há dois
             combos: este é o valor de entrada (Intensivo + Banco). Antes o número
             era cravado e o botão ia ao combo de R$ 2.659,30.
           */}
           <p className="truncate font-display text-base font-semibold text-foreground">
-            a partir de R$ 2.030,00
+            a partir de R$ 2.465,00
           </p>
         </div>
         <CtaButton href={PRICING_ANCHOR} className="px-4 py-2.5 text-sm">

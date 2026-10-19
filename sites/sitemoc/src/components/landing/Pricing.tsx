@@ -6,42 +6,36 @@ import { checkoutUrl } from "@/lib/checkout";
 
 /*
  * Evolução dos lotes. Os valores são os que o checkout cobra, não uma conta
- * feita aqui: a plataforma aplica o desconto linear sobre o combo inteiro.
+ * feita aqui: a plataforma aplica o cupom sobre o combo inteiro.
  *
- * Conferidos abrindo o carrinho em 29/09/2026 com o cupom vigente 30REDES:
- * combo completo → R$ 2.729,00, combo de 2 cursos → R$ 2.030,00, e o valor cheio
- * do combo completo R$ 3.799,00.
+ * Conferidos em 19/10/2026 abrindo o carrinho com o cupom vigente 15PUBLI, em
+ * perfil de navegador novo para cada URL — o carrinho acumula entre medições.
+ *   combo completo  → de R$ 3.799,00 por R$ 3.229,15, ou 2x de R$ 1.614,58
+ *   combo de 2 cursos → de R$ 2.900,00 por R$ 2.465,00, ou 2x de R$ 1.232,50
  *
- * O 30REDES tira R$ 1.070 fixos do combo completo, não 30% — por isso ele custa
- * R$ 2.729,00 e não os R$ 2.659,30 que o cupom anterior dava. O valor aqui é o
- * que a plataforma cobra, não uma conta feita nesta página.
+ * Os dois são 15% exatos, diferente do lote anterior: lá o cupom tirava um valor
+ * fixo e o combo completo ficava em 28,17%, o que obrigava a página a dizer
+ * "até 30%". Aqui "15%" pode ser dito seco.
  *
- * A linha de outubro do Combo MOC (R$ 2.465,00) é projeção: é 15% sobre
- * R$ 2.900, mas o MOC ainda não criou o cupom desse lote. Conferir quando criar.
+ * O lote de lançamento saiu da tabela por ter acabado. Mostrar um preço mais
+ * barato que ninguém pode mais pegar gera arrependimento, não urgência; a
+ * urgência vem da linha de baixo, que é o que acontece em 1º de novembro.
  *
  * `oncoIa` é a diferença entre os dois combos — quanto custa acrescentar o
  * Onco IA —, não um produto vendido à parte.
  */
 const LOTS = [
   {
-    period: "Lançamento — até 30% de desconto",
-    detail: "De 1º de setembro a 15 de outubro.",
-    intensivo: "R$ 2.030,00",
-    oncoia: "R$ 699,00",
-    total: "R$ 2.729,00",
-    current: true,
-  },
-  {
     period: "Condição especial — 15% de desconto",
     detail: "De 16 a 31 de outubro.",
     intensivo: "R$ 2.465,00",
     oncoia: "R$ 764,15",
     total: "R$ 3.229,15",
-    current: false,
+    current: true,
   },
   {
     period: "Valor regular",
-    detail: "A partir de 1º novembro.",
+    detail: "A partir de 1º de novembro.",
     intensivo: "R$ 2.900,00",
     oncoia: "R$ 899,00",
     total: "R$ 3.799,00",
@@ -64,9 +58,9 @@ const OFFERS = [
     name: "Combo completo",
     includes: "X Curso Intensivo de Oncologia + Banco de Questões + Onco IA.",
     from: "De R$ 3.799,00",
-    price: "R$ 2.729",
-    cents: ",00",
-    installments: "ou 2x de R$ 1.364,50",
+    price: "R$ 3.229",
+    cents: ",15",
+    installments: "ou 2x de R$ 1.614,58",
     cta: "Garantir o combo completo",
     featured: true,
   },
@@ -76,9 +70,9 @@ const OFFERS = [
     name: "Intensivo + Banco de Questões",
     includes: "X Curso Intensivo de Oncologia + Banco de Questões, sem o Onco IA.",
     from: "De R$ 2.900,00",
-    price: "R$ 2.030",
+    price: "R$ 2.465",
     cents: ",00",
-    installments: "ou 2x de R$ 1.015,00",
+    installments: "ou 2x de R$ 1.232,50",
     cta: "Garantir esta condição",
     featured: false,
   },
@@ -127,12 +121,12 @@ export function Pricing() {
       <Reveal className="relative mt-12">
         <div className="relative rounded-lg border border-border bg-surface p-6 sm:p-8 md:p-10">
           {/*
-            "até 30%", e não "30%": com o cupom 30REDES o combo de 2 cursos tem
-            os 30% cheios, mas o combo completo fica em 28,17% — o cupom tira
-            R$ 1.070 fixos, não um percentual. Afirmar 30% seco seria anunciar um
-            desconto que o carrinho não dá no produto principal.
+            Aqui pode ser "15%" sem o "até" que o lote passado exigia: medido no
+            carrinho, o 15PUBLI dá 15,00% exatos nos dois combos. O cupom
+            anterior tirava valor fixo e rendia 28,17% no completo, o que tornava
+            "30%" uma afirmação falsa.
           */}
-          <Chip>Lote atual • Lançamento até 30% OFF</Chip>
+          <Chip>Lote atual • 15% OFF até 31 de outubro</Chip>
           <SectionTitle className="mt-5 max-w-2xl">
             Garanta a sua inscrição com desconto exclusivo
           </SectionTitle>
@@ -197,7 +191,7 @@ export function Pricing() {
 
           <p className="label-mono mt-6 flex items-center gap-2 text-muted-foreground">
             <Lock size={14} strokeWidth={1.5} /> Inscrição em ambiente seguro • Condição válida até
-            15 de outubro
+            31 de outubro
           </p>
 
           {/*
@@ -207,8 +201,8 @@ export function Pricing() {
             cria urgência; a tabela inteira segue no desktop, onde cabe.
           */}
           <p className="mt-8 text-sm leading-relaxed text-muted-foreground md:hidden">
-            A partir de 16 de outubro o desconto cai para 15%, e em 1º de novembro os valores voltam
-            ao preço cheio.
+            Em 1º de novembro os valores voltam ao preço cheio: o combo completo passa de
+            R$ 3.229,15 para R$ 3.799,00.
           </p>
 
           <div className="mt-10 hidden md:block">

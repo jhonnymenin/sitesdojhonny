@@ -40,34 +40,36 @@ const CHECKOUT_HOST = "https://cursosmocbrasil.eadplataforma.app";
  * com o desconto aplicado. O Banco de Questões avulso não tem cupom — vai para a
  * própria página do curso, onde a pessoa escolhe à vista ou parcelado.
  *
- * **O MOC troca os cupons de tempos em tempos.** Antes de cada campanha, abrir a
- * URL e conferir se o desconto ainda aplica — o carrinho mostra o percentual.
+ * **O MOC troca os cupons a cada lote, e o cupom antigo PARA DE FUNCIONAR.** Não
+ * basta trocar o texto da página: em 19/10/2026 o 30REDES já não aplicava nada e
+ * o carrinho cobrava os R$ 3.799 cheios de quem clicava vendo "até 30% OFF".
+ * Antes de cada virada de lote, abrir as duas URLs e ler o total.
  *
- * **Cupom vigente: 30REDES**, pedido pelo MOC em 29/09/2026.
+ * **Cupom vigente: 15PUBLI**, lote de 16 a 31/10/2026.
  *
- * Atenção ao combo completo: o 30REDES **não é 30%** nele. Conferido abrindo o
- * carrinho, ele tira R$ 1.070 fixos de R$ 3.799 — dá R$ 2.729,00, ou 28,17%. O
- * cupom anterior (30PUBLI) dava os 30% cheios, R$ 2.659,30. O preço exibido no
- * Pricing.tsx foi alinhado ao que o checkout cobra; se o MOC corrigir o cupom
- * para 30% de verdade, os dois lugares mudam juntos.
+ * Conferido em 19/10/2026, abrindo o carrinho com perfil de navegador novo para
+ * cada URL — o carrinho da plataforma acumula itens entre medições, e uma sessão
+ * reaproveitada soma os dois combos e dá um total que não existe:
  *
- * No combo de 2 cursos o 30REDES dá 30% certinho: R$ 2.030,00, igual ao 30MOC.
+ *   15PUBLI — combo 16 → R$ 3.229,15 (15,00%)  | combo 20 → R$ 2.465,00 (15,00%)
+ *   15MOC   — combo 16 → R$ 3.264,00 (14,08%)  | combo 20 → R$ 2.465,00 (15,00%)
+ *   15REDES — não aplica em nenhum dos dois
+ *   30REDES — expirado, não aplica mais
  *
- * O Banco de Questões avulso segue **sem cupom**, e agora por decisão do MOC: a
- * primeira versão do PDF pedia 30REDES nele, mas a plataforma só lê cupom no
- * caminho para combos (/checkout/curso/37/30REDES responde /not-found). O PDF
- * revisado aponta para a página do curso em cursos.mocbrasil.com.
+ * Entre os dois que funcionam, o 15PUBLI é o escolhido: dá 15% cheios nos DOIS
+ * combos, enquanto o 15MOC tira R$ 535 fixos do completo, que dá 14,08%. Com o
+ * 15PUBLI a página pode dizer "15%" sem ressalva — o lote passado precisava de
+ * "até 30%" justamente porque o cupom de lá não era percentual.
  *
- * Cupons conferidos em 29/09/2026, abrindo o carrinho com sessão limpa:
- *   30REDES — combo 16 → R$ 2.729,00 (28,17%)   | combo 20 → R$ 2.030,00 (30%)
- *   30PUBLI — combo 16 → R$ 2.659,30 (30%)      [anterior]
- *   30MOC   — combo 20 → R$ 2.030,00 (30%)      [anterior]
+ * O Banco de Questões avulso segue **sem cupom**, por decisão do MOC: a
+ * plataforma só lê cupom no caminho para combos, e o PDF revisado aponta para a
+ * página do curso em cursos.mocbrasil.com.
  */
 const DESTINOS: Record<Product, string> = {
-  /** Combo 16: X Curso Intensivo + Banco de Questões + ONCO IA — de R$ 3.799 por R$ 2.729. */
-  comboCompleto: `${CHECKOUT_HOST}/checkout/combo/16/30REDES`,
-  /** Combo 20: X Curso Intensivo + Banco de Questões, sem ONCO IA — de R$ 2.900 por R$ 2.030. */
-  comboIntensivo: `${CHECKOUT_HOST}/checkout/combo/20/30REDES`,
+  /** Combo 16: X Curso Intensivo + Banco de Questões + ONCO IA — de R$ 3.799 por R$ 3.229,15. */
+  comboCompleto: `${CHECKOUT_HOST}/checkout/combo/16/15PUBLI`,
+  /** Combo 20: X Curso Intensivo + Banco de Questões, sem ONCO IA — de R$ 2.900 por R$ 2.465. */
+  comboIntensivo: `${CHECKOUT_HOST}/checkout/combo/20/15PUBLI`,
   /**
    * Banco de Questões avulso — R$ 510 sem desconto, ou 2x de R$ 255.
    *

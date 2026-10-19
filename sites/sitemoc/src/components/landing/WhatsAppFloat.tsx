@@ -5,7 +5,7 @@ import { whatsappUrl } from "@/lib/checkout";
  * Botão flutuante de WhatsApp.
  *
  * **Só aparece depois que a pessoa rola a primeira tela.** No mobile ele caía
- * exatamente em cima da linha "DESCONTO de até 30% até 15 de outubro" do hero e
+ * exatamente em cima da linha de desconto do hero e
  * cobria a data — a primeira tela é onde a oferta precisa estar legível, e um
  * botão fixo de 56px sobre ela custa mais do que entrega. Depois do hero não há
  * o que atrapalhar, e aí ele volta a fazer sentido.
