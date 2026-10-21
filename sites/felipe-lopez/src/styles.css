@@ -277,3 +277,30 @@
 
 /* (Decorative floating logo symbols removed) */
 
+
+/*
+ * Traço de contorno do material do Dr. Luís Felipe.
+ *
+ * É o mesmo desenho de curvas de nível dos posts dele, redesenhado em SVG em vez
+ * de recortado da arte: recortar traria a foto e o ruído do JPEG junto, e não
+ * repetiria sem emenda.
+ *
+ * Entra como `background-image` da própria seção, e não como pseudo-elemento, de
+ * propósito: assim fica atrás de todo o conteúdo sem depender de z-index, que
+ * neste arquivo mudaria o empilhamento de várias seções que já usam `relative`.
+ * A opacidade está assada no arquivo (0,34) — como é background da seção, não há
+ * onde aplicá-la por CSS sem afetar o conteúdo em cima.
+ */
+@layer utilities {
+  .traco-fundo {
+    background-image: url("/traco-contorno.svg");
+    background-repeat: repeat;
+    background-position: center top;
+    background-size: 1500px auto;
+  }
+
+  /* No celular o desenho fica grande demais e vira ruído atrás do texto. */
+  @media (max-width: 640px) {
+    .traco-fundo { background-size: 820px auto; }
+  }
+}

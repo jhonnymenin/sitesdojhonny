@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Logo } from "@/components/site/Logo";
+import { Numeros } from "@/components/site/Numeros";
 import { BeforeAfterSlider } from "@/components/site/BeforeAfterSlider";
 import { LogoMark } from "@/components/site/LogoMark";
 import { useReveal } from "@/hooks/use-reveal";
 import mama from "@/assets/mama.jpg";
 import elevationLogo from "@/assets/elevation-logo-black.png";
 import drHero from "@/assets/dr-hero-transparente.png";
-import drSobre from "@/assets/foto-dr-sobre.png";
+import drSobre from "@/assets/foto-dr-sobre-recorte.webp";
 import procedimentosRosto from "@/assets/procedimentos-rosto.png";
 import fotoClinica from "@/assets/foto-clinica.jpg";
 import baBlefaro from "@/assets/ba-blefaroplastia.png";
@@ -49,7 +50,7 @@ const stats = [
   { icon: "shield", t: "Membro da", b: "Sociedade Brasileira de Cirurgia Plástica" },
   { icon: "star", t: "Atendimento", b: "Personalizado" },
   { icon: "hospital", t: "Hospitais de", b: "Excelência em São Paulo" },
-  { icon: "people", t: "Mais de 1.000", b: "pacientes atendidos" },
+  { icon: "people", t: "Mais de 2.000", b: "pacientes atendidos" },
 ];
 
 const specialties = [
@@ -373,7 +374,7 @@ function Landing() {
       {/* ───────── HERO ───────── */}
       <section
         id="inicio"
-        className="relative pt-28 lg:pt-32 pb-20 lg:pb-24 overflow-hidden"
+        className="traco-fundo relative pt-28 lg:pt-32 pb-20 lg:pb-24 overflow-hidden"
       >
         <LogoMark
           size={620}
@@ -465,14 +466,28 @@ function Landing() {
       {/* ───────── SOBRE ───────── */}
       <section id="sobre" className="relative section-dark py-0 scroll-mt-20">
         <div className="grid grid-cols-1 lg:grid-cols-2">
-          <div className="relative min-h-[460px] lg:min-h-[640px] overflow-hidden">
+          {/*
+            A foto entra recortada, sem fundo, apoiada no creme e sobre o traço
+            de contorno — é o arranjo do material do próprio Dr. Luís Felipe, e o
+            mesmo tratamento que a do Dr. Rahal recebe.
+
+            `object-contain` e não `object-cover`: recorte cortado pela metade
+            perde justamente a silhueta, que é o motivo de recortar. E alinhado
+            embaixo, porque ele está sentado — centralizado, a poltrona flutuaria.
+          */}
+          <div className="traco-fundo bg-paper-cream relative min-h-[520px] overflow-hidden lg:min-h-[640px]">
+            {/*
+              `absolute inset-0` + `object-contain`: o encaixe tem de considerar a
+              caixa inteira, não só a largura. Dimensionada pela largura, no
+              celular a foto ficava mais alta que a célula e a cabeça era cortada.
+              `object-bottom` porque ele está sentado — centralizado, a poltrona
+              flutuaria no meio do bloco.
+            */}
             <img
               src={drSobre}
               alt="Dr. Luís Felipe Lopez"
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ objectPosition: "50% 25%" }}
+              className="absolute inset-0 h-full w-full object-contain object-bottom"
             />
-
           </div>
           <div className="bg-paper-cream px-8 md:px-14 lg:px-20 py-14 lg:py-18 flex flex-col justify-center reveal">
             <div className="flex items-center gap-4">
@@ -505,6 +520,8 @@ function Landing() {
           </div>
         </div>
       </section>
+
+      <Numeros />
 
       {/* ───────── ESPECIALIDADES ───────── */}
       <section
@@ -669,17 +686,24 @@ function Landing() {
 
 
       {/* ───────── MÉTODO ELEVATION ───────── */}
-      <section id="metodo" className="bg-paper-cream relative reveal scroll-mt-20 overflow-hidden">
+      <section id="metodo" className="traco-fundo bg-paper-cream relative reveal scroll-mt-20 overflow-hidden">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 relative">
 
-          <div className="relative min-h-[420px] lg:min-h-[600px] overflow-hidden">
-            <img
-              src={mama}
-              alt="Método Elevation"
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ objectPosition: "50% 35%" }}
-            />
+          {/*
+            Cantos arredondados. A foto ganha respiro em volta porque, colada na
+            borda da tela, arredondar só os cantos de dentro fica torto — com o
+            recuo ela vira um cartão e os quatro cantos fazem sentido.
+          */}
+          <div className="relative flex min-h-[420px] p-5 md:p-8 lg:min-h-[600px] lg:p-12">
+            <div className="relative w-full overflow-hidden rounded-[28px]">
+              <img
+                src={mama}
+                alt="Método Elevation"
+                className="absolute inset-0 h-full w-full object-cover"
+                style={{ objectPosition: "50% 35%" }}
+              />
+            </div>
           </div>
           <div className="px-8 md:px-14 lg:px-20 py-14 lg:py-18 flex flex-col justify-center">
             <div className="flex items-center gap-4">
@@ -748,15 +772,17 @@ function Landing() {
       </section>
 
       {/* ───────── CLÍNICA ───────── */}
-      <section id="clinica" className="bg-paper-cream relative reveal scroll-mt-20">
+      <section id="clinica" className="traco-fundo bg-paper-cream relative reveal scroll-mt-20">
         <div className="grid grid-cols-1 lg:grid-cols-2">
-          <div className="relative min-h-[420px] lg:min-h-[580px] overflow-hidden">
-            <img
-              src={fotoClinica}
-              alt="Clínica no Jardim América"
-              className="absolute inset-0 w-full h-full object-cover"
-              loading="lazy"
-            />
+          <div className="relative flex min-h-[420px] p-5 md:p-8 lg:min-h-[580px] lg:p-12">
+            <div className="relative w-full overflow-hidden rounded-[28px]">
+              <img
+                src={fotoClinica}
+                alt="Clínica no Jardim América"
+                className="absolute inset-0 h-full w-full object-cover"
+                loading="lazy"
+              />
+            </div>
           </div>
           <div className="px-8 md:px-14 lg:px-20 py-14 lg:py-18 flex flex-col justify-center">
             <div className="flex items-center gap-4">
