@@ -1,4 +1,5 @@
 import hero1 from "@/assets/hero-1.webp";
+import { FaixaTopo } from "./FaixaTopo";
 import hero2 from "@/assets/hero-2.webp";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import { Link } from "@tanstack/react-router";
@@ -94,27 +95,8 @@ function HeroCarousel() {
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-cream leaf-pattern">
-      {/* Banner Superior da Campanha */}
-      <div className="bg-primary-dark py-4 px-6 text-center text-white border-b border-primary/20">
-        <div className="mx-auto max-w-7xl flex flex-col lg:flex-row items-center justify-center gap-3 lg:gap-8">
-          <div className="flex items-center gap-3">
-            <span className="inline-block w-2 h-2 rounded-full bg-primary animate-ping shrink-0" />
-            <span className="font-display font-bold tracking-[0.1em] text-white text-lg sm:text-xl lg:text-2xl uppercase">
-              Campanha Laços que protegem
-            </span>
-          </div>
-          <p className="text-sm sm:text-base font-medium text-white max-w-lg">
-            Sua doação transforma vidas. Apoie nossa causa e ajude a manter nossa missão!
-          </p>
-          <a 
-            href="#doacao" 
-            className="group inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-xs sm:text-sm font-bold text-primary-foreground transition-all hover:bg-white hover:text-primary-dark"
-          >
-            QUERO APOIAR
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </a>
-        </div>
-      </div>
+      {/* Faixa do topo: Simpósio até 7/11, campanha depois. Ver FaixaTopo.tsx. */}
+      <FaixaTopo />
 
       <div className="mx-auto max-w-7xl px-6">
         {/* Header / Nav area - Organização do Logo e Cabeçalho */}
