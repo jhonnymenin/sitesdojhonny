@@ -282,25 +282,34 @@
  * Traço de contorno do material do Dr. Luís Felipe.
  *
  * É o mesmo desenho de curvas de nível dos posts dele, redesenhado em SVG em vez
- * de recortado da arte: recortar traria a foto e o ruído do JPEG junto, e não
- * repetiria sem emenda.
+ * de recortado da arte: recortar traria a foto e o ruído do JPEG junto.
  *
- * Entra como `background-image` da própria seção, e não como pseudo-elemento, de
- * propósito: assim fica atrás de todo o conteúdo sem depender de z-index, que
- * neste arquivo mudaria o empilhamento de várias seções que já usam `relative`.
- * A opacidade está assada no arquivo (0,34) — como é background da seção, não há
- * onde aplicá-la por CSS sem afetar o conteúdo em cima.
+ * É DETALHE, NÃO TEXTURA. A primeira versão ladrilhava a seção inteira e o
+ * desenho tomou conta da página. Agora aparece uma vez só, ancorado no canto
+ * superior direito, e a máscara radial dentro do próprio SVG dissolve as bordas
+ * — ele entra e some, em vez de cobrir o bloco.
+ *
+ * Entra como `background-image` da seção, e não como pseudo-elemento, para
+ * ficar atrás de tudo sem depender de z-index: várias seções aqui já usam
+ * `relative`, e mexer no empilhamento quebraria outras coisas.
  */
 @layer utilities {
   .traco-fundo {
     background-image: url("/traco-contorno.svg");
-    background-repeat: repeat;
-    background-position: center top;
-    background-size: 1500px auto;
+    background-repeat: no-repeat;
+    background-position: right -60px top -40px;
+    background-size: 680px auto;
   }
 
-  /* No celular o desenho fica grande demais e vira ruído atrás do texto. */
+  @media (min-width: 1024px) {
+    .traco-fundo { background-size: 900px auto; }
+  }
+
+  /* No celular o desenho encosta no texto; encolhe e recua para o canto. */
   @media (max-width: 640px) {
-    .traco-fundo { background-size: 820px auto; }
+    .traco-fundo {
+      background-size: 420px auto;
+      background-position: right -80px top -30px;
+    }
   }
 }

@@ -86,7 +86,7 @@ export function Numeros() {
     <section
       ref={ref}
       aria-label="Números do consultório"
-      className="traco-fundo bg-paper-cream relative scroll-mt-20"
+      className="bg-paper-cream relative scroll-mt-20"
     >
       <div className="relative mx-auto grid max-w-[1280px] grid-cols-1 px-6 sm:grid-cols-2 md:px-10 lg:px-14">
         {NUMEROS.map((n, i) => (

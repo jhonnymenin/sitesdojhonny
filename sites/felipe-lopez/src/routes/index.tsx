@@ -686,7 +686,7 @@ function Landing() {
 
 
       {/* ───────── MÉTODO ELEVATION ───────── */}
-      <section id="metodo" className="traco-fundo bg-paper-cream relative reveal scroll-mt-20 overflow-hidden">
+      <section id="metodo" className="bg-paper-cream relative reveal scroll-mt-20 overflow-hidden">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 relative">
 
@@ -772,7 +772,7 @@ function Landing() {
       </section>
 
       {/* ───────── CLÍNICA ───────── */}
-      <section id="clinica" className="traco-fundo bg-paper-cream relative reveal scroll-mt-20">
+      <section id="clinica" className="bg-paper-cream relative reveal scroll-mt-20">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           <div className="relative flex min-h-[420px] p-5 md:p-8 lg:min-h-[580px] lg:p-12">
             <div className="relative w-full overflow-hidden rounded-[28px]">
