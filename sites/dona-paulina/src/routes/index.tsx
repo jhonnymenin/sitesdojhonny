@@ -5,6 +5,7 @@ import {
    History, Team, Transparency, OpenSpots, HowToJoin, Donation, 
    WhatsappCTA, Closing, Footer, BlogPreview,
 } from "@/components/landing/Sections";
+import { EuVouCta } from "@/components/landing/EuVouCta";
 import { FloatingWhats } from "@/components/landing/FloatingWhats";
 import { LeadModal } from "@/components/landing/LeadModal";
 import { SITE_URL } from "@/lib/site";
@@ -80,6 +81,7 @@ function Index() {
   return (
     <main className="min-h-screen bg-background">
       <Hero />
+      <EuVouCta />
       <Family />
       <WhoWeAre />
       <Programs />

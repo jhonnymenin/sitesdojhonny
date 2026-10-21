@@ -162,3 +162,60 @@
     radial-gradient(circle at 20% 30%, color-mix(in oklab, var(--primary) 8%, transparent) 0, transparent 40%),
     radial-gradient(circle at 80% 70%, color-mix(in oklab, var(--primary-dark) 6%, transparent) 0, transparent 45%);
 }
+
+/*
+ * Palco da moldura #EuVou.
+ *
+ * A arte é 9:16. Dimensionado pela LARGURA, o palco fica alto demais: numa tela
+ * de celular com a barra do navegador à vista, a prévia sozinha ocupa tudo e o
+ * botão de escolher a foto nasce abaixo da dobra — quem abre a página vê uma
+ * moldura vazia e nenhum botão. Quem manda é a ALTURA disponível; a largura sai
+ * da proporção. O `vh` vem antes do `svh` de propósito: é a reserva para quem
+ * não entende `svh`.
+ */
+@utility palco-euvou {
+  /*
+   * Duas travas, e vale a menor.
+   *
+   * 50% da tela: é a proporção que deixa a prévia grande sem engolir a página —
+   * aqui a ferramenta divide o espaço com cabeçalho, título e rodapé, diferente
+   * do app do CITA, onde ela ocupa a tela toda e cabem 62%.
+   *
+   * E `100svh - 22rem`: as 22rem são o que a abertura e o botão de escolher a
+   * foto ocupam. Numa tela de 640px os 50% ainda deixavam o botão 18px abaixo da
+   * dobra; a subtração resolve só onde aperta, sem encolher a prévia em tela
+   * grande, que é o que uma porcentagem menor faria.
+   *
+   * O `vh` vem antes do `svh` como reserva para quem não entende `svh`.
+   */
+  height: min(50vh, calc(100vh - 22rem), 34rem);
+  height: min(50svh, calc(100svh - 22rem), 34rem);
+  max-width: 100%;
+}
+
+/* Em paisagem a sobra é horizontal: prévia e controles lado a lado, e a altura
+   sai por subtração do cabeçalho, porque porcentagem de tela baixa estoura. */
+@media (min-width: 640px) and (max-height: 560px) {
+  .euvou-layout {
+    grid-template-columns: auto minmax(0, 22rem);
+    align-items: start;
+    justify-content: center;
+  }
+
+  .palco-euvou {
+    height: min(calc(100vh - 9rem), 34rem);
+    height: min(calc(100svh - 9rem), 34rem);
+  }
+}
+
+@utility euvou-layout {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@utility euvou-controles {
+  width: 100%;
+  max-width: 22rem;
+  margin-inline: auto;
+  min-width: 0;
+}
