@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ContatoRouteImport } from './routes/contato'
 import { Route as EuVouRouteImport } from './routes/eu-vou'
+import { Route as SimposioRouteImport } from './routes/simposio'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 
@@ -30,6 +31,11 @@ const EuVouRoute = EuVouRouteImport.update({
   path: '/eu-vou',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SimposioRoute = SimposioRouteImport.update({
+  id: '/simposio',
+  path: '/simposio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contato': typeof ContatoRoute
   '/eu-vou': typeof EuVouRoute
+  '/simposio': typeof SimposioRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contato': typeof ContatoRoute
   '/eu-vou': typeof EuVouRoute
+  '/simposio': typeof SimposioRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
 }
@@ -60,21 +68,31 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/contato': typeof ContatoRoute
   '/eu-vou': typeof EuVouRoute
+  '/simposio': typeof SimposioRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contato' | '/eu-vou' | '/blog/$slug' | '/blog/'
+  fullPaths:
+    '/' | '/contato' | '/eu-vou' | '/simposio' | '/blog/$slug' | '/blog/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contato' | '/eu-vou' | '/blog/$slug' | '/blog'
-  id: '__root__' | '/' | '/contato' | '/eu-vou' | '/blog/$slug' | '/blog/'
+  to: '/' | '/contato' | '/eu-vou' | '/simposio' | '/blog/$slug' | '/blog'
+  id:
+    | '__root__'
+    | '/'
+    | '/contato'
+    | '/eu-vou'
+    | '/simposio'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContatoRoute: typeof ContatoRoute
   EuVouRoute: typeof EuVouRoute
+  SimposioRoute: typeof SimposioRoute
   BlogSlugRoute: typeof BlogSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
 }
@@ -102,6 +120,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EuVouRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/simposio': {
+      id: '/simposio'
+      path: '/simposio'
+      fullPath: '/simposio'
+      preLoaderRoute: typeof SimposioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/': {
       id: '/blog/'
       path: '/blog'
@@ -123,6 +148,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContatoRoute: ContatoRoute,
   EuVouRoute: EuVouRoute,
+  SimposioRoute: SimposioRoute,
   BlogSlugRoute: BlogSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { modalAberto } from "./SimposioModal";
 
 export function LeadModal() {
   const [open, setOpen] = useState(false);
@@ -6,10 +7,23 @@ export function LeadModal() {
 
   useEffect(() => {
     if (shown) return;
-    const t = setTimeout(() => {
+    /*
+     * Não abrir por cima do pop-up do Simpósio. Dois modais na mesma visita é o
+     * jeito mais rápido de alguém fechar a aba — e o do Simpósio tem prazo,
+     * então ele vai primeiro. Se o outro estiver aberto, este reconsulta em vez
+     * de desistir: a pessoa pode fechar o do Simpósio em dois segundos e aí a
+     * captação continua valendo.
+     */
+    let t: ReturnType<typeof setTimeout>;
+    const tentar = () => {
+      if (modalAberto) {
+        t = setTimeout(tentar, 2000);
+        return;
+      }
       setOpen(true);
       setShown(true);
-    }, 8000);
+    };
+    t = setTimeout(tentar, 8000);
 
     const onLeave = (e: MouseEvent) => {
       if (e.clientY <= 0 && !shown) {

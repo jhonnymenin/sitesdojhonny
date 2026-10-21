@@ -8,6 +8,7 @@ import {
 import { EuVouCta } from "@/components/landing/EuVouCta";
 import { FloatingWhats } from "@/components/landing/FloatingWhats";
 import { LeadModal } from "@/components/landing/LeadModal";
+import { SimposioModal } from "@/components/landing/SimposioModal";
 import { SITE_URL } from "@/lib/site";
 import { EMAIL, ENDERECO, TELEFONE_FIXO_E164 } from "@/lib/contato";
 
@@ -98,6 +99,7 @@ function Index() {
       <Closing />
       <Footer />
       <FloatingWhats />
+      <SimposioModal />
       <LeadModal />
     </main>
   );
