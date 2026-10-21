@@ -66,7 +66,7 @@ export function MobileCtaBar() {
     <div className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-surface px-4 py-3 md:hidden">
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
         <div className="min-w-0">
-          <p className="label-mono text-muted-foreground">15% OFF · até 31 de outubro</p>
+          <p className="label-mono text-muted-foreground">até 15% OFF · até 31 de outubro</p>
           {/*
             "A partir de" porque a barra leva à seção de preços, onde há dois
             combos: este é o valor de entrada (Intensivo + Banco). Antes o número

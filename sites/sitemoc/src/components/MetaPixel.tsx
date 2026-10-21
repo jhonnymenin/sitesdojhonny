@@ -23,7 +23,7 @@ const DESTINOS_DE_COMPRA = ["eadplataforma.app", "cursos.mocbrasil.com"];
 function produtoDoLink(href: string): { produto: string; valor: number } {
   // Valores do lote vigente. Mudam junto com o cupom: um valor velho aqui não
   // quebra a página, mas reporta conversão com o preço errado para o Meta.
-  if (href.includes("/combo/16/")) return { produto: "Combo completo", valor: 3229.15 };
+  if (href.includes("/combo/16/")) return { produto: "Combo completo", valor: 3264 };
   if (href.includes("/combo/20/")) return { produto: "Intensivo + Banco de Questões", valor: 2465 };
   return { produto: "Banco de Questões", valor: 510 };
 }

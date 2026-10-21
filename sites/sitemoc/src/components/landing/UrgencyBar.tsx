@@ -39,7 +39,7 @@ export function UrgencyBar() {
     <div className="theme-blue border-b border-border">
       <div className="mx-auto flex w-full max-w-[1280px] items-center justify-center gap-4 px-5 py-2 md:justify-between md:px-10">
         <p className="label-mono text-muted-foreground">
-          <span className="font-display font-semibold text-orange">Condição especial | 15% OFF</span>
+          <span className="font-display font-semibold text-orange">Condição especial | até 15% OFF</span>
           <span className="hidden md:inline"> · até 31 de outubro</span>
           {time ? (
             <span className="ml-2 text-foreground">

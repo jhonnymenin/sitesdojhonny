@@ -8,14 +8,18 @@ import { checkoutUrl } from "@/lib/checkout";
  * Evolução dos lotes. Os valores são os que o checkout cobra, não uma conta
  * feita aqui: a plataforma aplica o cupom sobre o combo inteiro.
  *
- * Conferidos em 19/10/2026 abrindo o carrinho com o cupom vigente 15PUBLI, em
+ * Conferidos em 20/10/2026 abrindo o carrinho com o cupom vigente 15REDES, em
  * perfil de navegador novo para cada URL — o carrinho acumula entre medições.
- *   combo completo  → de R$ 3.799,00 por R$ 3.229,15, ou 2x de R$ 1.614,58
+ *   combo completo    → de R$ 3.799,00 por R$ 3.264,00, ou 2x de R$ 1.632,00
  *   combo de 2 cursos → de R$ 2.900,00 por R$ 2.465,00, ou 2x de R$ 1.232,50
  *
- * Os dois são 15% exatos, diferente do lote anterior: lá o cupom tirava um valor
- * fixo e o combo completo ficava em 28,17%, o que obrigava a página a dizer
- * "até 30%". Aqui "15%" pode ser dito seco.
+ * O cupom tira R$ 535 FIXOS do combo completo, não 15%: dá 14,08%. No combo de
+ * 2 cursos dá 15% exatos. É o mesmo comportamento do lote de lançamento, e o
+ * motivo de a página dizer "até 15%".
+ *
+ * Estes números valiam R$ 3.229,15 em 19/10 e mudaram no dia seguinte sem
+ * mudança de lote: o MOC alterou o próprio cupom. Preço nesta página não
+ * envelhece só na virada de lote — reconferir sempre.
  *
  * O lote de lançamento saiu da tabela por ter acabado. Mostrar um preço mais
  * barato que ninguém pode mais pegar gera arrependimento, não urgência; a
@@ -29,8 +33,8 @@ const LOTS = [
     period: "Condição especial — 15% de desconto",
     detail: "De 16 a 31 de outubro.",
     intensivo: "R$ 2.465,00",
-    oncoia: "R$ 764,15",
-    total: "R$ 3.229,15",
+    oncoia: "R$ 799,00",
+    total: "R$ 3.264,00",
     current: true,
   },
   {
@@ -58,9 +62,9 @@ const OFFERS = [
     name: "Combo completo",
     includes: "X Curso Intensivo de Oncologia + Banco de Questões + Onco IA.",
     from: "De R$ 3.799,00",
-    price: "R$ 3.229",
-    cents: ",15",
-    installments: "ou 2x de R$ 1.614,58",
+    price: "R$ 3.264",
+    cents: ",00",
+    installments: "ou 2x de R$ 1.632,00",
     cta: "Garantir o combo completo",
     featured: true,
   },
@@ -121,12 +125,12 @@ export function Pricing() {
       <Reveal className="relative mt-12">
         <div className="relative rounded-lg border border-border bg-surface p-6 sm:p-8 md:p-10">
           {/*
-            Aqui pode ser "15%" sem o "até" que o lote passado exigia: medido no
-            carrinho, o 15PUBLI dá 15,00% exatos nos dois combos. O cupom
-            anterior tirava valor fixo e rendia 28,17% no completo, o que tornava
-            "30%" uma afirmação falsa.
+            "até 15%", e não "15%": medido no carrinho, o cupom tira R$ 535
+            FIXOS do combo completo, o que dá 14,08%; no combo de 2 cursos dá os
+            15% exatos. Afirmar 15% seco seria anunciar um desconto que o
+            carrinho não dá justamente no produto principal.
           */}
-          <Chip>Lote atual • 15% OFF até 31 de outubro</Chip>
+          <Chip>Lote atual • até 15% OFF até 31 de outubro</Chip>
           <SectionTitle className="mt-5 max-w-2xl">
             Garanta a sua inscrição com desconto exclusivo
           </SectionTitle>
@@ -202,7 +206,7 @@ export function Pricing() {
           */}
           <p className="mt-8 text-sm leading-relaxed text-muted-foreground md:hidden">
             Em 1º de novembro os valores voltam ao preço cheio: o combo completo passa de
-            R$ 3.229,15 para R$ 3.799,00.
+            R$ 3.264,00 para R$ 3.799,00.
           </p>
 
           <div className="mt-10 hidden md:block">

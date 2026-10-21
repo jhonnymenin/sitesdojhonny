@@ -31,52 +31,51 @@ export type Placement =
   | "final"
   | "barra-mobile";
 
-const CHECKOUT_HOST = "https://cursosmocbrasil.eadplataforma.app";
+const CHECKOUT_HOST = "https://cursos.mocbrasil.com";
 
 /**
  * Destino de cada opção de compra.
  *
- * Os combos usam a URL de checkout com cupom no caminho, que já monta o carrinho
- * com o desconto aplicado. O Banco de Questões avulso não tem cupom — vai para a
- * própria página do curso, onde a pessoa escolhe à vista ou parcelado.
+ * O HOST É O DO MOC, cursos.mocbrasil.com, e não o cursosmocbrasil.eadplataforma.app.
+ * Os dois são a mesma loja — ambos redirecionam para /cart/add/26/0/82 — mas o
+ * primeiro é o domínio próprio deles e é o que vem nos links que o MOC manda.
+ * Usar o endereço da plataforma fazia a LP divergir do material do cliente.
  *
- * **O MOC troca os cupons a cada lote, e o cupom antigo PARA DE FUNCIONAR.** Não
- * basta trocar o texto da página: em 19/10/2026 o 30REDES já não aplicava nada e
- * o carrinho cobrava os R$ 3.799 cheios de quem clicava vendo "até 30% OFF".
- * Antes de cada virada de lote, abrir as duas URLs e ler o total.
+ * **O MOC troca os cupons a cada lote, E TAMBÉM MEXE NO CUPOM JÁ EXISTENTE.**
+ * Em 19/10 o 15PUBLI dava R$ 3.229,15 no combo completo (15% cheios); em 20/10
+ * o mesmo cupom passou a dar R$ 3.264,00 (R$ 535 fixos). Ou seja, não basta
+ * conferir na virada de lote: o preço da página pode envelhecer sozinho, sem
+ * ninguém tocar em nada. Antes de qualquer publicação que fale de preço, abrir
+ * as duas URLs e ler o total.
  *
- * **Cupom vigente: 15PUBLI**, lote de 16 a 31/10/2026.
+ * **Cupom vigente: 15REDES**, pedido pelo MOC em 20/10/2026.
  *
- * Conferido em 19/10/2026, abrindo o carrinho com perfil de navegador novo para
- * cada URL — o carrinho da plataforma acumula itens entre medições, e uma sessão
- * reaproveitada soma os dois combos e dá um total que não existe:
+ * Conferido em 20/10/2026, com perfil de navegador novo para cada URL — o
+ * carrinho da plataforma acumula itens entre medições:
  *
- *   15PUBLI — combo 16 → R$ 3.229,15 (15,00%)  | combo 20 → R$ 2.465,00 (15,00%)
- *   15MOC   — combo 16 → R$ 3.264,00 (14,08%)  | combo 20 → R$ 2.465,00 (15,00%)
- *   15REDES — não aplica em nenhum dos dois
- *   30REDES — expirado, não aplica mais
+ *   combo 16 (completo) → de R$ 3.799,00 por R$ 3.264,00, ou 2x de R$ 1.632,00
+ *   combo 20 (2 cursos) → de R$ 2.900,00 por R$ 2.465,00, ou 2x de R$ 1.232,50
  *
- * Entre os dois que funcionam, o 15PUBLI é o escolhido: dá 15% cheios nos DOIS
- * combos, enquanto o 15MOC tira R$ 535 fixos do completo, que dá 14,08%. Com o
- * 15PUBLI a página pode dizer "15%" sem ressalva — o lote passado precisava de
- * "até 30%" justamente porque o cupom de lá não era percentual.
+ * ATENÇÃO AO PERCENTUAL: o cupom tira **R$ 535 fixos** do combo completo, o que
+ * dá 14,08%, não 15%. No combo de 2 cursos dá 15% exatos. Por isso a página diz
+ * "até 15%" — dizer "15%" seco seria anunciar um desconto que o carrinho não dá
+ * no produto principal. Hoje o 15PUBLI devolve exatamente os mesmos valores.
  *
  * O Banco de Questões avulso segue **sem cupom**, por decisão do MOC: a
- * plataforma só lê cupom no caminho para combos, e o PDF revisado aponta para a
- * página do curso em cursos.mocbrasil.com.
+ * plataforma só lê cupom no caminho para combos.
  */
 const DESTINOS: Record<Product, string> = {
-  /** Combo 16: X Curso Intensivo + Banco de Questões + ONCO IA — de R$ 3.799 por R$ 3.229,15. */
-  comboCompleto: `${CHECKOUT_HOST}/checkout/combo/16/15PUBLI`,
+  /** Combo 16: X Curso Intensivo + Banco de Questões + ONCO IA — de R$ 3.799 por R$ 3.264. */
+  comboCompleto: `${CHECKOUT_HOST}/checkout/combo/16/15REDES`,
   /** Combo 20: X Curso Intensivo + Banco de Questões, sem ONCO IA — de R$ 2.900 por R$ 2.465. */
-  comboIntensivo: `${CHECKOUT_HOST}/checkout/combo/20/15PUBLI`,
+  comboIntensivo: `${CHECKOUT_HOST}/checkout/combo/20/15REDES`,
   /**
    * Banco de Questões avulso — R$ 510 sem desconto, ou 2x de R$ 255.
    *
    * Vai para `cursos.mocbrasil.com`, **outro domínio** que o resto: é a URL que
    * o MOC mandou no PDF revisado. Não usa CHECKOUT_HOST de propósito.
    */
-  bancoQuestoes: "https://cursos.mocbrasil.com/curso/banco-de-questoes-2026",
+  bancoQuestoes: `${CHECKOUT_HOST}/curso/banco-de-questoes-2026`,
 };
 
 /**
