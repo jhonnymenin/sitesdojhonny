@@ -33,7 +33,10 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+// O `error` vem como `unknown` desde o @tanstack/react-router 1.170: o roteador
+// não garante mais que o que foi lançado seja um Error. Só é registrado no
+// console, então não precisa ser estreitado.
+function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
   console.error(error);
   const router = useRouter();
 
