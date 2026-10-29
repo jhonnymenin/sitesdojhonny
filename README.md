@@ -24,6 +24,7 @@ não na raiz.
 | [`sites/medinteli`](sites/medinteli) | MedInteli — automação para clínicas — **espelho, não publicado** (o site no ar é o do Lovable) | **Vite SPA** + Tailwind v3 — sem SSR | https://lp.medinteli.com.br |
 | [`sites/outubro-prateado`](sites/outubro-prateado) | Outubro Prateado 2026 — movimento pela longevidade | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://outubroprata.on-dig.online |
 | [`sites/dr-rahal`](sites/dr-rahal) | Dr. Antônio Rahal — ablação de tireoide (com blog) | TanStack Start (React 19, SSR) + Vite 7 + Tailwind v4 | https://drrahaltireoide.com |
+| [`sites/mdflow`](sites/mdflow) | MDFlow — página de vendas da plataforma (**o site no ar ainda é o do Lovable**; o projeto `mdflow` da Vercel é o *app*, de outro repositório) | TanStack Start (React 19, SSR) + Vite 8 + Tailwind v4 | https://lp.mdflow.com.br |
 
 ## Trabalhando num site
 
