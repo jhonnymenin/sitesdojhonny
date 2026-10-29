@@ -1,4 +1,5 @@
 import logoDark from "@/assets/mdflow-logo-dark.webp";
+import { cadastroUrl } from "@/lib/cadastro";
 
 export function Footer() {
   return (
@@ -7,16 +8,16 @@ export function Footer() {
         <div className="flex flex-col gap-3">
           <img src={logoDark} alt="MDFlow" className="h-8 w-fit object-contain" />
           <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-            A MDFlow combina tecnologia, dados e inteligência artificial para personalizar a jornada
-            e potencializar resultados em cada etapa da formação médica.
+            A MDFlow organiza a sua preparação para o ENAMED em um plano que se ajusta ao seu
+            desempenho — com questões, revisões e simulados no mesmo lugar.
           </p>
         </div>
         <div className="flex flex-col gap-2 sm:items-end">
           <a
-            href="https://mdflow.com.br"
+            href={cadastroUrl("rodape")}
             className="text-sm font-semibold text-brand transition-opacity hover:opacity-80"
           >
-            mdflow.com.br
+            Criar minha conta gratuita
           </a>
           <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} MDFlow — AI Medical Learning Network

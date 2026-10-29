@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import logoDark from "@/assets/mdflow-logo-dark.webp";
+import { cadastroUrl } from "@/lib/cadastro";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "#problema", label: "O problema" },
-  { href: "#jornada", label: "Jornada" },
-  { href: "#plataforma", label: "Plataforma" },
-  { href: "#mercado", label: "Mercado" },
-  { href: "#modelo", label: "Modelo" },
+  { href: "#plataforma", label: "A plataforma" },
+  { href: "#como-funciona", label: "Como funciona" },
+  { href: "#funcionalidades", label: "Funcionalidades" },
+  { href: "#faq", label: "Dúvidas" },
 ];
 
 export function Nav() {
@@ -53,10 +53,10 @@ export function Nav() {
         </nav>
 
         <a
-          href="#contato"
+          href={cadastroUrl("nav")}
           className="inline-flex h-10 items-center justify-center rounded-lg bg-brand px-4 text-sm font-semibold text-primary-foreground shadow-soft transition-all hover:brightness-110 active:scale-[0.98]"
         >
-          Quero conhecer a MDFlow
+          Começar gratuitamente
         </a>
       </div>
     </header>

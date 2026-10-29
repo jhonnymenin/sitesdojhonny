@@ -1,7 +1,11 @@
 # MDFlow — página de vendas
 
-Landing page institucional da MDFlow ("AI Medical Learning Network"). Uma rota
-só, `/`, montada por blocos em `src/components/landing/`.
+Landing page de conversão para estudantes de Medicina que vão prestar o ENAMED.
+Uma rota só, `/`, montada por blocos em `src/components/landing/`.
+
+Era uma página institucional voltada a investidores e parceiros até 29/10/2026,
+quando a MDFlow pediu a virada para captação de cadastro — ver a seção
+"A reformulação" abaixo.
 
 - **Stack:** TanStack Start (React 19, SSR) + Vite 8 + Tailwind v4 + nitro
 - **No ar hoje:** https://lp.mdflow.com.br — **servido pelo Lovable**, não por
@@ -59,3 +63,40 @@ npm run dev
 ```
 
 Não há variáveis de ambiente, integração externa nem rastreador nesta página.
+
+## A reformulação (29/10/2026)
+
+Saíram sete seções institucionais: O problema, Jornada, Plataforma, Dados como
+ativo, Carreiras, Mercado, Ecossistema, Modelo de negócio e O momento atual.
+Elas falavam com investidor e parceiro; a página agora fala com o aluno.
+
+Entraram Hero, Demonstração, Como funciona, Funcionalidades, CTA de cadastro,
+Diferenciais e FAQ — nessa ordem, com os textos do briefing.
+
+**As imagens da plataforma são capturas do app rodando**, em
+`~/Developer/Claude_Medflow/mentorflow-ai-plus`, na conta de homologação do
+próprio projeto (`pro@mdflow.app`, criada por `scripts/bootstrap-auth.ts`).
+Tela real, dados fictícios — nenhum dado de aluno real foi para o repositório,
+que é público. Para regerar: subir o app, entrar com essa conta, forçar o tema
+claro e capturar `/inicio`, `/plano`, `/questoes`, `/flashcards`, `/caderno`,
+`/simulados` e `/progresso`.
+
+**Todos os CTAs vão para `app.mdflow.com.br`** via `src/lib/cadastro.ts`, com
+UTM por posição (`hero`, `nav`, `cta-final`, `rodape`).
+
+### O que ainda falta
+
+- **A médica com tablet** e o **mascote do cérebro**, do mockup aprovado. Não
+  existem nem aqui nem no app. No lugar do mascote está o ícone oficial da
+  marca, em `CtaCadastro.tsx`.
+- **"Comunidade de estudantes"** entra em `Funcionalidades.tsx` só como texto:
+  é a única das oito que **não tem tela no app**. Confirmar se a funcionalidade
+  existe antes de anunciá-la.
+- **Data do ENAMED.** O Inep não publicou edital nem cronograma de 2027, e a
+  prova passa a ser semestral. A página fala em "a prova", sem data. O app, por
+  sua vez, exibe "ENAMED 2026 — faltam 42 semanas", que cai em agosto de 2027:
+  o rótulo está defasado **no produto**, não aqui.
+- **Nenhuma ferramenta de analytics está instalada.** O briefing pede
+  acompanhamento de cliques e cadastros; hoje a única atribuição possível é o
+  app ler os UTMs.
+- **Depoimentos** não foram incluídos: o briefing só autoriza se forem reais.

@@ -1,22 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { siteUrl } from "@/lib/site";
 import { Nav } from "@/components/landing/Nav";
 import { Hero } from "@/components/landing/Hero";
-import { Problem } from "@/components/landing/Problem";
-import { Journey } from "@/components/landing/Journey";
-import { Platform } from "@/components/landing/Platform";
-import { DataAsset } from "@/components/landing/DataAsset";
-import { Careers } from "@/components/landing/Careers";
-import { Market } from "@/components/landing/Market";
-import { Ecosystem } from "@/components/landing/Ecosystem";
-import { BusinessModel } from "@/components/landing/BusinessModel";
-import { Moment } from "@/components/landing/Moment";
-import { FinalCta } from "@/components/landing/FinalCta";
+import { Demonstracao } from "@/components/landing/Demonstracao";
+import { ComoFunciona } from "@/components/landing/ComoFunciona";
+import { Funcionalidades } from "@/components/landing/Funcionalidades";
+import { CtaCadastro } from "@/components/landing/CtaCadastro";
+import { Diferenciais } from "@/components/landing/Diferenciais";
+import { Faq } from "@/components/landing/Faq";
 import { Footer } from "@/components/landing/Footer";
+import { siteUrl } from "@/lib/site";
 
-const title = "MDFlow — Entregamos tempo e aprovação ao médico";
+const title = "MDFlow — seu copiloto de estudos para o ENAMED";
 const description =
-  "A MDFlow organiza toda a preparação do médico em uma jornada personalizada, orientada por dados e inteligência artificial: plano de estudos, questões, revisões e desempenho.";
+  "A MDFlow entende seu nível de conhecimento, cria um plano personalizado e acompanha sua evolução até o ENAMED. Acesso gratuito na fase de testes.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -48,8 +44,7 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "MDFlow",
-          alternateName: "MDFlow — AI Medical Learning Network",
-          url: "https://mdflow.com.br",
+          url: siteUrl("/"),
           description,
         }),
       },
@@ -58,22 +53,27 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+/*
+ * A ordem segue o brief: dobra, demonstração da plataforma, como funciona,
+ * funcionalidades, chamada para cadastro, diferenciais e dúvidas.
+ *
+ * A chamada para cadastro vem ANTES dos diferenciais de propósito: quem já se
+ * convenceu nas funcionalidades não precisa rolar mais para encontrar o botão,
+ * e quem ainda não se convenceu continua lendo e encontra o CTA do topo e do
+ * rodapé.
+ */
 function Index() {
   return (
     <div className="min-h-screen bg-background">
       <Nav />
       <main>
         <Hero />
-        <Problem />
-        <Journey />
-        <Platform />
-        <DataAsset />
-        <Careers />
-        <Market />
-        <Ecosystem />
-        <BusinessModel />
-        <Moment />
-        <FinalCta />
+        <Demonstracao />
+        <ComoFunciona />
+        <Funcionalidades />
+        <CtaCadastro />
+        <Diferenciais />
+        <Faq />
       </main>
       <Footer />
     </div>
