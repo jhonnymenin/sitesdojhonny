@@ -3,6 +3,7 @@ import logoJohnsonJohnson from "@/assets/sponsors/johnson-johnson.png";
 import logoAstraZeneca from "@/assets/sponsors/astrazeneca.png";
 import logoDaiichiSankyo from "@/assets/sponsors/daiichi-sankyo.png";
 import logoNovartis from "@/assets/sponsors/novartis.png";
+import logoBristolMyersSquibb from "@/assets/sponsors/bristol-myers-squibb.png";
 
 /*
  * Patrocinadores.
@@ -27,9 +28,11 @@ import logoNovartis from "@/assets/sponsors/novartis.png";
  *
  * APOIO INSTITUCIONAL vem abaixo da Ouro e menor que ela, como o MOC pediu. A
  * comparação é por largura, a mesma régua da Ouro: 96/112px contra 112/128px,
- * uns 86%. Comparar por altura não serviria aqui — o lockup da Novartis é bem
- * mais largo que alto (6:1 contra 4:1 da AstraZeneca), e igualar altura a faria
- * ocupar mais largura que as Ouro, que é o oposto do pedido.
+ * uns 86%. Comparar por altura não serviria aqui — os lockups desta categoria
+ * são bem mais largos que altos (Novartis 6:1, BMS 7,3:1, contra 4:1 da
+ * AstraZeneca), e igualar altura os faria ocupar mais largura que as Ouro, que
+ * é o oposto do pedido. Pela largura, a BMS sai mais baixa que a Novartis — é
+ * consequência da arte dela ser mais esticada, não desequilíbrio.
  *
  * As artes são recortadas na marca, **sem margem no arquivo** — o PNG oficial da
  * Daiichi vinha com 49% da altura em espaço vazio, o que a encolheria.
@@ -62,7 +65,10 @@ const TIERS = [
     tier: "Apoio Institucional",
     // Mesma régua da Ouro (largura), um degrau abaixo dela.
     size: "h-auto w-24 md:w-28",
-    brands: [{ name: "Novartis", logo: logoNovartis }],
+    brands: [
+      { name: "Novartis", logo: logoNovartis },
+      { name: "Bristol Myers Squibb", logo: logoBristolMyersSquibb },
+    ],
   },
 ];
 
