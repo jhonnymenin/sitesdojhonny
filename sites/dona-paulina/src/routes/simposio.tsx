@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, CalendarDays, Camera, Clock, ExternalLink, MapPin } from "lucide-react";
 import { Logo } from "@/components/landing/Logo";
 import { Footer } from "@/components/landing/Sections";
+import { BlocoPix } from "@/components/landing/BlocoPix";
 import { PROGRAMA, SIMPOSIO } from "@/lib/simposio";
 import { siteUrl } from "@/lib/site";
 
@@ -78,6 +79,12 @@ function SimposioPage() {
           </Link>
         </div>
 
+        <div className="mt-6 max-w-xl">
+          <BlocoPix
+            rodape="Confira os dados no aplicativo antes de concluir. O preenchimento do formulário de inscrição continua necessário — é por ele que a Fundação organiza a lista de participantes."
+          />
+        </div>
+
         <h2 className="mt-12 font-display text-2xl font-bold text-[color:var(--primary-dark)]">
           Programação
         </h2>
@@ -123,7 +130,7 @@ function SimposioPage() {
           ))}
         </ol>
 
-        <div className="mt-10">
+        <div className="mt-10 flex flex-col items-start gap-5">
           <a
             href={SIMPOSIO.inscricao}
             target="_blank"
@@ -132,6 +139,9 @@ function SimposioPage() {
           >
             Fazer a minha inscrição <ExternalLink size={15} />
           </a>
+          <div className="w-full max-w-xl">
+            <BlocoPix compacto />
+          </div>
         </div>
       </main>
 

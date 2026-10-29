@@ -24,6 +24,7 @@ export const SIMPOSIO = {
    *  do editor, não faz parte do endereço do formulário. */
   inscricao:
     "https://docs.google.com/forms/d/e/1FAIpQLSeOBivgP1VvZE0AUx5RCy-tTsMBG7B6JsM048CG5fk3fhxL0g/viewform",
+
 } as const;
 
 export type Atividade = {

@@ -9,11 +9,19 @@
  * O WhatsApp é o que já estava no rodapé e no botão flutuante do site novo.
  */
 
+/*
+ * Telefone fixo. Trocado em 28/10/2026 a pedido da Fundação: o (11) 5561-7308
+ * era o número do site antigo e não é mais o de atendimento.
+ *
+ * A troca é aqui e vale para o site inteiro — rodapé, página /contato e o
+ * JSON-LD da home. Trocar só no rodapé deixaria dois telefones diferentes na
+ * mesma página, e o errado é o que o Google leria.
+ */
 /** Telefone fixo, como a pessoa lê. */
-export const TELEFONE_FIXO = "(11) 5561-7308";
+export const TELEFONE_FIXO = "(11) 3042-1215";
 
 /** O mesmo telefone em E.164, para o link tel: e o JSON-LD. */
-export const TELEFONE_FIXO_E164 = "+551155617308";
+export const TELEFONE_FIXO_E164 = "+551130421215";
 
 export const EMAIL = "fdpsq@fdpsq.org.br";
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { CalendarDays, Clock, MapPin, X, ExternalLink, Camera } from "lucide-react";
+import { BlocoPix } from "@/components/landing/BlocoPix";
 import { SIMPOSIO, PROGRAMA } from "@/lib/simposio";
 
 /*
@@ -159,6 +160,7 @@ export function SimposioModal() {
         </div>
 
         <div className="space-y-2 border-t border-black/5 bg-card px-6 py-4">
+          <BlocoPix compacto />
           <a
             href={SIMPOSIO.inscricao}
             target="_blank"

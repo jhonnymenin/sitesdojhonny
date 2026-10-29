@@ -44,7 +44,7 @@ export function LeadModal() {
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    const msg = `Olá! Meu nome é ${data.get("nome")}. Tenho interesse no programa ${data.get("projeto")}. WhatsApp: ${data.get("whats")}`;
+    const msg = `Olá! Meu nome é ${data.get("nome")}. Gostaria de passar pela triagem da Fundação para ser atendido. Programa de interesse: ${data.get("projeto")}. WhatsApp: ${data.get("whats")}`;
     window.open(`https://wa.me/5511930352436?text=${encodeURIComponent(msg)}`, "_blank");
     setOpen(false);
   };
@@ -63,11 +63,17 @@ export function LeadModal() {
         >
           ×
         </button>
+        {/*
+          A pergunta é a que a Fundação pediu em 28/10/2026, no lugar de "Quer
+          saber se temos vaga?". A triagem é o caminho real de entrada — quem
+          chega pedindo vaga passa por ela de qualquer jeito —, e nomear isso
+          na pergunta evita a expectativa de matrícula imediata.
+        */}
         <h3 className="font-display text-2xl font-bold leading-tight text-charcoal">
-          Quer saber se temos vaga?
+          Deseja passar pela triagem da Fundação Dona Paulina para ser atendido?
         </h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          Preencha o campo e nossa equipe entrará em contato.
+          Preencha os campos e nossa equipe entrará em contato.
         </p>
         <form onSubmit={submit} className="mt-5 flex flex-col gap-3">
           <input
@@ -98,7 +104,7 @@ export function LeadModal() {
             type="submit"
             className="mt-1 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 font-semibold text-primary-foreground shadow-soft transition hover:scale-[1.02] hover:bg-primary-dark"
           >
-            Quero mais informações
+            Quero passar pela triagem
           </button>
         </form>
       </div>

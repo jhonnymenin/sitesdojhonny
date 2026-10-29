@@ -5,7 +5,7 @@ import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carouse
 import { Link } from "@tanstack/react-router";
 import { EMAIL, ENDERECO, TELEFONE_FIXO, TELEFONE_FIXO_E164, WHATSAPP_LEGIVEL } from "@/lib/contato";
 import Autoplay from "embla-carousel-autoplay";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import instalacao1 from "@/assets/instalacao-1.webp";
 import instalacao2 from "@/assets/instalacao-2.webp";
 import instalacao3 from "@/assets/instalacao-3.webp";
@@ -39,10 +39,13 @@ import parceiroEcoenel from "@/assets/parceiro-ecoenel.webp";
 import parceiroSaoPaulo from "@/assets/parceiro-saopaulo.webp";
 import parceiroSesc from "@/assets/parceiro-sesc.webp";
 import parceiroWellbe from "@/assets/parceiro-wellbe.webp";
+import seloIgualdadeRacial from "@/assets/selo-igualdade-racial.webp";
+import seloOds from "@/assets/selo-ods.webp";
 import { Logo } from "./Logo";
 import { WaveDivider } from "./Wave";
+import { ModalDoacao } from "./ModalDoacao";
 
-const WHATS = "https://wa.me/5511930352436?text=" + encodeURIComponent("Olá! Quero saber mais sobre as vagas da Fundação Dona Paulina de Souza Queiroz.");
+const WHATS = "https://wa.me/5511930352436?text=" + encodeURIComponent("Olá! Gostaria de passar pela triagem da Fundação Dona Paulina de Souza Queiroz para ser atendido.");
 
 const Check = () => (
   <svg viewBox="0 0 20 20" className="h-5 w-5 shrink-0" fill="none" aria-hidden="true">
@@ -136,7 +139,7 @@ export function Hero() {
                 href="#vagas"
                 className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-4 font-semibold text-primary-foreground shadow-soft transition hover:scale-[1.02] hover:bg-primary-dark text-center"
               >
-                Quero saber sobre as vagas
+                Deseja passar pela triagem da Fundação?
               </a>
               <a
                 href={WHATS}
@@ -292,6 +295,47 @@ export function Family() {
                </div>
              </div>
  
+             {/*
+               Prêmios e certificados vêm ANTES dos parceiros de propósito: são o
+               que uma pessoa decidindo confiar a família à Fundação procura, e
+               é reconhecimento recebido, não logotipo de quem apoia.
+
+               Os dois selos são deitados em fundo branco porque foi assim que
+               chegaram, com fundo transparente e sem versão monocromática.
+             */}
+             <div className="rounded-3xl bg-white p-8 shadow-soft">
+               <h3 className="font-display text-xl font-bold text-charcoal mb-6">
+                 Prêmios e Certificados
+               </h3>
+               <ul className="grid gap-6 sm:grid-cols-2">
+                 {[
+                   {
+                     nome: "Programa Selo Igualdade Racial",
+                     orgao: "Prefeitura de São Paulo",
+                     logo: seloIgualdadeRacial,
+                   },
+                   {
+                     nome: "Selo Signatário",
+                     orgao: "Movimento Nacional ODS",
+                     logo: seloOds,
+                   },
+                 ].map((s) => (
+                   <li key={s.nome} className="flex flex-col items-center gap-3 text-center">
+                     <img
+                       src={s.logo}
+                       alt={`${s.nome} — ${s.orgao}`}
+                       loading="lazy"
+                       className="h-20 w-auto max-w-full object-contain"
+                     />
+                     <span>
+                       <span className="block text-sm font-semibold text-charcoal">{s.nome}</span>
+                       <span className="block text-xs text-muted-foreground">{s.orgao}</span>
+                     </span>
+                   </li>
+                 ))}
+               </ul>
+             </div>
+
              <div className="rounded-3xl bg-white p-8 shadow-soft">
                <h3 className="font-display text-xl font-bold text-charcoal mb-6">Nossos Parceiros</h3>
                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 items-center justify-items-center gap-6">
@@ -734,7 +778,7 @@ export function OpenSpots() {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center rounded-full bg-white px-7 py-4 font-semibold text-brown shadow-soft transition hover:scale-[1.02]"
             >
-              Quero saber sobre as vagas
+              Deseja passar pela triagem da Fundação?
             </a>
             <a
               href={WHATS}
@@ -844,6 +888,18 @@ export function BlogPreview() {
 }
 
 function DonationImpl() {
+   /*
+    * Os dois primeiros cartões deixaram de mandar para o WhatsApp em 28/10/2026:
+    * a Fundação pediu os planos de doação com pagamento por Pix dentro do site.
+    * Quem já decidiu doar não deveria precisar abrir uma conversa e esperar
+    * resposta para descobrir quanto e para onde.
+    *
+    * O cartão de Bazares & Festas continua no WhatsApp até a programação de 2027
+    * chegar.
+    */
+   const [modal, setModal] = useState<null | "planos" | "adote">(null);
+   const CARTAO =
+     "flex w-full items-center gap-4 rounded-2xl bg-white p-4 text-left shadow-soft transition hover:-translate-y-1 hover:shadow-card";
    return (
      <section id="doacao" className="relative bg-primary-soft">
       <WaveDivider fill="white" flip />
@@ -872,24 +928,14 @@ function DonationImpl() {
             ))}
           </ul>
           <div className="mt-8 grid gap-4 sm:grid-cols-1">
-            <a
-              href={WHATS + encodeURIComponent("\n\nAssunto: Como posso participar da Campanha Laços que Protegem?")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 rounded-2xl bg-white p-4 shadow-soft transition hover:-translate-y-1 hover:shadow-card"
-            >
+            <button type="button" onClick={() => setModal("planos")} className={CARTAO}>
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-soft text-2xl">❤️</span>
               <span className="font-display text-lg font-bold text-charcoal">Como posso participar?</span>
-            </a>
-            <a
-              href={WHATS + encodeURIComponent("\n\nAssunto: Quero apoiar a Campanha com doação.")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 rounded-2xl bg-white p-4 shadow-soft transition hover:-translate-y-1 hover:shadow-card"
-            >
+            </button>
+            <button type="button" onClick={() => setModal("adote")} className={CARTAO}>
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-soft text-2xl">💙</span>
               <span className="font-display text-lg font-bold text-charcoal">Apoiar a Campanha</span>
-            </a>
+            </button>
             <a
               href={WHATS + encodeURIComponent("\n\nAssunto: Informações sobre Bazares e Festas.")}
               target="_blank"
@@ -917,6 +963,27 @@ function DonationImpl() {
         </div>
       </div>
       <WaveDivider fill="white" />
+
+      <ModalDoacao
+        aberto={modal === "planos"}
+        aoFechar={() => setModal(null)}
+        titulo="Doação"
+        descricao="Escolha a periodicidade que couber no seu orçamento. Toda doação sustenta o atendimento de quem já está na Fundação."
+        planos={[
+          { rotulo: "Mensal", valor: "R$ 30,00" },
+          { rotulo: "Semestral", valor: "R$ 150,00" },
+          { rotulo: "Anual", valor: "R$ 300,00" },
+        ]}
+        rodape="Confira os dados no aplicativo antes de concluir. Para doação mensal, repita o Pix a cada mês — não há débito automático."
+      />
+      <ModalDoacao
+        aberto={modal === "adote"}
+        aoFechar={() => setModal(null)}
+        titulo="Adote um atendido"
+        descricao="Custeie um ano de atendimento de uma pessoa na Fundação."
+        planos={[{ rotulo: "Adote um atendido", valor: "R$ 1.217,00" }]}
+        rodape="Confira os dados no aplicativo antes de concluir. Depois do Pix, avise a Fundação pelo WhatsApp para que o apoio seja registrado."
+      />
     </section>
   );
 }
