@@ -1,43 +1,52 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Logo } from "@/components/site/Logo";
-import { Numeros } from "@/components/site/Numeros";
-import { BeforeAfterSlider } from "@/components/site/BeforeAfterSlider";
 import { LogoMark } from "@/components/site/LogoMark";
 import { useReveal } from "@/hooks/use-reveal";
-import mama from "@/assets/mama.jpg";
 import elevationLogo from "@/assets/elevation-logo-black.png";
 import drHero from "@/assets/dr-hero-transparente.png";
-import drSobre from "@/assets/foto-dr-sobre-recorte.webp";
-import procedimentosRosto from "@/assets/procedimentos-rosto.png";
-import fotoClinica from "@/assets/foto-clinica.jpg";
-import baBlefaro from "@/assets/ba-blefaroplastia.png";
-import baFacetite from "@/assets/ba-facetite.png";
-import baPapada from "@/assets/ba-papada.png";
+import drPerfil from "@/assets/centro-cirurgico-perfil.webp";
+import drOperando from "@/assets/centro-cirurgico-operando.webp";
 
-const beforeAfterCases: { src: string; label: string }[] = [
-  { src: baBlefaro, label: "Blefaroplastia" },
-  { src: baFacetite, label: "FaceTite" },
-  { src: baPapada, label: "Papada" },
-];
+/*
+ * Landing page do Método Elevation.
+ *
+ * Até 30/10/2026 esta home era um site amplo de cirurgia plástica — Face, Mama,
+ * Corpo, Procedimentos Estéticos, antes/depois, clínica e depoimentos. A partir
+ * do briefing "Landing Page | Método Elevation — O Novo Deep Plane" ela passou
+ * a ter um assunto só: rejuvenescimento facial, em quatro blocos.
+ *
+ * O que saiu do ar está registrado no README, junto do que precisaria voltar
+ * caso o Dr. queira as outras especialidades de novo.
+ */
 
+/* O número é o mesmo do rodapé; a mensagem muda conforme o botão, para que a
+ * conversa já comece sabendo de onde o paciente veio. */
+const WHATS = "https://wa.me/5511983348888";
+const whats = (assunto: string) => `${WHATS}?text=${encodeURIComponent(assunto)}`;
 
-
-
+/*
+ * A composição de vídeo / antes e depois da paciente Márcia pedida no briefing
+ * depende de autorização dela e ainda não chegou. Enquanto for `null`, a dobra
+ * mostra só o retrato do Dr. — preferível a um espaço vazio marcado como
+ * "em breve", que é o tipo de buraco que acaba indo ao ar.
+ */
+const MIDIA_PACIENTE: { src: string; alt: string } | null = null;
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Dr. Luís Felipe Lopez — Cirurgião Plástico · MÉTODO ELEVATION®" },
+      { title: "Método Elevation® — Além do Deep Plane · Dr. Luís Felipe Lopez" },
       {
         name: "description",
         content:
-          "Cirurgia plástica com naturalidade, elegância e segurança. MÉTODO ELEVATION® — atendimento exclusivo no Jardim América, São Paulo.",
+          "Método Elevation: abordagem autoral do Dr. Luís Felipe Lopez que integra técnicas de cirurgia facial para rejuvenescer respeitando a identidade de cada paciente.",
       },
-      { property: "og:title", content: "Dr. Luís Felipe Lopez — MÉTODO ELEVATION®" },
+      { property: "og:title", content: "Método Elevation® — Além do Deep Plane" },
       {
         property: "og:description",
-        content: "Cirurgia plástica facial, mamária e corporal com rigor técnico e sensibilidade.",
+        content:
+          "Um novo conceito de rejuvenescimento facial, por Dr. Luís Felipe Lopez. Porque rejuvenescer não significa mudar quem você é.",
       },
     ],
   }),
@@ -46,71 +55,22 @@ export const Route = createFileRoute("/")({
 
 /* ───────── Conteúdo ───────── */
 
-const stats = [
-  { icon: "shield", t: "Membro da", b: "Sociedade Brasileira de Cirurgia Plástica" },
-  { icon: "star", t: "Atendimento", b: "Personalizado" },
-  { icon: "hospital", t: "Hospitais de", b: "Excelência em São Paulo" },
-  { icon: "people", t: "Mais de 2.000", b: "pacientes atendidos" },
-];
-
-const specialties = [
+/* Os três princípios do Bloco 3 do briefing. */
+const principios = [
   {
-    key: "face",
-    name: "Face",
-    items: ["Deep Plane", "Blefaroplastia", "Rejuvenescimento Facial"],
-  },
-  {
-    key: "mama",
-    name: "Mama",
-    items: ["Prótese", "Mastopexia", "Redução Mamária"],
-  },
-  {
-    key: "corpo",
-    name: "Corpo",
-    items: ["Lipoaspiração", "Abdominoplastia", "Contorno Corporal"],
-  },
-  {
-    key: "esteticos",
-    name: "Procedimentos Estéticos",
-    items: ["Botox", "Preenchimento", "Bioestimuladores"],
-  },
-] as const;
-
-const differentials = [
-  {
-    icon: "clock",
-    t: "Consulta sem pressa",
-    d: "Cada paciente possui necessidades únicas e merece atenção total.",
+    icon: "face",
+    t: "Conhecimento anatômico",
+    d: "Entender as estruturas profundas da face antes de decidir qualquer conduta.",
   },
   {
     icon: "plan",
     t: "Planejamento individualizado",
-    d: "Indicação baseada em critérios médicos e no que faz sentido para você.",
-  },
-  {
-    icon: "leaf",
-    t: "Resultados naturais",
-    d: "Harmonia, leveza e equilíbrio acima de exageros.",
+    d: "Cada rosto envelhece de um jeito. O plano acompanha o seu, não um protocolo.",
   },
   {
     icon: "heart",
-    t: "Acompanhamento próximo",
-    d: "Do pré ao pós-operatório, você não está sozinho.",
-  },
-];
-
-const testimonials = [
-  {
-    q: "Me senti segura desde a primeira consulta. Resultado natural e além do que eu esperava.",
-    a: "Paciente · Face",
-  },
-  {
-    q: "Resultado extremamente natural e elegante. Superou minhas expectativas!",
-    a: "Paciente · Mama",
-  },
-  {
-    q: "Atendimento humano e muito acolhedor. Recomendo de olhos fechados!",
-    a: "Paciente · Blefaroplastia",
+    t: "Respeito à identidade",
+    d: "Valorizar as características que tornam cada pessoa única, em vez de substituí-las.",
   },
 ];
 
@@ -132,48 +92,11 @@ function Icon({ name, size = 26 }: { name: string; size?: number }) {
           <path d="M16 4 L26 8 V16 C26 22 21 27 16 28 C11 27 6 22 6 16 V8 Z" />
         </svg>
       );
-    case "star":
-      return (
-        <svg width={s} height={s} viewBox="0 0 32 32" {...stroke}>
-          <path d="M16 5 L19 13 L27 13.5 L21 19 L23 27 L16 23 L9 27 L11 19 L5 13.5 L13 13 Z" />
-        </svg>
-      );
-    case "hospital":
-      return (
-        <svg width={s} height={s} viewBox="0 0 32 32" {...stroke}>
-          <path d="M6 28 V12 H26 V28 Z" />
-          <path d="M16 16 V22 M13 19 H19" />
-          <path d="M13 10 V4 H19 V10" />
-        </svg>
-      );
-    case "people":
-      return (
-        <svg width={s} height={s} viewBox="0 0 32 32" {...stroke}>
-          <circle cx="11" cy="12" r="3.5" />
-          <circle cx="21" cy="12" r="3.5" />
-          <path d="M4 25 C4 21 7 19 11 19 C15 19 18 21 18 25" />
-          <path d="M14 25 C14 21 17 19 21 19 C25 19 28 21 28 25" />
-        </svg>
-      );
-    case "clock":
-      return (
-        <svg width={s} height={s} viewBox="0 0 32 32" {...stroke}>
-          <circle cx="16" cy="16" r="11" />
-          <path d="M16 9 V16 L20 19" />
-        </svg>
-      );
     case "plan":
       return (
         <svg width={s} height={s} viewBox="0 0 32 32" {...stroke}>
           <rect x="6" y="5" width="20" height="22" />
           <path d="M10 11 H22 M10 16 H22 M10 21 H18" />
-        </svg>
-      );
-    case "leaf":
-      return (
-        <svg width={s} height={s} viewBox="0 0 32 32" {...stroke}>
-          <path d="M6 26 C6 14 14 6 26 6 C26 18 18 26 6 26 Z" />
-          <path d="M6 26 L20 12" />
         </svg>
       );
     case "heart":
@@ -184,34 +107,11 @@ function Icon({ name, size = 26 }: { name: string; size?: number }) {
       );
     case "face":
       return (
-        <svg width={s + 8} height={s + 8} viewBox="0 0 40 40" {...stroke}>
+        <svg width={s} height={s} viewBox="0 0 40 40" {...stroke}>
           <path d="M20 6 C12 6 9 12 9 18 C9 25 13 32 20 32 C27 32 31 25 31 18 C31 12 28 6 20 6 Z" />
           <path d="M14 18 Q15 17 16 18 M24 18 Q25 17 26 18" />
           <path d="M18 24 Q20 26 22 24" />
           <path d="M9 14 C12 9 16 8 20 9" />
-        </svg>
-      );
-    case "mama":
-      return (
-        <svg width={s + 8} height={s + 8} viewBox="0 0 40 40" {...stroke}>
-          <path d="M6 14 C10 12 14 12 16 14 C18 16 18 22 14 25 C10 28 6 25 6 20 Z" />
-          <path d="M34 14 C30 12 26 12 24 14 C22 16 22 22 26 25 C30 28 34 25 34 20 Z" />
-          <circle cx="12" cy="19" r="1.2" fill="var(--color-gold)" stroke="none" />
-          <circle cx="28" cy="19" r="1.2" fill="var(--color-gold)" stroke="none" />
-        </svg>
-      );
-    case "corpo":
-      return (
-        <svg width={s + 8} height={s + 8} viewBox="0 0 40 40" {...stroke}>
-          <path d="M14 6 C14 10 14 12 12 14 C10 16 10 20 12 22 C10 26 12 32 14 34" />
-          <path d="M26 6 C26 10 26 12 28 14 C30 16 30 20 28 22 C30 26 28 32 26 34" />
-        </svg>
-      );
-    case "esteticos":
-      return (
-        <svg width={s + 8} height={s + 8} viewBox="0 0 40 40" {...stroke}>
-          <path d="M20 8 C14 8 11 13 11 19 C11 25 14 30 20 30 C26 30 29 25 29 19 C29 13 26 8 20 8 Z" />
-          <path d="M16 20 L20 24 L26 16" />
         </svg>
       );
     case "phone":
@@ -254,22 +154,19 @@ function Icon({ name, size = 26 }: { name: string; size?: number }) {
 }
 
 /* ───────── Página ───────── */
+
 function Landing() {
   useReveal();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navItems = [
-    { href: "#metodo", label: "Técnica" },
-    { href: "#especialidades", label: "Procedimentos" },
-    { href: "#sobre", label: "Sobre" },
+    { href: "#metodo", label: "O Método" },
+    { href: "#dr", label: "O Cirurgião" },
+    { href: "#avaliacao", label: "Avaliação" },
   ];
-
-  const elevationFilter = "none";
 
   return (
     <main className="relative bg-paper-cream" style={{ position: "relative", zIndex: 2 }}>
-
-
       {/* ───────── TOPBAR ───────── */}
       <header
         className="fixed top-0 inset-x-0 z-40 px-4 md:px-8 lg:px-14 py-3 md:py-4 grid grid-cols-[auto_1fr_auto] gap-3 md:gap-6 items-center"
@@ -289,7 +186,7 @@ function Landing() {
             src={elevationLogo}
             alt="Método Elevation"
             className="hidden sm:block w-auto shrink-0"
-            style={{ height: 26, filter: elevationFilter }}
+            style={{ height: 26 }}
             draggable={false}
           />
         </div>
@@ -313,10 +210,19 @@ function Landing() {
         </nav>
 
         <div className="flex items-center gap-2 md:gap-3 shrink-0 justify-end">
-          <a href="#contato" className="btn-dark hidden sm:inline-flex whitespace-nowrap">
-            Agendar consulta
-            <span className="arrow">→</span>
-          </a>
+          {/*
+            O `hidden` precisa estar no invólucro, não no <a>. A classe
+            `.btn-dark` declara `display: inline-flex` e nasce depois das
+            utilitárias do Tailwind no mesmo layer — com a mesma especificidade,
+            quem vem por último vence, e o `hidden` do próprio botão era
+            ignorado. No celular ele aparecia por cima do logotipo.
+          */}
+          <div className="hidden sm:block">
+            <a href="#avaliacao" className="btn-dark whitespace-nowrap">
+              Agendar avaliação
+              <span className="arrow">→</span>
+            </a>
+          </div>
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
@@ -346,11 +252,7 @@ function Landing() {
           >
             ×
           </button>
-          <img
-            src={elevationLogo}
-            alt="Método Elevation"
-            style={{ height: 32, filter: elevationFilter }}
-          />
+          <img src={elevationLogo} alt="Método Elevation" style={{ height: 32 }} />
           <nav className="flex flex-col items-center gap-6 text-center">
             {navItems.map((n) => (
               <a
@@ -364,14 +266,14 @@ function Landing() {
               </a>
             ))}
             <div className="gold-rule w-32 my-4" />
-            <a href="#contato" onClick={() => setMenuOpen(false)} className="btn-dark">
-              Agendar consulta <span className="arrow">→</span>
+            <a href="#avaliacao" onClick={() => setMenuOpen(false)} className="btn-dark">
+              Agendar avaliação <span className="arrow">→</span>
             </a>
           </nav>
         </div>
       )}
 
-      {/* ───────── HERO ───────── */}
+      {/* ───────── BLOCO 1 · HERO ───────── */}
       <section
         id="inicio"
         className="traco-fundo relative pt-28 lg:pt-32 pb-20 lg:pb-24 overflow-hidden"
@@ -383,65 +285,72 @@ function Landing() {
           className="absolute -right-32 top-10 hidden md:block"
         />
         <div className="relative max-w-[1280px] mx-auto px-6 md:px-10 lg:px-14 grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
-
           {/* Texto */}
           <div className="relative pt-6 lg:pt-12 max-w-3xl">
+            {/*
+              "7 cirurgias em 1 só" é a manchete do briefing. Fica acima do H1,
+              em caixa alta e corpo pequeno: é o gancho, não o título da página —
+              o que a página promete é o conceito, não o número.
+            */}
+            <span className="eyebrow eyebrow-gold">7 cirurgias em 1 só</span>
+
             <h1
-              className="font-display font-light leading-[1.05]"
+              className="font-display font-light leading-[1.05] mt-6"
               style={{ fontSize: "clamp(2.1rem, 6vw, 4.4rem)", color: "var(--brown-ink)" }}
             >
-              Cirurgia Plástica
+              Além do <span className="italic-gold">Deep Plane.</span>
               <br />
-              com <span className="italic-gold">Naturalidade,</span>
+              Um novo conceito de
               <br />
-              Elegância e Segurança
+              rejuvenescimento facial.
             </h1>
 
             <div className="gold-rule mt-8 max-w-[140px]" />
 
             <p
-              className="mt-8 font-body text-base md:text-lg leading-relaxed max-w-lg"
-              style={{ color: "var(--brown-soft)" }}
+              className="mt-8 font-sans"
+              style={{
+                fontSize: 11.5,
+                letterSpacing: "0.26em",
+                textTransform: "uppercase",
+                color: "var(--brown-ink)",
+              }}
             >
-              Transformando autoestima com resultados que respeitam sua anatomia
-              e valorizam sua beleza individual.
+              Naturalidade · Elegância · Segurança
             </p>
 
-            <a href="#contato" className="btn-dark mt-10">
-              Agendar consulta <span className="arrow">→</span>
-            </a>
+            <p
+              className="mt-7 font-body text-base md:text-lg leading-relaxed max-w-xl"
+              style={{ color: "var(--brown-soft)" }}
+            >
+              Conheça o Método Elevation, uma abordagem autoral desenvolvida pelo Dr. Luís Felipe
+              Lopez que integra técnicas avançadas de cirurgia facial para tratar os sinais do
+              envelhecimento de maneira personalizada, respeitando a naturalidade e a identidade de
+              cada paciente.
+            </p>
 
-            {/* Selos */}
-            <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl">
-              {stats.map((s) => (
-                <div key={s.t} className="flex flex-col gap-3">
-                  <div
-                    className="w-11 h-11 grid place-items-center rounded-full"
-                    style={{
-                      border: "1px solid color-mix(in oklab, var(--color-gold) 45%, transparent)",
-                    }}
-                  >
-                    <Icon name={s.icon} size={20} />
-                  </div>
-                  <div
-                    className="font-sans leading-snug"
-                    style={{
-                      fontSize: 11,
-                      letterSpacing: "0.06em",
-                      color: "var(--brown-ink)",
-                    }}
-                  >
-                    {s.t}
-                    <br />
-                    <span style={{ color: "var(--brown-soft)" }}>{s.b}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <p
+              className="mt-8 font-display italic leading-snug max-w-lg"
+              style={{ fontSize: "clamp(1.25rem, 2vw, 1.6rem)", color: "var(--brown-ink)" }}
+            >
+              Porque rejuvenescer não significa mudar quem você é.
+            </p>
+
+            <a href="#metodo" className="btn-dark mt-10">
+              Conheça o Método Elevation <span className="arrow">→</span>
+            </a>
           </div>
 
-          {/* Retrato Dr. (recorte sem fundo) */}
-          <div className="relative order-first lg:order-last mx-auto w-full max-w-[420px] lg:max-w-none">
+          {/*
+            Retrato do Dr. (recorte sem fundo) e, quando houver, a mídia da paciente.
+
+            Sem `order-first` no celular: o retrato ocupa uma tela inteira, e com
+            ele em cima a manchete e o botão só apareciam depois de rolar. Numa
+            página de conversão, a primeira coisa a ser lida é a promessa, não a
+            foto. No desktop as duas colunas cabem juntas e a foto volta para a
+            direita.
+          */}
+          <div className="relative lg:order-last mx-auto w-full max-w-[420px] lg:max-w-none">
             <div
               className="absolute left-1/2 -translate-x-1/2 bottom-[6%] w-[78%] aspect-square rounded-full"
               style={{
@@ -457,385 +366,327 @@ function Landing() {
               style={{ maxHeight: 640 }}
               loading="eager"
             />
+            {MIDIA_PACIENTE && (
+              <div className="relative mt-6 overflow-hidden rounded-[24px]">
+                <img
+                  src={MIDIA_PACIENTE.src}
+                  alt={MIDIA_PACIENTE.alt}
+                  className="w-full h-auto block"
+                  loading="lazy"
+                />
+              </div>
+            )}
           </div>
-
         </div>
       </section>
 
-
-      {/* ───────── SOBRE ───────── */}
-      <section id="sobre" className="relative section-dark py-0 scroll-mt-20">
+      {/* ───────── BLOCO 2 · O MÉTODO ───────── */}
+      <section id="metodo" className="relative section-dark reveal scroll-mt-20 overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           {/*
-            A foto entra recortada, sem fundo, apoiada no creme e sobre o traço
-            de contorno — é o arranjo do material do próprio Dr. Luís Felipe, e o
-            mesmo tratamento que a do Dr. Rahal recebe.
-
-            `object-contain` e não `object-cover`: recorte cortado pela metade
-            perde justamente a silhueta, que é o motivo de recortar. E alinhado
-            embaixo, porque ele está sentado — centralizado, a poltrona flutuaria.
+            A foto do centro cirúrgico entra aqui e não no bloco do cirurgião:
+            o assunto deste bloco é a técnica, e técnica se mostra operando.
+            Cantos arredondados com respiro, como os outros blocos de imagem do
+            site — colada na borda da tela, arredondar só um lado fica torto.
           */}
-          <div className="traco-fundo bg-paper-cream relative min-h-[520px] overflow-hidden lg:min-h-[640px]">
-            {/*
-              `absolute inset-0` + `object-contain`: o encaixe tem de considerar a
-              caixa inteira, não só a largura. Dimensionada pela largura, no
-              celular a foto ficava mais alta que a célula e a cabeça era cortada.
-              `object-bottom` porque ele está sentado — centralizado, a poltrona
-              flutuaria no meio do bloco.
-            */}
-            <img
-              src={drSobre}
-              alt="Dr. Luís Felipe Lopez"
-              className="absolute inset-0 h-full w-full object-contain object-bottom"
-            />
+          <div className="relative flex min-h-[420px] p-5 md:p-8 lg:min-h-[640px] lg:p-12">
+            <div className="relative w-full overflow-hidden rounded-[28px]">
+              <img
+                src={drOperando}
+                alt="Dr. Luís Felipe Lopez em cirurgia"
+                className="absolute inset-0 h-full w-full object-cover"
+                style={{ objectPosition: "50% 30%" }}
+                loading="lazy"
+              />
+            </div>
           </div>
-          <div className="bg-paper-cream px-8 md:px-14 lg:px-20 py-14 lg:py-18 flex flex-col justify-center reveal">
+
+          <div className="px-8 md:px-14 lg:px-20 py-14 lg:py-18 flex flex-col justify-center">
             <div className="flex items-center gap-4">
-              <span className="eyebrow">Sobre o Dr. Luís Felipe</span>
+              <span className="eyebrow eyebrow-gold">O Método</span>
               <span
                 className="block h-px flex-1 max-w-[80px]"
                 style={{ background: "var(--color-gold)", opacity: 0.5 }}
               />
             </div>
+
             <h2
               className="font-display font-light mt-8 leading-[1.05]"
-              style={{ fontSize: "clamp(2.2rem, 3.6vw, 3.4rem)", color: "var(--brown-ink)" }}
+              style={{ fontSize: "clamp(2rem, 3.4vw, 3.2rem)" }}
             >
-              A beleza começa
+              Seu rosto é único.
               <br />
-              pelo <span className="italic-gold">cuidado.</span>
+              Seu <span className="italic-gold">rejuvenescimento</span>
+              <br />
+              também deve ser.
             </h2>
-            <p className="mt-8 font-body text-base md:text-lg leading-relaxed max-w-xl" style={{ color: "var(--brown-soft)" }}>
-              Dr. Luís Felipe Lopez é cirurgião plástico formado pela
-              PUC-Campinas, com residência em Cirurgia Geral e Cirurgia
-              Plástica, atuando nos principais hospitais de São Paulo.
+
+            <p
+              className="mt-8 font-body text-base md:text-lg leading-relaxed max-w-xl"
+              style={{ color: "var(--color-muted-foreground)" }}
+            >
+              O Deep Plane reposiciona estruturas profundas. Mas o rejuvenescimento pode ir além.
             </p>
-            <p className="mt-6 font-body text-base md:text-lg leading-relaxed max-w-xl" style={{ color: "var(--brown-soft)" }}>
-              Seu trabalho combina técnica, segurança e uma abordagem humanizada
-              voltada para resultados naturais e duradouros.
+            <p
+              className="mt-5 font-body text-base md:text-lg leading-relaxed max-w-xl"
+              style={{ color: "var(--color-muted-foreground)" }}
+            >
+              Desenvolvi o Método Elevation para integrar técnicas conforme as necessidades de cada
+              paciente, com um olhar para o rosto como um todo.
             </p>
-            <a href="#metodo" className="btn-dark mt-10 self-start">
-              Conheça minha história <span className="arrow">→</span>
-            </a>
+            <p
+              className="mt-5 font-body text-base md:text-lg leading-relaxed max-w-xl"
+              style={{ color: "var(--color-muted-foreground)" }}
+            >
+              Mais do que rejuvenescer, o objetivo é preservar o que faz você ser você.
+            </p>
+
+            <div className="gold-rule mt-10 max-w-[140px]" />
+
+            <p
+              className="mt-8 font-display font-light leading-tight"
+              style={{ fontSize: "clamp(1.6rem, 2.6vw, 2.2rem)" }}
+            >
+              Elevation. <span className="italic-gold">Além do Deep Plane.</span>
+            </p>
           </div>
         </div>
-      </section>
 
-      <Numeros />
-
-      {/* ───────── ESPECIALIDADES ───────── */}
-      <section
-        id="especialidades"
-        className="bg-paper-cream relative overflow-hidden px-6 md:px-10 lg:px-14 py-16 md:py-20 reveal scroll-mt-20"
-      >
-
-
-
-        <div className="text-center max-w-3xl mx-auto">
-          <span className="eyebrow eyebrow-gold">Especialidades</span>
-          <h2
-            className="font-display font-light mt-6 leading-[1.05]"
-            style={{ fontSize: "clamp(2rem, 3.4vw, 3rem)", color: "var(--brown-ink)" }}
+        {/*
+          A pergunta do briefing fecha o bloco em faixa própria, centralizada.
+          Dentro da coluna de texto ela viraria mais um parágrafo; sozinha, ela
+          faz o que foi escrita para fazer — parar a leitura.
+        */}
+        <div
+          className="px-6 md:px-10 lg:px-14 py-14 md:py-16 text-center"
+          style={{ borderTop: "1px solid var(--color-border)" }}
+        >
+          <p
+            className="font-display font-light italic leading-snug max-w-3xl mx-auto"
+            style={{ fontSize: "clamp(1.4rem, 2.8vw, 2.2rem)" }}
           >
-            Procedimentos para realçar
-            <br />
-            sua <span className="italic-gold">melhor versão</span>
-          </h2>
-        </div>
-
-        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-[1280px] mx-auto">
-          {specialties.map((s) => (
-            <article key={s.key} className="card-light p-8 flex flex-col">
-              <div
-                className="w-14 h-14 grid place-items-center shrink-0 rounded-full"
-                style={{ border: "1px solid color-mix(in oklab, var(--color-gold) 45%, transparent)" }}
-              >
-                <Icon name={s.key} size={28} />
-              </div>
-
-              <h3
-                className="font-sans mt-4"
-                style={{
-                  fontSize: 12,
-                  letterSpacing: "0.32em",
-                  textTransform: "uppercase",
-                  color: "var(--brown-ink)",
-                }}
-              >
-                {s.name}
-              </h3>
-              <ul className="mt-6 space-y-2 font-body text-sm" style={{ color: "var(--brown-soft)" }}>
-                {s.items.map((i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <span style={{ color: "var(--color-gold)" }}>•</span>
-                    {i}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="#contato"
-                className="mt-8 font-sans inline-flex items-center gap-2 self-start"
-                style={{
-                  fontSize: 10.5,
-                  letterSpacing: "0.28em",
-                  textTransform: "uppercase",
-                  color: "var(--brown-ink)",
-                  borderBottom: "1px solid var(--color-gold)",
-                  paddingBottom: 4,
-                }}
-              >
-                Saiba mais <Icon name="arrow" size={14} />
-              </a>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* ───────── DIFERENCIAIS ───────── */}
-      <section className="bg-paper-ivory relative px-6 md:px-10 lg:px-14 py-16 reveal">
-        <div className="text-center max-w-3xl mx-auto">
-          <span className="eyebrow eyebrow-gold">Diferenciais</span>
-          <h2
-            className="font-display font-light mt-6 leading-[1.05]"
-            style={{ fontSize: "clamp(2rem, 3.2vw, 2.8rem)", color: "var(--brown-ink)" }}
-          >
-            Uma experiência pensada
-            <br />
-            em <span className="italic-gold">cada detalhe</span>
-          </h2>
-        </div>
-
-        <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-10 max-w-[1180px] mx-auto">
-          {differentials.map((d) => (
-            <div key={d.t} className="text-center">
-              <div
-                className="w-14 h-14 mx-auto grid place-items-center rounded-full"
-                style={{ border: "1px solid color-mix(in oklab, var(--color-gold) 45%, transparent)" }}
-              >
-                <Icon name={d.icon} size={22} />
-              </div>
-              <h3
-                className="font-display font-light mt-5 text-xl md:text-2xl"
-                style={{ color: "var(--brown-ink)" }}
-              >
-                {d.t}
-              </h3>
-              <p className="mt-3 font-body text-sm leading-relaxed" style={{ color: "var(--brown-soft)" }}>
-                {d.d}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ───────── ANTES & DEPOIS ───────── */}
-      <section
-        id="antes-depois"
-        className="bg-paper-cream relative px-6 md:px-10 lg:px-14 py-16 md:py-20 reveal scroll-mt-20"
-      >
-        <div className="text-center max-w-3xl mx-auto">
-          <span className="eyebrow eyebrow-gold">Antes &amp; Depois</span>
-          <h2
-            className="font-display font-light mt-6 leading-[1.05]"
-            style={{ fontSize: "clamp(2rem, 3.4vw, 3rem)", color: "var(--brown-ink)" }}
-          >
-            Resultados que <span className="italic-gold">revelam</span>
-            <br />— nunca denunciam
-          </h2>
-          <p className="mt-6 font-body text-base md:text-lg leading-relaxed" style={{ color: "var(--brown-soft)" }}>
-            Casos reais conduzidos pelo Dr. Luís Felipe Lopez. Cada resultado
-            preserva traços únicos e respeita a anatomia individual.
+            Qual região do seu rosto você sente que mais mudou com o tempo?
           </p>
-        </div>
-
-        <BeforeAfterSlider cases={beforeAfterCases} />
-
-
-        {/* Procedimento em destaque — imagem editorial com anotações embutidas */}
-        <div className="mt-20 md:mt-24 max-w-[1180px] mx-auto grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16 items-center">
-          <div>
-            <span className="eyebrow eyebrow-gold">Procedimento em destaque</span>
-            <h3
-              className="font-display font-light mt-6 leading-[1.05]"
-              style={{ fontSize: "clamp(1.8rem, 2.8vw, 2.6rem)", color: "var(--brown-ink)" }}
-            >
-              O olhar renovado,
-              <br />
-              com <span className="italic-gold">naturalidade</span>
-            </h3>
-            <p className="mt-6 font-body text-base md:text-lg leading-relaxed max-w-md" style={{ color: "var(--brown-soft)" }}>
-              Cada detalhe da face é tratado de forma integrada — sobrancelha,
-              olhar e lábios harmonizados para revelar a beleza individual sem
-              denunciar intervenção.
-            </p>
-            <a href="#contato" className="btn-dark mt-10">
-              Quero avaliar <span className="arrow">→</span>
-            </a>
-          </div>
-          <div className="relative">
-            <img
-              src={procedimentosRosto}
-              alt="Mapa facial — onde cada procedimento atua no rosto"
-              className="w-full h-auto block"
-              loading="lazy"
-            />
-          </div>
+          <a
+            href={whats(
+              "Olá! Vim pela página do Método Elevation e gostaria de agendar uma avaliação.",
+            )}
+            target="_blank"
+            rel="noreferrer"
+            className="btn-gold mt-9"
+          >
+            Conversar sobre o meu caso <Icon name="arrow" size={14} />
+          </a>
         </div>
       </section>
 
-
-
-      {/* ───────── MÉTODO ELEVATION ───────── */}
-      <section id="metodo" className="bg-paper-cream relative reveal scroll-mt-20 overflow-hidden">
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 relative">
-
-          {/*
-            Cantos arredondados. A foto ganha respiro em volta porque, colada na
-            borda da tela, arredondar só os cantos de dentro fica torto — com o
-            recuo ela vira um cartão e os quatro cantos fazem sentido.
-          */}
-          <div className="relative flex min-h-[420px] p-5 md:p-8 lg:min-h-[600px] lg:p-12">
-            <div className="relative w-full overflow-hidden rounded-[28px]">
-              <img
-                src={mama}
-                alt="Método Elevation"
-                className="absolute inset-0 h-full w-full object-cover"
-                style={{ objectPosition: "50% 35%" }}
-              />
+      {/* ───────── BLOCO 3 · AUTORIDADE ───────── */}
+      <section id="dr" className="bg-paper-cream relative reveal scroll-mt-20 overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2">
+          <div className="px-8 md:px-14 lg:px-20 py-14 lg:py-18 flex flex-col justify-center order-last lg:order-first">
+            <div className="flex items-center gap-3">
+              <Icon name="shield" size={22} />
+              <span className="eyebrow" style={{ color: "var(--brown-ink)" }}>
+                Membro da Sociedade Brasileira de Cirurgia Plástica
+              </span>
             </div>
-          </div>
-          <div className="px-8 md:px-14 lg:px-20 py-14 lg:py-18 flex flex-col justify-center">
-            <div className="flex items-center gap-4">
-              <span className="eyebrow">Exclusivo</span>
-              <span className="block h-px w-20" style={{ background: "var(--color-gold)", opacity: 0.5 }} />
-            </div>
+
             <h2
               className="font-display font-light mt-8 leading-[1.05]"
-              style={{ fontSize: "clamp(2.2rem, 3.6vw, 3.4rem)", color: "var(--brown-ink)" }}
+              style={{ fontSize: "clamp(2rem, 3.4vw, 3.2rem)", color: "var(--brown-ink)" }}
             >
-              MÉTODO <span className="italic-gold">ELEVATION</span>
+              Dr. Luís Felipe <span className="italic-gold">Lopez</span>
             </h2>
-            <p className="mt-8 font-body text-base md:text-lg leading-relaxed max-w-xl" style={{ color: "var(--brown-soft)" }}>
-              Uma abordagem que busca reposicionar, sustentar e valorizar os
-              contornos naturais da face e da mama — promovendo resultados
-              sofisticados e duradouros.
+
+            <p
+              className="mt-8 font-body text-base md:text-lg leading-relaxed max-w-xl"
+              style={{ color: "var(--brown-soft)" }}
+            >
+              Sou cirurgião plástico, membro da Sociedade Brasileira de Cirurgia Plástica, com
+              título de especialista reconhecido pelo MEC e pela AMB.
             </p>
-            <a href="#contato" className="btn-dark mt-10 self-start">
-              Saiba mais <span className="arrow">→</span>
-            </a>
+            <p
+              className="mt-5 font-body text-base md:text-lg leading-relaxed max-w-xl"
+              style={{ color: "var(--brown-soft)" }}
+            >
+              Há mais de dez anos, atuo como assistente do Dr. Charles Yamaguchi, experiência que
+              contribui para o aprimoramento contínuo da minha prática cirúrgica.
+            </p>
+            <p
+              className="mt-5 font-body text-base md:text-lg leading-relaxed max-w-xl"
+              style={{ color: "var(--brown-soft)" }}
+            >
+              Minha atuação em rejuvenescimento facial é orientada por três princípios. Foi a partir
+              dessa filosofia que desenvolvi o Método Elevation.
+            </p>
+
+            <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-7">
+              {principios.map((p) => (
+                <div key={p.t}>
+                  <div
+                    className="w-12 h-12 grid place-items-center rounded-full"
+                    style={{
+                      border: "1px solid color-mix(in oklab, var(--color-gold) 45%, transparent)",
+                    }}
+                  >
+                    <Icon name={p.icon} size={20} />
+                  </div>
+                  <h3
+                    className="font-sans mt-4"
+                    style={{
+                      fontSize: 11,
+                      letterSpacing: "0.22em",
+                      textTransform: "uppercase",
+                      color: "var(--brown-ink)",
+                    }}
+                  >
+                    {p.t}
+                  </h3>
+                  <p
+                    className="mt-3 font-body text-sm leading-relaxed"
+                    style={{ color: "var(--brown-soft)" }}
+                  >
+                    {p.d}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="gold-rule mt-12 max-w-[140px]" />
+
+            <p
+              className="mt-8 font-display font-light leading-tight"
+              style={{ fontSize: "clamp(1.5rem, 2.4vw, 2.1rem)", color: "var(--brown-ink)" }}
+            >
+              Um rejuvenescimento bem planejado não cria um novo rosto —
+              <span className="italic-gold"> valoriza o que já é seu.</span>
+            </p>
           </div>
-        </div>
-      </section>
 
-      {/* ───────── DEPOIMENTOS ───────── */}
-      <section className="bg-paper-ivory relative px-6 md:px-10 lg:px-14 py-16 reveal">
-        <div className="text-center">
-          <span className="eyebrow eyebrow-gold">Depoimentos</span>
-        </div>
-
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[1180px] mx-auto">
-          {testimonials.map((t, i) => (
-            <article key={i} className="card-light p-8 text-center flex flex-col">
-              <div className="flex items-center justify-center gap-1 mb-5" style={{ color: "var(--color-gold)" }}>
-                {"★★★★★".split("").map((s, k) => (
-                  <span key={k} style={{ fontSize: 14, letterSpacing: 2 }}>{s}</span>
-                ))}
-              </div>
-              <p
-                className="font-display italic leading-snug"
-                style={{ fontSize: "1.1rem", color: "var(--brown-ink)" }}
-              >
-                "{t.q}"
-              </p>
-              <p
-                className="mt-6 font-sans"
-                style={{ fontSize: 10.5, letterSpacing: "0.24em", textTransform: "uppercase", color: "var(--brown-soft)" }}
-              >
-                {t.a}
-              </p>
-            </article>
-          ))}
-        </div>
-
-        <div className="mt-10 flex items-center justify-center gap-2">
-          {[0, 1, 2].map((i) => (
-            <span
-              key={i}
-              className="block w-2 h-2 rounded-full"
-              style={{
-                background: i === 0 ? "var(--color-gold)" : "color-mix(in oklab, var(--brown-ink) 18%, transparent)",
-              }}
-            />
-          ))}
-        </div>
-      </section>
-
-      {/* ───────── CLÍNICA ───────── */}
-      <section id="clinica" className="bg-paper-cream relative reveal scroll-mt-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2">
-          <div className="relative flex min-h-[420px] p-5 md:p-8 lg:min-h-[580px] lg:p-12">
+          <div className="relative flex min-h-[420px] p-5 md:p-8 lg:min-h-[640px] lg:p-12">
             <div className="relative w-full overflow-hidden rounded-[28px]">
               <img
-                src={fotoClinica}
-                alt="Clínica no Jardim América"
+                src={drPerfil}
+                alt="Dr. Luís Felipe Lopez no centro cirúrgico"
                 className="absolute inset-0 h-full w-full object-cover"
+                style={{ objectPosition: "60% 30%" }}
                 loading="lazy"
               />
             </div>
           </div>
-          <div className="px-8 md:px-14 lg:px-20 py-14 lg:py-18 flex flex-col justify-center">
-            <div className="flex items-center gap-4">
-              <span className="eyebrow">Clínica</span>
-              <span className="block h-px w-20" style={{ background: "var(--color-gold)", opacity: 0.5 }} />
-            </div>
-            <h2
-              className="font-display font-light mt-8 leading-[1.05]"
-              style={{ fontSize: "clamp(2.2rem, 3.6vw, 3.2rem)", color: "var(--brown-ink)" }}
-            >
-              Atendimento no
-              <br />
-              <span className="italic-gold">Jardim América</span>
-            </h2>
-            <p className="mt-8 font-body text-base md:text-lg leading-relaxed max-w-xl" style={{ color: "var(--brown-soft)" }}>
-              Consultório localizado em uma das regiões mais valorizadas de São
-              Paulo, com estrutura moderna e acolhedora para receber você.
-            </p>
-            <a href="#contato" className="btn-dark mt-10 self-start">
-              Como chegar <span className="arrow">→</span>
-            </a>
-          </div>
         </div>
       </section>
 
-      {/* ───────── CTA FINAL ───────── */}
+      {/* Fecho do Bloco 3, em faixa escura para separar da conversão */}
+      <section className="section-dark px-6 md:px-10 lg:px-14 py-16 md:py-20 text-center reveal">
+        <p
+          className="font-display font-light leading-tight max-w-3xl mx-auto"
+          style={{ fontSize: "clamp(1.8rem, 3.4vw, 3rem)" }}
+        >
+          Resultados que <span className="italic-gold">revelam</span>
+          <br />— nunca denunciam.
+        </p>
+      </section>
+
+      {/* ───────── BLOCO 4 · CONVERSÃO ───────── */}
       <section
-        id="contato"
-        className="bg-paper-ivory relative px-6 md:px-10 lg:px-14 py-16 md:py-20 scroll-mt-20"
-        style={{ borderTop: "1px solid color-mix(in oklab, var(--color-gold) 28%, transparent)" }}
+        id="avaliacao"
+        className="bg-paper-ivory relative px-6 md:px-10 lg:px-14 py-16 md:py-24 reveal scroll-mt-20"
       >
-        <div className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 items-center">
-          <div className="text-center md:text-left">
+        <div className="max-w-[1180px] mx-auto grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-12 lg:gap-20 items-center">
+          <div>
+            <span className="eyebrow eyebrow-gold">Avaliação personalizada</span>
             <h2
-              className="font-display font-light leading-[1.1]"
-              style={{ fontSize: "clamp(1.8rem, 3vw, 2.6rem)", color: "var(--brown-ink)" }}
+              className="font-display font-light mt-6 leading-[1.05]"
+              style={{ fontSize: "clamp(2rem, 3.4vw, 3.2rem)", color: "var(--brown-ink)" }}
             >
-              Sua melhor versão começa <span className="italic-gold">com uma conversa.</span>
+              Seu rosto é único.
+              <br />
+              Seu <span className="italic-gold">planejamento</span>
+              <br />
+              também deve ser.
             </h2>
-            <p className="mt-3 font-body" style={{ color: "var(--brown-soft)" }}>
-              Agende sua consulta e descubra qual é o tratamento mais indicado para você.
+
+            <p
+              className="mt-8 font-body text-base md:text-lg leading-relaxed max-w-xl"
+              style={{ color: "var(--brown-soft)" }}
+            >
+              O envelhecimento facial envolve mudanças na pele, nos volumes e nas estruturas
+              profundas do rosto. Por isso, compreender essas alterações é fundamental antes de
+              definir qualquer abordagem cirúrgica.
             </p>
-            <a href="https://wa.me/5511983348888" className="btn-dark mt-8">
-              Agendar consulta
-              <span className="arrow">→</span>
+            <p
+              className="mt-5 font-body text-base md:text-lg leading-relaxed max-w-xl"
+              style={{ color: "var(--brown-soft)" }}
+            >
+              Durante a consulta, avalio individualmente a anatomia facial, os sinais do
+              envelhecimento, as expectativas e as possibilidades de tratamento. É nesse momento que
+              identificamos se o Método Elevation é indicado para o seu caso e quais técnicas podem
+              fazer parte do planejamento.
+            </p>
+
+            <p
+              className="mt-8 font-display italic leading-snug max-w-lg"
+              style={{ fontSize: "clamp(1.2rem, 2vw, 1.5rem)", color: "var(--brown-ink)" }}
+            >
+              O primeiro passo para um rejuvenescimento natural é uma avaliação criteriosa.
+            </p>
+
+            <a
+              href={whats(
+                "Olá! Vim pela página do Método Elevation e gostaria de agendar minha avaliação personalizada.",
+              )}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-dark mt-10"
+            >
+              Agende sua avaliação <span className="arrow">→</span>
             </a>
           </div>
-          <img
-            src={elevationLogo}
-            alt="Elevation por Dr. Luís Felipe Lopez"
-            className="h-20 md:h-24 w-auto mx-auto md:mx-0"
-            loading="lazy"
-          />
+
+          {/* Assinatura — o cartão de visita que o briefing fecha */}
+          <div
+            className="p-10 md:p-12 flex flex-col items-center text-center"
+            style={{
+              background: "var(--ivory)",
+              border: "1px solid color-mix(in oklab, var(--color-gold) 30%, transparent)",
+            }}
+          >
+            <img
+              src={elevationLogo}
+              alt="Método Elevation"
+              className="h-16 md:h-20 w-auto"
+              loading="lazy"
+            />
+            <div className="gold-rule my-8 max-w-[120px]" />
+            <p
+              className="font-display font-light"
+              style={{ fontSize: "clamp(1.4rem, 2.2vw, 1.9rem)", color: "var(--brown-ink)" }}
+            >
+              Dr. Luís Felipe Lopez
+            </p>
+            <p
+              className="mt-3 font-sans leading-relaxed"
+              style={{
+                fontSize: 10.5,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: "var(--brown-soft)",
+              }}
+            >
+              Cirurgião Plástico
+              <br />
+              Criador do Método Elevation
+            </p>
+            <p
+              className="mt-7 font-body text-sm leading-relaxed"
+              style={{ color: "var(--brown-soft)" }}
+            >
+              Av. Brasil, 583 — Jardim Paulista
+              <br />
+              São Paulo · SP
+            </p>
+          </div>
         </div>
       </section>
 
@@ -854,7 +705,7 @@ function Landing() {
             style={{ fontSize: 13, color: "var(--brown-ink)" }}
           >
             <Icon name="pin" size={18} />
-            <span className="truncate">Av. Brasil, 2263 — Jardim América, São Paulo · SP</span>
+            <span className="truncate">Av. Brasil, 583 — Jardim Paulista, São Paulo · SP</span>
           </div>
           <a
             href="https://instagram.com/drluisfelipelopez"
@@ -869,7 +720,12 @@ function Landing() {
         <div className="ink-rule mt-8 max-w-[1180px] mx-auto" />
         <p
           className="mt-6 font-sans text-center"
-          style={{ fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--brown-soft)" }}
+          style={{
+            fontSize: 10.5,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "var(--brown-soft)",
+          }}
         >
           © 2026 Dr. Luís Felipe Lopez · Cirurgião Plástico · CRM SP
         </p>
@@ -877,7 +733,7 @@ function Landing() {
 
       {/* WhatsApp flutuante */}
       <a
-        href="https://wa.me/5511983348888"
+        href={whats("Olá! Vim pela página do Método Elevation.")}
         target="_blank"
         rel="noreferrer"
         aria-label="WhatsApp"
