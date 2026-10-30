@@ -43,6 +43,7 @@ import seloIgualdadeRacial from "@/assets/selo-igualdade-racial.webp";
 import seloOds from "@/assets/selo-ods.webp";
 import { Logo } from "./Logo";
 import { WaveDivider } from "./Wave";
+import { ModalAgenda } from "./ModalAgenda";
 import { ModalDoacao } from "./ModalDoacao";
 
 const WHATS = "https://wa.me/5511930352436?text=" + encodeURIComponent("Olá! Gostaria de passar pela triagem da Fundação Dona Paulina de Souza Queiroz para ser atendido.");
@@ -894,10 +895,10 @@ function DonationImpl() {
     * Quem já decidiu doar não deveria precisar abrir uma conversa e esperar
     * resposta para descobrir quanto e para onde.
     *
-    * O cartão de Bazares & Festas continua no WhatsApp até a programação de 2027
-    * chegar.
+    * O cartão de Bazares & Festas abre a programação de 2027 (lib/eventos.ts),
+    * recebida da Fundação em 30/10/2026; o WhatsApp virou o rodapé do modal.
     */
-   const [modal, setModal] = useState<null | "planos" | "adote">(null);
+   const [modal, setModal] = useState<null | "planos" | "adote" | "agenda">(null);
    const CARTAO =
      "flex w-full items-center gap-4 rounded-2xl bg-white p-4 text-left shadow-soft transition hover:-translate-y-1 hover:shadow-card";
    return (
@@ -936,15 +937,15 @@ function DonationImpl() {
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-soft text-2xl">💙</span>
               <span className="font-display text-lg font-bold text-charcoal">Apoiar a Campanha</span>
             </button>
-            <a
-              href={WHATS + encodeURIComponent("\n\nAssunto: Informações sobre Bazares e Festas.")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 rounded-2xl bg-white p-4 shadow-soft transition hover:-translate-y-1 hover:shadow-card"
-            >
+            <button type="button" onClick={() => setModal("agenda")} className={CARTAO}>
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-soft text-2xl">🎉</span>
-              <span className="font-display text-lg font-bold text-charcoal">Bazares & Festas</span>
-            </a>
+              <span className="font-display text-lg font-bold text-charcoal">
+                Bazares &amp; Festas
+                <span className="block text-xs font-semibold text-charcoal/60">
+                  Veja a programação de 2027
+                </span>
+              </span>
+            </button>
           </div>
         </div>
 
@@ -964,6 +965,13 @@ function DonationImpl() {
       </div>
       <WaveDivider fill="white" />
 
+      <ModalAgenda
+        aberto={modal === "agenda"}
+        aoFechar={() => setModal(null)}
+        whatsapp={
+          WHATS + encodeURIComponent("\n\nAssunto: Informações sobre Bazares e Festas.")
+        }
+      />
       <ModalDoacao
         aberto={modal === "planos"}
         aoFechar={() => setModal(null)}
