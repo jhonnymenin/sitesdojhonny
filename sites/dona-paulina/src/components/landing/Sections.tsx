@@ -988,9 +988,11 @@ function DonationImpl() {
         aberto={modal === "adote"}
         aoFechar={() => setModal(null)}
         titulo="Adote um atendido"
-        descricao="Custeie um ano de atendimento de uma pessoa na Fundação."
-        planos={[{ rotulo: "Adote um atendido", valor: "R$ 1.217,00" }]}
-        rodape="Confira os dados no aplicativo antes de concluir. Depois do Pix, avise a Fundação pelo WhatsApp para que o apoio seja registrado."
+        descricao="Custeie o atendimento de uma pessoa na Fundação. É uma contribuição mensal."
+        planos={[
+          { rotulo: "Adote um atendido", valor: "R$ 1.217,00", periodicidade: "por mês" },
+        ]}
+        rodape="Confira os dados no aplicativo antes de concluir. O valor é mensal e não há débito automático: repita o Pix a cada mês. Depois do primeiro, avise a Fundação pelo WhatsApp para que o apoio seja registrado."
       />
     </section>
   );

@@ -15,9 +15,14 @@ import { BlocoPix } from "./BlocoPix";
  * O valor fica visível DEPOIS da escolha, junto da chave, porque é nesse
  * momento que a pessoa troca de aplicativo — ter o número e o valor na mesma
  * área evita voltar ao site para conferir quanto era.
+ *
+ * `periodicidade` existe porque sem ela um valor alto é lido como cobrança
+ * única: R$ 1.217,00 recorrente e R$ 1.217,00 de uma vez são compromissos
+ * muito diferentes, e quem só vê o número decide errado. Aparece nos dois
+ * lugares em que a pessoa olha o valor — no cartão e junto da chave Pix.
  */
 
-export type Plano = { rotulo: string; valor: string };
+export type Plano = { rotulo: string; valor: string; periodicidade?: string };
 
 export function ModalDoacao({
   aberto,
@@ -112,7 +117,20 @@ export function ModalDoacao({
                   }`}
                 >
                   <span className="text-sm font-bold tracking-wide uppercase">{p.rotulo}</span>
-                  <span className="font-display text-lg font-bold tabular-nums">{p.valor}</span>
+                  <span className="shrink-0 text-right">
+                    <span className="block font-display text-lg font-bold tabular-nums">
+                      {p.valor}
+                    </span>
+                    {p.periodicidade && (
+                      <span
+                        className={`block text-[11px] font-semibold ${
+                          ativo ? "text-primary-foreground/80" : "text-charcoal/60"
+                        }`}
+                      >
+                        {p.periodicidade}
+                      </span>
+                    )}
+                  </span>
                 </button>
               );
             })}
@@ -125,8 +143,8 @@ export function ModalDoacao({
                   Faça um Pix de{" "}
                   <strong className="font-display text-base text-[color:var(--primary-dark)]">
                     {plano.valor}
-                  </strong>{" "}
-                  para a chave abaixo.
+                  </strong>
+                  {plano.periodicidade ? ` ${plano.periodicidade}` : ""} para a chave abaixo.
                 </p>
                 <BlocoPix titulo={`Pix · ${plano.rotulo}`} rodape={rodape} />
               </>
