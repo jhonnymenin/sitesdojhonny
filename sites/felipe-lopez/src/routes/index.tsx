@@ -391,6 +391,80 @@ function Landing() {
         </div>
       </section>
 
+      {/* ───────── VÍDEO ───────── */}
+      <section
+        id="video"
+        className="bg-paper-ivory relative px-6 md:px-10 lg:px-14 py-16 md:py-20 reveal scroll-mt-20"
+        style={{ borderTop: "1px solid color-mix(in oklab, var(--color-gold) 22%, transparent)" }}
+      >
+        <div className="max-w-[1180px] mx-auto grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-12 lg:gap-16 items-center">
+          {/*
+            `preload="none"`: o arquivo tem 8,9 MB e é o mais pesado da página.
+            Sem isso o navegador começaria a baixá-lo em toda visita, inclusive
+            de quem nunca vai apertar o play — tráfego pago por nada. A capa é
+            uma imagem de 19 KB, e o vídeo só sai do servidor quando alguém
+            pede.
+
+            Sem `autoPlay`: vídeo com voz começando sozinho é o motivo pelo qual
+            o navegador exigiria mudo, e mudo este vídeo não serve para nada.
+          */}
+          <div className="mx-auto w-full max-w-[340px]">
+            <video
+              controls
+              playsInline
+              preload="none"
+              poster="/depoimento-capa.webp"
+              width={1080}
+              height={1920}
+              className="w-full h-auto block rounded-[28px]"
+              style={{ background: "var(--brown-deep)" }}
+            >
+              <source src="/depoimento.mp4" type="video/mp4" />
+              Seu navegador não reproduz este vídeo.
+            </video>
+          </div>
+
+          <div>
+            <span className="eyebrow eyebrow-gold">Antes da cirurgia</span>
+            <h2
+              className="font-display font-light mt-6 leading-[1.05]"
+              style={{ fontSize: "clamp(2rem, 3.2vw, 3rem)", color: "var(--brown-ink)" }}
+            >
+              O planejamento,
+              <br />
+              <span className="italic-gold">explicado no rosto.</span>
+            </h2>
+            <p
+              className="mt-8 font-body text-base md:text-lg leading-relaxed max-w-xl"
+              style={{ color: "var(--brown-soft)" }}
+            >
+              A marcação feita antes de uma cirurgia mostra o que o Método Elevation reposiciona —
+              e por quê. É a mesma conversa que acontece na avaliação, com o rosto de cada paciente
+              à frente.
+            </p>
+            {/*
+              Não afirmo aqui que há autorização de uso de imagem: ninguém me
+              confirmou que ela existe, e dizer que existe sem saber é pior do
+              que não dizer nada. Quando a equipe confirmar, a linha a usar é
+              "Imagens divulgadas com autorização da paciente."
+            */}
+            <p className="mt-5 font-body text-sm leading-relaxed" style={{ color: "var(--brown-soft)" }}>
+              Vídeo com legendas.
+            </p>
+            <a
+              href={whats(
+                "Olá! Vi o vídeo na página do Método Elevation e gostaria de agendar uma avaliação.",
+              )}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-ghost mt-8"
+            >
+              Quero essa avaliação <Icon name="arrow" size={14} />
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* ───────── BLOCO 2 · O MÉTODO ───────── */}
       <section id="metodo" className="relative section-dark reveal scroll-mt-20 overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2">

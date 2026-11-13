@@ -109,3 +109,39 @@ Ficaram sem uso, mas **não foram apagados**: `dr-hero-transparente.png`,
 `centro-cirurgico-perfil.webp`, `elevation-logo-black.png`, `foto-dr-sobre.png`,
 `foto-dr-sobre-recorte.webp`, `foto-clinica.jpg`, `mama.jpg`,
 `procedimentos-rosto.png`, `ba-*.png` e `src/assets/gallery/`.
+
+## O vídeo (12/11/2026)
+
+`public/depoimento.mp4` — a marcação pré-operatória de uma paciente, com o Dr.
+explicando o que será reposicionado. Legendas queimadas na imagem. Entra em
+seção própria, logo depois da dobra, que é onde o briefing pedia a mídia da
+paciente.
+
+**O original tinha 101 MB** (1080×1920, 69 s, 11,5 Mbps — taxa de masterização).
+Recomprimido para H.264 CRF 30 com teto de 1,6 Mbps e áudio AAC 96k mono:
+**8,9 MB**, 11 vezes menor, sem diferença visível — comparei quadro a quadro,
+inclusive nas legendas.
+
+Para recriar:
+
+```sh
+ffmpeg -i original.mp4 -c:v libx264 -profile:v high -preset slow -crf 30 \
+  -maxrate 1600k -bufsize 3200k -pix_fmt yuv420p -movflags +faststart \
+  -c:a aac -b:a 96k -ac 1 depoimento.mp4
+```
+
+**`preload="none"` não é detalhe.** Sem ele o navegador baixaria os 8,9 MB em
+toda visita, inclusive de quem nunca aperta o play, e o Hobby da Vercel tem
+100 GB de tráfego por mês. Com a capa de 19 KB no lugar, o vídeo só sai do
+servidor quando alguém pede — da ordem de 11 mil reproduções dentro da cota.
+Verificado monitorando a rede: ao carregar a página, o `.mp4` não é requisitado.
+
+`depoimento-capa.webp` é o quadro de 11 s, escolhido de propósito: o quadro do
+antes e depois é mais bonito, mas deixaria a composição visível sem ninguém dar
+play.
+
+**Pendência:** a página não afirma que há autorização de uso de imagem, porque
+ninguém confirmou que existe. Quando a equipe confirmar, a linha a acrescentar
+é "Imagens divulgadas com autorização da paciente." E vale lembrar que a
+Resolução CFM 1.974/2011 veda imagens de antes e depois em publicidade médica
+— o vídeo tem uma.
