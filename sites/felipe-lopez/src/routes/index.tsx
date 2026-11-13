@@ -3,9 +3,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Logo } from "@/components/site/Logo";
 import { LogoMark } from "@/components/site/LogoMark";
 import { useReveal } from "@/hooks/use-reveal";
-import elevationLogo from "@/assets/elevation-logo-black.png";
-import drHero from "@/assets/dr-hero-transparente.png";
-import drPerfil from "@/assets/centro-cirurgico-perfil.webp";
+import elevationLogo from "@/assets/elevation-logo.webp";
+import drRetrato from "@/assets/dr-retrato.webp";
+import drUniforme from "@/assets/dr-uniforme.webp";
 import drOperando from "@/assets/centro-cirurgico-operando.webp";
 
 /*
@@ -182,11 +182,17 @@ function Landing() {
             className="hidden sm:block h-7 w-px shrink-0"
             style={{ background: "color-mix(in oklab, var(--color-gold) 50%, transparent)" }}
           />
+          {/*
+            O logotipo novo é uma placa de três linhas, não a assinatura
+            horizontal de antes: na mesma altura de 26px a linha "por Dr. Luis
+            Felipe Lopez" sumiria. Vai a 40px, que ainda cabe na faixa sem
+            empurrá-la, porque o botão do canto já tem essa altura.
+          */}
           <img
             src={elevationLogo}
-            alt="Método Elevation"
+            alt="Método Elevation — o novo Deep Plane"
             className="hidden sm:block w-auto shrink-0"
-            style={{ height: 26 }}
+            style={{ height: 40 }}
             draggable={false}
           />
         </div>
@@ -252,7 +258,11 @@ function Landing() {
           >
             ×
           </button>
-          <img src={elevationLogo} alt="Método Elevation" style={{ height: 32 }} />
+          <img
+            src={elevationLogo}
+            alt="Método Elevation — o novo Deep Plane"
+            style={{ height: 56 }}
+          />
           <nav className="flex flex-col items-center gap-6 text-center">
             {navItems.map((n) => (
               <a
@@ -351,21 +361,22 @@ function Landing() {
             direita.
           */}
           <div className="relative lg:order-last mx-auto w-full max-w-[420px] lg:max-w-none">
-            <div
-              className="absolute left-1/2 -translate-x-1/2 bottom-[6%] w-[78%] aspect-square rounded-full"
-              style={{
-                background:
-                  "radial-gradient(circle, color-mix(in oklab, var(--color-gold) 16%, transparent) 0%, transparent 70%)",
-              }}
-              aria-hidden
-            />
-            <img
-              src={drHero}
-              alt="Dr. Luís Felipe Lopez"
-              className="relative w-full h-auto object-contain"
-              style={{ maxHeight: 640 }}
-              loading="eager"
-            />
+            {/*
+              O halo dourado saiu junto com o recorte sem fundo: ele servia
+              para apoiar uma silhueta solta no creme. A foto nova é um
+              retângulo de fundo escuro, e vira cartão com canto arredondado,
+              como os outros blocos de imagem do site.
+            */}
+            <div className="relative overflow-hidden rounded-[28px]">
+              <img
+                src={drRetrato}
+                alt="Dr. Luís Felipe Lopez"
+                width={1200}
+                height={800}
+                className="w-full h-auto block"
+                loading="eager"
+              />
+            </div>
             {MIDIA_PACIENTE && (
               <div className="relative mt-6 overflow-hidden rounded-[24px]">
                 <img
@@ -563,13 +574,21 @@ function Landing() {
             </p>
           </div>
 
-          <div className="relative flex min-h-[420px] p-5 md:p-8 lg:min-h-[640px] lg:p-12">
-            <div className="relative w-full overflow-hidden rounded-[28px]">
+          {/*
+              O arquivo tem 300x450. Preenchendo a coluna inteira, como fazia a
+              foto anterior, ele seria ampliado quase tres vezes e apareceria
+              borrado. Por isso entra num cartao com largura travada no tamanho
+              real — nitido no tamanho em que e exibido. Quando chegar o
+              original em resolucao maior, basta soltar o `max-w`.
+          */}
+          <div className="relative flex items-center justify-center p-5 md:p-8 lg:p-12">
+            <div className="relative w-full max-w-[300px] overflow-hidden rounded-[28px]">
               <img
-                src={drPerfil}
-                alt="Dr. Luís Felipe Lopez no centro cirúrgico"
-                className="absolute inset-0 h-full w-full object-cover"
-                style={{ objectPosition: "60% 30%" }}
+                src={drUniforme}
+                alt="Dr. Luís Felipe Lopez"
+                width={300}
+                height={450}
+                className="w-full h-auto block"
                 loading="lazy"
               />
             </div>
@@ -654,8 +673,8 @@ function Landing() {
           >
             <img
               src={elevationLogo}
-              alt="Método Elevation"
-              className="h-16 md:h-20 w-auto"
+              alt="Método Elevation — o novo Deep Plane"
+              className="h-24 md:h-28 w-auto"
               loading="lazy"
             />
             <div className="gold-rule my-8 max-w-[120px]" />
@@ -677,6 +696,21 @@ function Landing() {
               Cirurgião Plástico
               <br />
               Criador do Método Elevation
+            </p>
+            {/*
+              O registro aparece aqui além do rodapé: é ao lado do nome do
+              médico que a publicidade médica precisa dele, não escondido na
+              linha de copyright no fim da página.
+            */}
+            <p
+              className="mt-4 font-sans"
+              style={{
+                fontSize: 10.5,
+                letterSpacing: "0.18em",
+                color: "var(--brown-soft)",
+              }}
+            >
+              CRM-SP 170.340 · RQE 87822
             </p>
             <p
               className="mt-7 font-body text-sm leading-relaxed"
@@ -708,13 +742,13 @@ function Landing() {
             <span className="truncate">Av. Brasil, 583 — Jardim Paulista, São Paulo · SP</span>
           </div>
           <a
-            href="https://instagram.com/drluisfelipelopez"
+            href="https://www.instagram.com/lf.lopez/"
             target="_blank"
             rel="noreferrer"
             className="flex items-center gap-3 font-sans md:justify-end min-w-0"
             style={{ fontSize: 13, color: "var(--brown-ink)" }}
           >
-            <Icon name="ig" size={18} /> @drluisfelipelopez
+            <Icon name="ig" size={18} /> @lf.lopez
           </a>
         </div>
         <div className="ink-rule mt-8 max-w-[1180px] mx-auto" />
@@ -727,7 +761,7 @@ function Landing() {
             color: "var(--brown-soft)",
           }}
         >
-          © 2026 Dr. Luís Felipe Lopez · Cirurgião Plástico · CRM SP
+          © 2026 Dr. Luís Felipe Lopez · Cirurgião Plástico · CRM-SP 170.340 · RQE 87822
         </p>
       </footer>
 

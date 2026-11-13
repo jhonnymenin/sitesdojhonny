@@ -84,3 +84,28 @@ endereço errado em página de consultório manda paciente para a porta errada.
   planejamento também deve ser." (Bloco 4). Está assim no briefing; na página
   lida de ponta a ponta soa repetido.
 - **Nenhum rastreador** está instalado nesta página.
+
+## Troca de material e registro (12/11/2026)
+
+- **Logotipo.** O Elevation passou a ser a placa `ELEVATION® / O NOVO DEEP PLANE
+  / por Dr. Luis Felipe Lopez` (`elevation-logo.webp`), recortada na moldura
+  transparente que vinha no PNG. Ela é mais quadrada que a assinatura anterior
+  (2,44:1 contra 4,74:1), então as três ocorrências ganharam altura — 40px na
+  faixa do topo, 56px na gaveta do celular, 96/112px no cartão de assinatura.
+  Na altura antiga a linha "por Dr. Luis Felipe Lopez" sumia.
+- **Bloco 1:** `dr-retrato.webp` (1200×800). Como é foto retangular de fundo
+  escuro e não mais um recorte sem fundo, o halo dourado saiu e a foto virou
+  cartão de canto arredondado.
+- **Bloco 3:** `dr-uniforme.webp` (300×450). **O arquivo é pequeno** — ocupando
+  a coluna inteira seria ampliado quase três vezes e apareceria borrado. Entra
+  num cartão com `max-w-[300px]`, o tamanho real. Quando chegar o original em
+  resolução maior, basta soltar o `max-w`.
+- **Instagram:** `https://www.instagram.com/lf.lopez/` (era `drluisfelipelopez`,
+  que não existe).
+- **CRM-SP 170.340 · RQE 87822** entram no cartão de assinatura, ao lado do
+  nome, e na linha de copyright.
+
+Ficaram sem uso, mas **não foram apagados**: `dr-hero-transparente.png`,
+`centro-cirurgico-perfil.webp`, `elevation-logo-black.png`, `foto-dr-sobre.png`,
+`foto-dr-sobre-recorte.webp`, `foto-clinica.jpg`, `mama.jpg`,
+`procedimentos-rosto.png`, `ba-*.png` e `src/assets/gallery/`.
