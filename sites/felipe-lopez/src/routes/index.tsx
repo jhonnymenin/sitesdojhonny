@@ -658,19 +658,23 @@ function Landing() {
           </div>
 
           {/*
-              O arquivo tem 300x450. Preenchendo a coluna inteira, como fazia a
-              foto anterior, ele seria ampliado quase tres vezes e apareceria
-              borrado. Por isso entra num cartao com largura travada no tamanho
-              real — nitido no tamanho em que e exibido. Quando chegar o
-              original em resolucao maior, basta soltar o `max-w`.
+              O arquivo original tinha 300x450 e a largura ficava travada nesse
+              tamanho para não borrar — o que deixava um vazio de creme em volta.
+              O Dr. pediu a foto maior em 23/11/2026 e o original em resolução
+              cheia não existe, então ela foi ampliada para 600x900 no modo mais
+              fiel que havia (zero criatividade, preset de retrato): o que o
+              ampliador fez foi tirar o borrão, não redesenhar o rosto.
+
+              Se um dia aparecer a foto original da câmera, troque o arquivo:
+              ela será sempre melhor do que uma ampliação.
           */}
           <div className="relative flex items-center justify-center p-5 md:p-8 lg:p-12">
-            <div className="relative w-full max-w-[300px] overflow-hidden rounded-[28px]">
+            <div className="relative w-full max-w-[440px] overflow-hidden rounded-[28px]">
               <img
                 src={drUniforme}
                 alt="Dr. Luís Felipe Lopez"
-                width={300}
-                height={450}
+                width={600}
+                height={900}
                 className="w-full h-auto block"
                 loading="lazy"
               />
