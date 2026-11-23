@@ -3,8 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Logo } from "@/components/site/Logo";
 import { LogoMark } from "@/components/site/LogoMark";
 import { useReveal } from "@/hooks/use-reveal";
-import elevationLogo from "@/assets/elevation-logo.webp";
-import drRetrato from "@/assets/dr-retrato.webp";
+import elevationLogo from "@/assets/elevation-logo-preto.webp";
+import drRecorte from "@/assets/dr-recorte.webp";
 import drUniforme from "@/assets/dr-uniforme.webp";
 import drOperando from "@/assets/centro-cirurgico-operando.webp";
 
@@ -22,7 +22,7 @@ import drOperando from "@/assets/centro-cirurgico-operando.webp";
 
 /* O número é o mesmo do rodapé; a mensagem muda conforme o botão, para que a
  * conversa já comece sabendo de onde o paciente veio. */
-const WHATS = "https://wa.me/5511983348888";
+const WHATS = "https://wa.me/5511912216788";
 const whats = (assunto: string) => `${WHATS}?text=${encodeURIComponent(assunto)}`;
 
 /*
@@ -183,10 +183,14 @@ function Landing() {
             style={{ background: "color-mix(in oklab, var(--color-gold) 50%, transparent)" }}
           />
           {/*
-            O logotipo novo é uma placa de três linhas, não a assinatura
-            horizontal de antes: na mesma altura de 26px a linha "por Dr. Luis
-            Felipe Lopez" sumiria. Vai a 40px, que ainda cabe na faixa sem
-            empurrá-la, porque o botão do canto já tem essa altura.
+            O logotipo tem quatro linhas, não a assinatura horizontal de
+            antes: na mesma altura de 26px a linha "por Dr. Luis Felipe Lopez"
+            sumiria. Vai a 40px, que ainda cabe na faixa sem empurrá-la,
+            porque o botão do canto já tem essa altura.
+
+            A placa de fundo escuro saiu em 23/11/2026 a pedido do Dr.: as três
+            posições do logotipo são sobre creme ou ivory, e um retângulo preto
+            no meio de uma página clara era o único elemento que destoava.
           */}
           <img
             src={elevationLogo}
@@ -360,23 +364,28 @@ function Landing() {
             foto. No desktop as duas colunas cabem juntas e a foto volta para a
             direita.
           */}
-          <div className="relative lg:order-last mx-auto w-full max-w-[420px] lg:max-w-none">
+          <div className="relative lg:order-last mx-auto flex w-full max-w-[460px] items-end justify-center lg:w-[114%] lg:max-w-none lg:justify-end">
             {/*
-              O halo dourado saiu junto com o recorte sem fundo: ele servia
-              para apoiar uma silhueta solta no creme. A foto nova é um
-              retângulo de fundo escuro, e vira cartão com canto arredondado,
-              como os outros blocos de imagem do site.
+              Recorte sem fundo, apoiado na base da coluna — a mesma solução da
+              página do Dr. Rahal, pedida pelo Dr. em 23/11/2026.
+
+              O cartão escuro de antes era pequeno (497x331 numa tela de 1440) e
+              deixava um vazio de creme em volta. Sem moldura, a silhueta ocupa a
+              coluna inteira e o vazio fecha. A sombra projetada substitui a
+              borda: é o que descola a figura do fundo claro sem desenhar caixa.
+
+              A imagem foi cortada na silhueta, então a caixa dela é a pessoa:
+              transparência em volta só ocuparia espaço no layout.
             */}
-            <div className="relative overflow-hidden rounded-[28px]">
-              <img
-                src={drRetrato}
-                alt="Dr. Luís Felipe Lopez"
-                width={1200}
-                height={800}
-                className="w-full h-auto block"
-                loading="eager"
-              />
-            </div>
+            <img
+              src={drRecorte}
+              alt="Dr. Luís Felipe Lopez"
+              width={720}
+              height={709}
+              className="block h-auto w-full max-h-[64svh] object-contain object-bottom lg:max-h-[72svh]"
+              style={{ filter: "drop-shadow(0 26px 34px rgba(60, 44, 30, 0.28))" }}
+              loading="eager"
+            />
             {MIDIA_PACIENTE && (
               <div className="relative mt-6 overflow-hidden rounded-[24px]">
                 <img
@@ -802,11 +811,11 @@ function Landing() {
       <footer className="bg-paper-cream px-6 md:px-10 lg:px-14 py-10">
         <div className="max-w-[1180px] mx-auto flex flex-col md:grid md:grid-cols-3 gap-5 md:gap-6 items-center">
           <a
-            href="tel:+5511983348888"
+            href="tel:+5511912216788"
             className="flex items-center gap-3 font-sans min-w-0"
             style={{ fontSize: 13, color: "var(--brown-ink)" }}
           >
-            <Icon name="phone" size={18} /> (11) 98334-8888
+            <Icon name="phone" size={18} /> (11) 91221-6788
           </a>
           <div
             className="flex items-center gap-3 font-sans justify-center text-center min-w-0"
