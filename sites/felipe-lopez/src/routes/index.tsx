@@ -380,8 +380,8 @@ function Landing() {
             <img
               src={drRecorte}
               alt="Dr. Luís Felipe Lopez"
-              width={720}
-              height={709}
+              width={1200}
+              height={1180}
               className="block h-auto w-full max-h-[64svh] object-contain object-bottom lg:max-h-[72svh]"
               style={{ filter: "drop-shadow(0 26px 34px rgba(60, 44, 30, 0.28))" }}
               loading="eager"
@@ -658,23 +658,20 @@ function Landing() {
           </div>
 
           {/*
-              O arquivo original tinha 300x450 e a largura ficava travada nesse
-              tamanho para não borrar — o que deixava um vazio de creme em volta.
-              O Dr. pediu a foto maior em 23/11/2026 e o original em resolução
-              cheia não existe, então ela foi ampliada para 600x900 no modo mais
-              fiel que havia (zero criatividade, preset de retrato): o que o
-              ampliador fez foi tirar o borrão, não redesenhar o rosto.
-
-              Se um dia aparecer a foto original da câmera, troque o arquivo:
-              ela será sempre melhor do que uma ampliação.
+              Esta foto passou por três versões. Nasceu em 300x450, o que
+              obrigava a travar a largura nesse tamanho e deixava um vazio de
+              creme em volta. Em 23/11/2026 virou uma ampliação por IA, para
+              atender ao pedido do Dr. de fotos maiores. No mesmo dia chegou o
+              arquivo original da câmera (5504x8256) e a ampliação saiu: foto
+              de pessoa real não se reconstrói quando existe o original.
           */}
           <div className="relative flex items-center justify-center p-5 md:p-8 lg:p-12">
-            <div className="relative w-full max-w-[440px] overflow-hidden rounded-[28px]">
+            <div className="relative w-full max-w-[480px] overflow-hidden rounded-[28px]">
               <img
                 src={drUniforme}
                 alt="Dr. Luís Felipe Lopez"
-                width={600}
-                height={900}
+                width={900}
+                height={1350}
                 className="w-full h-auto block"
                 loading="lazy"
               />
